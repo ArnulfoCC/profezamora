@@ -1,0 +1,35 @@
+name: Error en el material
+description: Una cifra que no cuadra, un enunciado confuso, un archivo que no abre o algo que no funciona en la página.
+title: "[Error] "
+labels: ["error"]
+body:
+  - type: dropdown
+    id: curso
+    attributes:
+      label: Curso
+      options:
+        - Matemáticas para la Toma de Decisiones
+        - Planeación Estratégica
+        - El sitio en general
+    validations:
+      required: true
+  - type: input
+    id: donde
+    attributes:
+      label: Dónde está
+      description: Sesión, taller, crédito o archivo. Si es en la página, copie la dirección.
+      placeholder: "Ej.: Taller de amortización, crédito 7, pregunta 3"
+    validations:
+      required: true
+  - type: textarea
+    id: que
+    attributes:
+      label: Qué pasa
+      description: Qué esperaba y qué encontró. Si es una cifra, escriba la que obtuvo y la que aparece en el material.
+    validations:
+      required: true
+  - type: textarea
+    id: como
+    attributes:
+      label: Cómo lo calculó (opcional)
+      description: La fórmula o los pasos que usó. Ayuda a saber si el error está en el material o en el procedimiento.

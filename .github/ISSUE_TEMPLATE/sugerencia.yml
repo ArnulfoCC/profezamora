@@ -1,0 +1,22 @@
+name: Sugerencia de mejora
+description: Un ejemplo que faltó, un tema que convendría explicar distinto, una idea para el sitio.
+title: "[Sugerencia] "
+labels: ["mejora"]
+body:
+  - type: dropdown
+    id: curso
+    attributes:
+      label: Curso
+      options:
+        - Matemáticas para la Toma de Decisiones
+        - Planeación Estratégica
+        - El sitio en general
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: La idea
+      description: Qué propone y por qué ayudaría en clase.
+    validations:
+      required: true

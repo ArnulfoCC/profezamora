@@ -30,6 +30,14 @@ cursos/
 
 Cada cambio se publica al subirlo a la rama `main` del repositorio; GitHub Pages tarda uno o dos minutos en reflejarlo.
 
+## Cómo se reportan errores y mejoras
+
+En la pestaña **Issues** del repositorio hay dos formularios: *Error en el material* y *Sugerencia de mejora*. Cada reporte queda numerado, se discute ahí y se cierra cuando el material se corrige. Para abrir uno hace falta una cuenta de GitHub (gratis); quien no la tenga puede escribirle al profe y nosotros lo registramos.
+
+## Versiones por semestre
+
+Al cierre de cada semestre se marca el material con una etiqueta (`2026-2`, `2027-1`...). Así el material que vio cada grupo queda congelado aunque se siga mejorando para el siguiente. Las etiquetas están en la pestaña **Tags** del repositorio.
+
 ## Qué no está en el sitio (a propósito)
 
 Los guiones docentes, los solucionarios y las guías con respuestas para el docente se quedan en la carpeta privada. Cuando el sitio tenga acceso con usuario (etapa 2) podrán ir en una zona del profe.
