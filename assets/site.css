@@ -76,6 +76,11 @@ section>.wrap>h2{margin-bottom:8px}
 .about p+p{margin-top:12px}
 .about .note{background:var(--paper);border-left:4px solid var(--amber);padding:14px 18px;color:var(--muted);font-size:15px}
 
+.contact{margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
+.contact h3{margin-bottom:6px}
+.contact p{color:var(--muted);font-size:15px;max-width:40ch}
+.contact .mail{margin-top:8px;font-size:18px}
+.contact .mail a{font-weight:600;overflow-wrap:anywhere}
 footer{border-top:1px solid var(--line);padding-block:26px 40px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 footer a{color:var(--muted)}
 
