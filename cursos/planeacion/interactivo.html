@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Planeación Estratégica Tributaria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,600;7..72,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: cabecera fija con 6 sesiones; cada sesión = ruta de 90 min + Apertura / Conceptos / Práctica / Cierre, con herramientas que guardan el trabajo en el navegador */
+:root{
+  --bg:#ffffff; --panel:#eef2f3; --panel2:#e3e9eb; --line:#d3dde0; --ink:#132a36; --muted:#55666e;
+  --petrol:#1b3a4b; --gold:#a8791f; --green:#2e7d6b; --red:#a23b3b; --amber:#c58b16; --onaccent:#ffffff;
+  --display:"Literata",Georgia,serif; --body:"Source Sans 3","Segoe UI",Arial,sans-serif; --mono:"IBM Plex Mono",Consolas,monospace; --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1b22;--panel:#18272f;--panel2:#20323b;--line:#2c414b;--ink:#e6eef1;--muted:#9fb1b9;--petrol:#8fb8cc;--gold:#e0b25a;--green:#5fbfa6;--red:#e88686;--amber:#e8b85c;--onaccent:#0f1b22;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1b22;--panel:#18272f;--panel2:#20323b;--line:#2c414b;--ink:#e6eef1;--muted:#9fb1b9;--petrol:#8fb8cc;--gold:#e0b25a;--green:#5fbfa6;--red:#e88686;--amber:#e8b85c;--onaccent:#0f1b22;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;padding-block:14px 8px}
+.brand h1{font-family:var(--display);font-weight:700;font-size:clamp(20px,3vw,26px);margin:0;text-wrap:balance}
+.brand p{margin:0;color:var(--muted);font-size:14px}
+nav.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px}
+nav.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 14px;font:600 14px var(--body);cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--petrol);color:var(--bg);border-color:var(--petrol)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{padding-block:24px 64px}
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:start;margin-bottom:22px}
+.eyebrow{font:700 12px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 6px}
+.hero h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,4.2vw,40px);line-height:1.1;margin:0 0 10px;text-wrap:balance}
+.hero .lead{color:var(--muted);margin:0;max-width:62ch}
+.guide{background:var(--petrol);color:var(--bg);border-radius:var(--r);padding:18px 20px}
+.guide .eyebrow{color:var(--amber)}
+.guide p.q{font-family:var(--display);font-weight:600;font-size:20px;line-height:1.3;margin:0}
+.route{display:flex;border-radius:8px;overflow:hidden;margin:4px 0 6px;min-height:46px}
+.route div{padding:6px 10px;font-size:13px;line-height:1.25;color:var(--onaccent);min-width:0;overflow:hidden;text-overflow:ellipsis}
+.route b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.rlegend{font-size:13px;color:var(--muted);margin:0 0 26px}
+section.block{border-top:1px solid var(--line);padding-block:22px 6px}
+.bhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.bhead h3{font-family:var(--display);font-weight:700;font-size:22px;margin:0}
+.bhead .time{font:600 13px var(--mono);color:var(--gold)}
+.bhead .tag{font-size:13px;color:var(--muted)}
+.ai{display:inline-flex;align-items:center;font:700 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--green);border:1px solid var(--green);border-radius:999px;padding:2px 9px;vertical-align:middle}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.card{background:var(--panel);border-radius:var(--r);padding:16px 18px;min-width:0}
+.card h4{margin:0 0 6px;font-family:var(--display);font-size:17px}
+.card p{margin:0 0 8px}
+.tool{border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;min-width:0;background:var(--bg)}
+.tool h4{margin:0 0 10px;font-family:var(--display);font-size:18px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 14px;margin-bottom:12px}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+input,select,textarea{font:15px var(--body);color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:7px 9px;width:100%;min-width:0}
+textarea{resize:vertical;line-height:1.45}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--panel);border-radius:8px;padding:10px 12px}
+.stat .v{font:600 17px var(--mono);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat .l{font-size:13px;color:var(--muted)}
+.stat.key{background:var(--petrol)}.stat.key .v,.stat.key .l{color:var(--bg)}
+.note{font-size:14px;color:var(--muted)}
+.verdict{border-radius:8px;padding:10px 14px;margin-top:12px;background:var(--panel2);font-weight:600}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:700}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{font-family:var(--body);white-space:normal;font-size:13px}
+.btn{font:600 14px var(--body);border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:7px;padding:7px 12px;cursor:pointer}
+.btn.pri{background:var(--petrol);color:var(--bg);border-color:var(--petrol)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chips button{font:600 13px var(--body);border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:4px 11px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--gold);color:var(--onaccent);border-color:var(--gold)}
+.pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700;color:var(--onaccent);white-space:nowrap}
+.sem-Verde{background:var(--green)}.sem-Amarillo{background:var(--amber)}.sem-Rojo{background:var(--red)}
+.sort{display:grid;gap:8px}
+.sort .it{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;background:var(--panel);border-radius:8px;padding:10px 12px}
+.sort .it span{flex:1 1 260px;min-width:0}
+.sort .it .b{display:flex;gap:6px}
+.sort .it.ok{box-shadow:inset 4px 0 0 var(--green)}.sort .it.no{box-shadow:inset 4px 0 0 var(--red)}
+.sort .fb{flex-basis:100%;font-size:14px;color:var(--muted)}
+.chain{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.chain button{font:600 14px var(--body);text-align:left;border:0;border-radius:8px;padding:10px 12px;cursor:pointer;color:var(--ink);min-height:62px}
+.chain .sup{grid-column:1 / -1}
+.chain button[aria-pressed="true"]{outline:3px solid var(--petrol);outline-offset:-3px}
+.detail{background:var(--panel);border-radius:var(--r);padding:16px 18px;margin-top:12px}
+.dofa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dofa label textarea{min-height:120px}
+.q4 label{background:var(--panel);border-radius:8px;padding:10px}
+.ind{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.icard{border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:8px;min-width:0}
+.icard .row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.persp{font:700 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:6px 0 2px}
+.timer{font:600 44px var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+ul.plain{margin:0;padding-left:18px}ul.plain li{margin-bottom:4px}
+svg text{font-family:var(--body);fill:var(--muted);font-size:12px}
+footer{border-top:1px solid var(--line);padding-block:18px;color:var(--muted);font-size:13px}
+@media (max-width:860px){.hero,.grid2,.grid3,.dofa,.ind{grid-template-columns:minmax(0,1fr)}.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.chain{grid-template-columns:repeat(2,minmax(0,1fr))}.icard .row{grid-template-columns:repeat(2,minmax(0,1fr))}.route div span{display:none}.stat .v{font-size:15px}}
+</style>
+</head>
+<body>
+
+
+<header class="top"><div class="wrap">
+  <div class="brand"><h1>Planeación Estratégica</h1><p>Especialización en Planeación Tributaria · Docente: Alexander Zamora · 6 sesiones de 90 min</p></div>
+  <nav class="tabs" role="tablist" aria-label="Sesiones">
+    <button role="tab" id="t-s1" aria-controls="s1" aria-selected="true">1 · Fundamentos</button>
+    <button role="tab" id="t-s2" aria-controls="s2" aria-selected="false">2 · PESTEL fiscal</button>
+    <button role="tab" id="t-s3" aria-controls="s3" aria-selected="false">3 · Cadena de valor</button>
+    <button role="tab" id="t-s4" aria-controls="s4" aria-selected="false">4 · DOFA tributaria</button>
+    <button role="tab" id="t-s5" aria-controls="s5" aria-selected="false">5 · Balanced Scorecard</button>
+    <button role="tab" id="t-s6" aria-controls="s6" aria-selected="false">6 · Decisiones</button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+
+<!-- ================= S1 ================= -->
+<div id="s1" role="tabpanel" aria-labelledby="t-s1">
+  <div class="hero"><div><p class="eyebrow">Unidad 1 · Sesión 1</p><h2>Fundamentos y evolución de la planeación estratégica</h2><p class="lead">Qué es la estrategia, cómo ha cambiado la forma de pensarla y cómo se expresa en la misión, la visión y los objetivos.</p></div>
+    <div class="guide"><p class="eyebrow">Discusión breve</p><p class="q">¿Qué diferencia la estrategia de la táctica?</p></div></div>
+  <div class="route"><div style="flex:15;background:var(--petrol)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--gold)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Syllabus y discusión → evolución histórica y conceptos clave → taller con la misión y visión de tres empresas reales → discusión dirigida y retroalimentación.</p>
+
+  <section class="block"><div class="bhead"><h3>Apertura</h3><span class="time">0–15 min</span><span class="tag">Presentación del syllabus y discusión breve</span></div>
+    <div class="grid2">
+      <div class="card"><h4>Estrategia y táctica</h4>
+        <p><b>Estrategia:</b> decisiones de largo plazo, difíciles de revertir, que definen dónde competir y cómo ganar, y comprometen recursos importantes.</p>
+        <p><b>Táctica:</b> acciones de corto plazo que ejecutan la estrategia y se pueden ajustar con rapidez.</p>
+        <p class="note">Prueba rápida: si la decisión cambia la posición de la empresa durante años y cuesta deshacerla, es estrategia.</p></div>
+      <div class="tool"><h4>Clasifique: ¿estrategia o táctica?</h4><div class="sort" id="sort1"></div><p class="note" id="sort1n"></p></div>
+    </div></section>
+
+  <section class="block"><div class="bhead"><h3>Conceptos</h3><span class="time">15–45 min</span><span class="tag">Evolución histórica y conceptos clave</span></div>
+    <div class="grid4">
+      <div class="card"><p class="eyebrow">Planeación clásica</p><h4>William H. Newman</h4><p>La planeación como primera función administrativa; la estrategia como plan maestro que orienta a toda la organización.</p></div>
+      <div class="card"><p class="eyebrow">Plan integrado</p><h4>William F. Glueck</h4><p>La estrategia como un plan unificado, comprensivo e integrado que relaciona las ventajas de la empresa con los retos del entorno.</p></div>
+      <div class="card"><p class="eyebrow">Administración estratégica</p><h4>H. Igor Ansoff</h4><p>De la planeación a largo plazo a la administración estratégica; matriz producto-mercado para clasificar el crecimiento.</p></div>
+      <div class="card"><p class="eyebrow">Estrategia emergente</p><h4>Henry Mintzberg</h4><p>Las cinco P (plan, pauta, patrón, posición y perspectiva); estrategias deliberadas y emergentes; diez escuelas de pensamiento.</p></div>
+    </div>
+    <div class="tool" style="margin-top:16px"><h4>Resumen comparativo de las escuelas de estrategia <span class="ai">Apoyo IA</span></h4>
+      <p class="note">Las diez escuelas de Mintzberg, Ahlstrand y Lampel (Safari a la estrategia). Filtre por enfoque.</p>
+      <div class="chips" id="sch-f" role="group" aria-label="Filtrar escuelas"><button aria-pressed="true" data-f="all">Todas</button><button aria-pressed="false" data-f="Prescriptiva">Prescriptivas</button><button aria-pressed="false" data-f="Descriptiva">Descriptivas</button><button aria-pressed="false" data-f="Integradora">Integradora</button></div>
+      <div class="tablewrap"><table id="sch"></table></div></div>
+    <div class="grid3" style="margin-top:16px">
+      <div class="card"><h4>Misión</h4><p>Para qué existe la organización, a quién sirve y cómo lo hace. Responde al presente.</p></div>
+      <div class="card"><h4>Visión</h4><p>Lo que la organización quiere llegar a ser en un horizonte definido. Debe tener fecha y rasgos verificables.</p></div>
+      <div class="card"><h4>Objetivos</h4><p>Resultados concretos, medibles, con responsable y plazo, que acercan la visión. Aquí entra la variable fiscal.</p></div>
+    </div></section>
+
+  <section class="block"><div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Taller participativo: misión y visión de 3 empresas reales</span></div>
+    <div class="tool"><h4>Evaluador de misión y visión</h4>
+      <p class="note">Cada grupo elige tres empresas reales, copia su misión y visión desde la fuente oficial (sitio web o informe de gestión) y marca los componentes presentes. La primera casilla trae un ejemplo ficticio para mostrar el uso; reemplácelo. Lo que escriba se guarda en este navegador.</p>
+      <div class="chips" id="mv-tabs" role="group" aria-label="Empresa"></div>
+      <div class="grid2">
+        <div><label for="mv-name">Empresa <input id="mv-name"></label><label for="mv-src" style="margin-top:8px">Fuente (enlace o documento) <input id="mv-src"></label>
+          <label for="mv-m" style="margin-top:8px">Misión <textarea id="mv-m" rows="5"></textarea></label><label for="mv-v" style="margin-top:8px">Visión <textarea id="mv-v" rows="4"></textarea></label></div>
+        <div><p class="persp">Componentes de la misión (Fred David)</p><div id="mv-mc" class="sort" style="gap:4px"></div>
+          <p class="persp" style="margin-top:12px">Criterios de la visión</p><div id="mv-vc" class="sort" style="gap:4px"></div></div>
+      </div>
+      <div class="out" id="mv-out" style="margin-top:14px"></div>
+      <svg id="mv-chart" viewBox="0 0 900 150" width="100%" role="img" aria-label="Comparación de las tres empresas"></svg>
+      <label for="mv-al">Alineación estratégica: ¿la misión, la visión y lo que la empresa hace (y cómo gestiona sus impuestos) cuentan la misma historia? <textarea id="mv-al" rows="3"></textarea></label>
+    </div></section>
+
+  <section class="block"><div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Discusión dirigida y retroalimentación formativa</span></div>
+    <div class="grid2"><div class="card"><h4>Preguntas para la discusión</h4><ul class="plain"><li>¿Cuál de las tres misiones orienta mejor las decisiones? ¿Por qué?</li><li>¿Alguna visión se puede verificar en una fecha concreta?</li><li>¿Dónde aparece, o debería aparecer, la gestión tributaria: en la misión, en los valores o en los objetivos?</li><li>En un país con reformas tributarias frecuentes, ¿la planeación debe ser un plan rígido o un sistema que aprende?</li></ul></div>
+      <div class="card"><h4>Retroalimentación frecuente</h4><ul class="plain"><li>Una misión que podría pertenecer a cualquier empresa no orienta decisiones.</li><li>"Pagar menos impuestos" no es un objetivo estratégico; sí lo es "evaluar fiscalmente el 100 % de las inversiones grandes".</li><li>La planeación tributaria legítima elige entre alternativas legales con sustancia económica. Sin propósito de negocio, es abuso (art. 869 del Estatuto Tributario).</li></ul></div></div></section>
+</div>
+
+<!-- ================= S2 ================= -->
+<div id="s2" role="tabpanel" aria-labelledby="t-s2" hidden>
+  <div class="hero"><div><p class="eyebrow">Unidad 1 · Sesión 2</p><h2>Análisis del entorno: PESTEL y factor fiscal</h2><p class="lead">Las seis dimensiones del entorno, con énfasis en la variable político-fiscal como variable de decisión empresarial.</p></div>
+    <div class="guide"><p class="eyebrow">Contextualización</p><p class="q">¿Cómo afecta un cambio de gobierno a la estrategia empresarial?</p></div></div>
+  <div class="route"><div style="flex:15;background:var(--petrol)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--gold)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Cambio de gobierno y reglas de juego → PESTEL con la matriz de variables fiscales → grupos aplican PESTEL a una empresa de tecnología → presentaciones cortas.</p>
+
+  <section class="block"><div class="bhead"><h3>Apertura</h3><span class="time">0–15 min</span><span class="tag">Colombia 2025–2026: verificado al 11 de octubre de 2026</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Hecho</th><th>Efecto para las empresas</th></tr></thead><tbody>
+      <tr><td>Dic. 2025</td><td>El Congreso hunde la ley de financiamiento del presupuesto de 2026.</td><td>No entran las medidas tributarias propuestas; persiste el hueco fiscal.</td></tr>
+      <tr><td>Dic. 2025</td><td>El Gobierno declara la emergencia económica (Decreto 1390) y expide decretos con nuevos impuestos.</td><td>Incertidumbre sobre tarifas y sobretasas a mitad de la planeación anual.</td></tr>
+      <tr><td>29 ene. 2026</td><td>La Corte Constitucional suspende la emergencia y sus decretos.</td><td>Los nuevos impuestos quedan sin efecto.</td></tr>
+      <tr><td>9 abr. 2026</td><td>La Corte declara inexequible la emergencia económica.</td><td>Se confirma que las medidas caen.</td></tr>
+      <tr><td>20 jul. 2026</td><td>El gobierno saliente radica un proyecto de reforma tributaria (recaudo estimado de $21,9 billones en 2027).</td><td>Posibles cambios desde el año gravable 2027.</td></tr>
+      <tr><td>7 ago. 2026</td><td>Se posesiona un nuevo gobierno, que rechaza ese proyecto y anuncia una reforma orientada a la inversión.</td><td>Escenarios abiertos: hay que planear con alternativas.</td></tr>
+    </tbody></table></div>
+    <p class="note">Revise antes de clase si alguna reforma avanzó en el Congreso; si es así, úsela como material vivo de la sesión.</p></section>
+
+  <section class="block"><div class="bhead"><h3>Conceptos</h3><span class="time">15–45 min</span><span class="tag">PESTEL con énfasis político-fiscal</span></div>
+    <div class="grid3">
+      <div class="card"><h4>Político-fiscal</h4><p>Reformas, tarifas, regímenes especiales, incentivos, estabilidad de las reglas.</p></div>
+      <div class="card"><h4>Económico</h4><p>Crecimiento, inflación, tasas de interés, tasa de cambio, costo del capital.</p></div>
+      <div class="card"><h4>Social</h4><p>Demografía, hábitos de consumo, talento disponible, expectativas sociales.</p></div>
+      <div class="card"><h4>Tecnológico</h4><p>Digitalización, automatización y, del lado fiscal, facturación electrónica y analítica de datos de la DIAN.</p></div>
+      <div class="card"><h4>Ecológico</h4><p>Exigencias ambientales, impuestos verdes, incentivos a energías limpias.</p></div>
+      <div class="card"><h4>Legal</h4><p>Normas no tributarias: protección de datos, regulación sectorial, inversión extranjera.</p></div>
+    </div>
+    <div class="tool" style="margin-top:16px"><h4>Matriz de variables fiscales comunes <span class="ai">Apoyo IA</span></h4>
+      <div class="fields" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)"><label for="vf-q">Buscar <input id="vf-q" placeholder="Ej.: dividendos, zona franca, IVA"></label><label for="vf-c">Categoría <select id="vf-c"><option value="">Todas</option></select></label></div>
+      <div class="tablewrap" style="max-height:440px;overflow:auto"><table id="vf"></table></div>
+      <p class="note">Reglas vigentes a octubre de 2026 (Estatuto Tributario y Ley 2277 de 2022). Las tarifas cambian con frecuencia: verifique antes de usarlas en un caso real.</p></div></section>
+
+  <section class="block"><div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Trabajo en grupos: PESTEL de una empresa de tecnología que entra a un nuevo mercado</span></div>
+    <div class="grid2">
+      <div class="card"><p class="eyebrow">Caso (empresa ficticia)</p><h4>NubeAndina Software S.L. llega a Colombia</h4>
+        <p>Empresa española de software contable en la nube para pymes. Quiere vender en Colombia y duda entre tres formas de entrar: vender desde España sin presencia física, abrir una sucursal o constituir una sociedad colombiana (S.A.S.).</p>
+        <p>Su pregunta a los consultores: ¿qué riesgos y oportunidades tributarias trae el entorno colombiano para cada forma de entrar?</p></div>
+      <div class="card"><h4>Instrucciones</h4><ul class="plain"><li>Revise los factores precargados y ajuste impacto y probabilidad (1 a 5).</li><li>Agregue al menos tres factores, uno político-fiscal.</li><li>Ubique los críticos en la matriz y relacione cada uno con una forma de entrada.</li><li>Prepare una presentación de 3 minutos.</li></ul></div>
+    </div>
+    <div class="tool" style="margin-top:16px"><h4>PESTEL ponderado</h4>
+      <div class="tablewrap"><table id="pe-t"></table></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button class="btn" id="pe-add" type="button">Agregar factor</button><button class="btn" id="pe-reset" type="button">Restaurar ejemplo</button></div>
+      <div class="grid2" style="margin-top:14px"><svg id="pe-m" viewBox="0 0 360 330" width="100%" role="img" aria-label="Matriz de impacto y probabilidad"></svg><div id="pe-rank"></div></div>
+    </div></section>
+
+  <section class="block"><div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Presentaciones cortas y asesoría del docente</span></div>
+    <div class="grid2"><div class="card"><h4>Cada grupo responde en 3 minutos</h4><ul class="plain"><li>¿Cuáles son sus tres factores críticos y por qué?</li><li>¿Qué forma de entrada recomienda desde lo fiscal y qué riesgo asume?</li><li>¿Qué haría distinto si se aprueba una reforma tributaria en 2026?</li></ul></div>
+      <div class="card"><h4>Lo que el docente revisa</h4><ul class="plain"><li>Que cada factor sea un hecho del entorno y no un deseo de la empresa.</li><li>Que la calificación esté justificada.</li><li>Que las conclusiones se conecten con una decisión concreta.</li></ul></div></div></section>
+</div>
+
+<!-- ================= S3 ================= -->
+<div id="s3" role="tabpanel" aria-labelledby="t-s3" hidden>
+  <div class="hero"><div><p class="eyebrow">Unidad 1 · Sesión 3</p><h2>Análisis interno y cadena de valor</h2><p class="lead">Actividades primarias y de apoyo, y cómo cada una puede generar ventajas o eficiencias fiscales.</p></div>
+    <div class="guide"><p class="eyebrow">Pregunta para abrir</p><p class="q">¿En qué eslabones de la empresa se generan realmente sus impuestos?</p></div></div>
+  <div class="route"><div style="flex:15;background:var(--petrol)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--gold)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Repaso e introducción al análisis interno → cadena de valor de Porter con lente fiscal → mapeo de la carga tributaria de una manufacturera → optimización legítima de procesos.</p>
+
+  <section class="block"><div class="bhead"><h3>Apertura y conceptos</h3><span class="time">0–45 min</span><span class="tag">Haga clic en cada eslabón</span></div>
+    <div class="chain" id="chain"></div>
+    <div class="detail" id="chain-d" aria-live="polite"></div></section>
+
+  <section class="block"><div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Taller casuístico: carga tributaria por eslabón de una manufacturera</span></div>
+    <div class="card" style="margin-bottom:14px"><p class="eyebrow">Caso (empresa ficticia)</p><h4>Alimentos La Sabana S.A.S.</h4><p>Fabricante de snacks, pulpas y panadería con planta en Mosquera (Cundinamarca). Ingresos de $185.000 millones y utilidad antes de impuestos de $14.800 millones. Asigne cada impuesto al eslabón donde se genera o se decide.</p></div>
+    <div class="tool"><h4>Mapa de la carga tributaria (millones $)</h4>
+      <div class="tablewrap"><table id="cv-t"></table></div>
+      <div class="grid2" style="margin-top:14px"><svg id="cv-c" viewBox="0 0 520 300" width="100%" role="img" aria-label="Carga tributaria por eslabón"></svg><div><div class="out" id="cv-out"></div><p class="verdict" id="cv-msg"></p></div></div>
+    </div></section>
+
+  <section class="block"><div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Optimizar procesos internos desde una perspectiva fiscal</span></div>
+    <div class="tool"><h4>¿Eficiencia legítima o riesgo de abuso?</h4><div class="sort" id="sort3"></div><p class="note" id="sort3n"></p></div></section>
+</div>
+
+<!-- ================= S4 ================= -->
+<div id="s4" role="tabpanel" aria-labelledby="t-s4" hidden>
+  <div class="hero"><div><p class="eyebrow">Unidad 2 · Sesión 4</p><h2>Direccionamiento y DOFA tributaria</h2><p class="lead">Jerarquía de estrategias, administración por objetivos y por proyectos, y la DOFA que integra el PESTEL y la cadena de valor en la gestión fiscal.</p></div>
+    <div class="guide"><p class="eyebrow">Taller evaluado</p><p class="q">Construya la DOFA tributaria de una empresa real o simulada y elija sus estrategias con criterios explícitos.</p></div></div>
+  <div class="route"><div style="flex:15;background:var(--petrol)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--gold)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Formulación y jerarquía de estrategias → APO, APP y DOFA → taller evaluado → revisión de pertinencia y conexión normativa.</p>
+
+  <section class="block"><div class="bhead"><h3>Apertura y conceptos</h3><span class="time">0–45 min</span></div>
+    <div class="grid3">
+      <div class="card"><p class="eyebrow">Nivel corporativo</p><h4>¿En qué negocios estar?</h4><p>Localización, estructura societaria, compras y ventas de negocios. Aquí se toman las decisiones fiscales de mayor impacto.</p></div>
+      <div class="card"><p class="eyebrow">Nivel de negocio</p><h4>¿Cómo competir?</h4><p>Precios, portafolio y canales. Los impuestos al consumo y los regímenes especiales cambian costos y precios.</p></div>
+      <div class="card"><p class="eyebrow">Nivel funcional</p><h4>¿Cómo apoya cada área?</h4><p>La gestión tributaria es funcional, pero debe alinearse con los otros dos niveles.</p></div>
+    </div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="card"><h4>APO y APP</h4><p><b>Administración por objetivos (APO):</b> los objetivos se despliegan en cascada, medibles y con responsable.</p><p><b>Administración por proyectos (APP):</b> cada objetivo se ejecuta con proyectos que tienen alcance, plazo, presupuesto y entregable.</p></div>
+      <div class="tool"><h4>Despliegue en cascada</h4>
+        <label for="ap-1">Objetivo corporativo <input id="ap-1"></label>
+        <label for="ap-2" style="margin-top:8px">Objetivo funcional tributario <input id="ap-2"></label>
+        <label for="ap-3" style="margin-top:8px">Proyecto (alcance, plazo, responsable, entregable) <textarea id="ap-3" rows="3"></textarea></label></div>
+    </div></section>
+
+  <section class="block"><div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Taller evaluado · un factor por línea</span></div>
+    <div class="tool"><h4>DOFA tributaria: integra el PESTEL (O y A) y la cadena de valor (F y D)</h4>
+      <div class="fields" style="max-width:520px"><label for="df-emp">Empresa analizada <input id="df-emp"></label></div>
+      <div class="dofa q4">
+        <label for="df-F">Fortalezas (cadena de valor) <textarea id="df-F"></textarea></label>
+        <label for="df-D">Debilidades (cadena de valor) <textarea id="df-D"></textarea></label>
+        <label for="df-O">Oportunidades (PESTEL) <textarea id="df-O"></textarea></label>
+        <label for="df-A">Amenazas (PESTEL) <textarea id="df-A"></textarea></label>
+      </div>
+      <p class="persp" style="margin-top:14px">Estrategias cruzadas</p>
+      <div class="dofa">
+        <label for="df-FO">FO · usar fortalezas para aprovechar oportunidades <textarea id="df-FO" rows="3"></textarea></label>
+        <label for="df-DO">DO · superar debilidades aprovechando oportunidades <textarea id="df-DO" rows="3"></textarea></label>
+        <label for="df-FA">FA · usar fortalezas para enfrentar amenazas <textarea id="df-FA" rows="3"></textarea></label>
+        <label for="df-DA">DA · reducir debilidades y evitar amenazas <textarea id="df-DA" rows="3"></textarea></label>
+      </div>
+      <p class="persp" style="margin-top:14px">Selección con criterios (calificación de 1 a 5)</p>
+      <div class="tablewrap"><table id="sel-t"></table></div>
+      <p class="verdict" id="sel-msg"></p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button class="btn" id="df-reset" type="button">Restaurar ejemplo</button><button class="btn" id="df-copy" type="button">Copiar la DOFA como texto</button><span class="note" id="df-copied" aria-live="polite"></span></div>
+    </div></section>
+
+  <section class="block"><div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Pertinencia del análisis y conexión con el entorno normativo</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Criterio de la rúbrica</th><th>Peso</th><th>Pregunta de revisión</th></tr></thead><tbody>
+      <tr><td>Pertinencia del análisis</td><td class="n">30 %</td><td>¿Los factores son relevantes para la empresa y tienen lente fiscal?</td></tr>
+      <tr><td>Conexión con el entorno normativo y estratégico</td><td class="n">30 %</td><td>¿Las estrategias citan normas vigentes y se conectan con objetivos de negocio?</td></tr>
+      <tr><td>Calidad de la selección</td><td class="n">25 %</td><td>¿Hay criterios explícitos y se aplicó el filtro de sustancia económica?</td></tr>
+      <tr><td>Despliegue (APO y APP)</td><td class="n">15 %</td><td>¿La estrategia elegida tiene objetivos medibles y un proyecto?</td></tr></tbody></table></div></section>
+</div>
+
+<!-- ================= S5 ================= -->
+<div id="s5" role="tabpanel" aria-labelledby="t-s5" hidden>
+  <div class="hero"><div><p class="eyebrow">Unidad 2 · Sesión 5</p><h2>Balanced Scorecard e indicadores de gestión fiscal</h2><p class="lead">Las cuatro perspectivas del cuadro de mando integral y cómo construir indicadores para un departamento de impuestos.</p></div>
+    <div class="guide"><p class="eyebrow">Pregunta detonante</p><p class="q">¿Lo que no se mide, no se controla?</p></div></div>
+  <div class="route"><div style="flex:15;background:var(--petrol)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--gold)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Control estratégico → BSC y construcción de indicadores → diseño guiado de 2 indicadores por perspectiva → presentación y seguimiento.</p>
+
+  <section class="block"><div class="bhead"><h3>Apertura y conceptos</h3><span class="time">0–45 min</span></div>
+    <div class="grid4">
+      <div class="card"><p class="eyebrow">Financiera</p><p>¿Cómo se refleja la gestión fiscal en los resultados? Costos por incumplimiento, liquidez, tasa efectiva explicable.</p></div>
+      <div class="card"><p class="eyebrow">Grupos de interés</p><p>¿Cómo nos ven la DIAN, los municipios y los accionistas? Cumplimiento y confianza.</p></div>
+      <div class="card"><p class="eyebrow">Procesos internos</p><p>¿Qué procesos debemos hacer excelentes? Soportes, conciliación, evaluación fiscal de decisiones.</p></div>
+      <div class="card"><p class="eyebrow">Aprendizaje</p><p>¿Qué capacidades necesitamos? Actualización normativa, sistemas, talento.</p></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h4>Anatomía de un buen indicador</h4><p>Nombre · fórmula · unidad · meta · sentido (más es mejor o menos es mejor) · tolerancia · frecuencia · responsable · fuente de datos. Un indicador sin meta ni responsable no controla nada.</p><p class="note">La tasa efectiva más baja no es la mejor: una meta de "pagar lo mínimo" incentiva riesgos. La meta correcta es una tasa coherente con las decisiones de negocio y los beneficios legales, y no inferior a la tasa mínima de tributación del 15 %.</p></div></section>
+
+  <section class="block"><div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Resolución guiada: 2 indicadores por perspectiva para un departamento de impuestos</span></div>
+    <div class="tool"><h4>Constructor del BSC tributario</h4><p class="note">Edite los ejemplos o reemplácelos con indicadores de la biblioteca. El semáforo se calcula con la meta, la tolerancia y el valor real. Se guarda en este navegador.</p>
+      <div id="bsc"></div>
+      <div class="out" id="bsc-out" style="margin-top:14px"></div>
+      <details style="margin-top:14px"><summary class="btn" style="display:inline-block">Biblioteca de indicadores sugeridos</summary><div class="tablewrap"><table id="lib"></table></div></details>
+      <div style="margin-top:10px"><button class="btn" id="bsc-reset" type="button">Restaurar ejemplo</button></div>
+    </div></section>
+
+  <section class="block"><div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Presentación de indicadores y mecanismos de seguimiento</span></div>
+    <div class="grid4">
+      <div class="card"><h4>Tablero trimestral</h4><p>Comité de impuestos con la gerencia financiera; semáforo y plan de acción para cada rojo.</p></div>
+      <div class="card"><h4>Alertas tempranas</h4><p>Monitoreo de proyectos de ley, decretos y sentencias; informe de impacto en 30 días.</p></div>
+      <div class="card"><h4>Mapa de riesgo fiscal</h4><p>Probabilidad e impacto de contingencias, como incumplir los requisitos de un régimen especial.</p></div>
+      <div class="card"><h4>Revisión de supuestos</h4><p>Si cambia una tarifa, se recalculan las decisiones que dependían de ella.</p></div>
+    </div></section>
+</div>
+
+<!-- ================= S6 ================= -->
+<div id="s6" role="tabpanel" aria-labelledby="t-s6" hidden>
+  <div class="hero"><div><p class="eyebrow">Unidad 2 · Sesión 6</p><h2>Decisiones estratégicas y articulación tributaria</h2><p class="lead">Localización, elección de régimen, estructura societaria, expansión, inversión y desinversión.</p></div>
+    <div class="guide"><p class="eyebrow">Discusión</p><p class="q">El impacto de los impuestos en la expansión de un negocio.</p></div></div>
+  <div class="route"><div style="flex:15;background:var(--petrol)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--gold)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Discusión de apertura → factores tributarios clave → caso evaluado con dos alternativas de expansión → debate final evaluado y cierre del curso.</p>
+
+  <section class="block"><div class="bhead"><h3>Apertura y conceptos</h3><span class="time">0–45 min</span><span class="tag">Reglas vigentes a octubre de 2026</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Decisión</th><th>Factores tributarios clave</th></tr></thead><tbody>
+      <tr><td>Localización</td><td>Zona franca: 20 % sobre la renta proporcional a ingresos por exportación y tarifa general sobre el resto, si se suscribe y cumple cada año el plan de internacionalización y anual de ventas (art. 240-1 ET; Sentencia C-205 de 2024). ZOMAC: sociedades nuevas con tarifa reducida hasta 2027 (75 % de la general para medianas y grandes; 50 % para micro y pequeñas entre 2025 y 2027) y tarifa plena desde 2028. ICA: tarifa distinta en cada municipio.</td></tr>
+      <tr><td>Elección de régimen</td><td>Ordinario (35 %), zona franca o SIMPLE. El SIMPLE exige ingresos inferiores a 100.000 UVT ($5.237 millones en 2026) y excluye a sociedades cuyos socios sean personas jurídicas y a las resultantes de escisiones en los cinco años anteriores.</td></tr>
+      <tr><td>Estructura societaria</td><td>Filial o sucursal; dividendos entre sociedades nacionales con retención trasladable; dividendos al exterior; tasa mínima de tributación del 15 %; cláusula general antiabuso (art. 869 ET).</td></tr>
+      <tr><td>Expansión e inversión</td><td>Depreciación, beneficios por energías renovables y por ciencia y tecnología, escudo fiscal de los intereses.</td></tr>
+      <tr><td>Desinversión</td><td>Venta de acciones o activos fijos poseídos dos años o más: ganancia ocasional al 15 %. La recuperación de depreciación tributa como renta a la tarifa general.</td></tr>
+    </tbody></table></div></section>
+
+  <section class="block"><div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Caso evaluado: dos alternativas estratégicas de expansión</span></div>
+    <div class="tool"><h4>Comparador de alternativas (millones $)</h4>
+      <p class="note">Ejemplo precargado: Alimentos La Sabana evalúa una planta exportadora ampliando en Mosquera o como usuario industrial de zona franca. Cambie los supuestos o arme su propio caso.</p>
+      <div class="fields"><label for="cx-r">Tasa de descuento (%) <input id="cx-r" type="number" value="13" step="0.5"></label><label for="cx-h">Horizonte (años desde 2027) <input id="cx-h" type="number" value="5" min="1" max="15"></label><label for="cx-g">Crecimiento anual de la utilidad (%) <input id="cx-g" type="number" value="5" step="0.5"></label></div>
+      <div class="grid2" id="cx-alts"></div>
+      <div class="tablewrap"><table id="cx-t"></table></div>
+      <div class="out" id="cx-out" style="margin-top:12px"></div>
+      <p class="persp" style="margin-top:14px">Criterios no tributarios (calificación de 1 a 5)</p>
+      <div class="tablewrap"><table id="cx-q"></table></div>
+      <p class="verdict" id="cx-msg"></p>
+    </div>
+    <div class="tool" style="margin-top:16px"><h4>Desinversión: ¿vender acciones o activos?</h4>
+      <div class="fields"><label for="ds-p">Precio ofrecido <input id="ds-p" type="number" value="16000"></label><label for="ds-ca">Costo fiscal de las acciones <input id="ds-ca" type="number" value="9500"></label><label for="ds-cv">Costo fiscal neto de los activos <input id="ds-cv" type="number" value="8000"></label><label for="ds-d">Depreciación deducida incluida <input id="ds-d" type="number" value="3000"></label></div>
+      <div class="out" id="ds-out"></div><p class="note">Supone acciones y activos poseídos dos años o más. En la venta de activos el dinero queda en la filial; llevarlo a la matriz tiene efectos adicionales.</p></div></section>
+
+  <section class="block"><div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Debate final evaluado y cierre del curso</span></div>
+    <div class="grid2">
+      <div class="card"><p class="eyebrow">Moción</p><h4>"La variable tributaria debe decidir la estrategia de la empresa, no solo ajustarla."</h4>
+        <p><b>Roles:</b> junta directiva, director tributario, gerente comercial, DIAN, alcaldía y comunidad, accionista minoritario.</p>
+        <p><b>Formato:</b> apertura de 3 minutos, réplica de 2 y cierre de 1. Cada intervención cita un dato del caso o una norma vigente.</p>
+        <p><b>Rúbrica:</b> argumentación 40 % · coherencia con el rol 25 % · réplica y escucha 25 % · ética y legalidad 10 %.</p>
+        <button class="btn" id="roles" type="button">Asignar roles al azar a 6 grupos</button><p id="roles-o" class="note" aria-live="polite"></p></div>
+      <div class="tool" style="text-align:center"><h4>Cronómetro del debate</h4>
+        <div class="chips" style="justify-content:center" role="group" aria-label="Duración"><button aria-pressed="true" data-s="180">Apertura 3 min</button><button aria-pressed="false" data-s="120">Réplica 2 min</button><button aria-pressed="false" data-s="60">Cierre 1 min</button></div>
+        <div class="timer" id="tm" aria-live="off">3:00</div>
+        <div style="display:flex;justify-content:center;gap:8px;margin-top:8px"><button class="btn pri" id="tm-go" type="button">Iniciar</button><button class="btn" id="tm-re" type="button">Reiniciar</button></div>
+        <p class="note" style="margin-top:14px">Cierre del curso: direccionar (S1), leer el entorno (S2) y la empresa (S3), formular (S4), medir y controlar (S5) y decidir (S6). La tributación es una variable estratégica con un límite claro: la sustancia económica y la legalidad.</p></div>
+    </div></section>
+</div>
+</main>
+<footer><div class="wrap">Material de apoyo construido sobre el Plan de Clases del docente y el syllabus EFA_V5_06. Las empresas de los casos son ficticias. Normas verificadas a octubre de 2026; no reemplaza la asesoría tributaria para casos reales.</div></footer>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const nf0=new Intl.NumberFormat('es-CO',{maximumFractionDigits:0}),nf1=new Intl.NumberFormat('es-CO',{minimumFractionDigits:1,maximumFractionDigits:1});
+const M=x=>(x<0?'−$':'$')+nf0.format(Math.abs(x))+' M';
+const pct=(x,d=1)=>new Intl.NumberFormat('es-CO',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x*100)+' %';
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const svgNS='http://www.w3.org/2000/svg';function el(t,a,p,x){const e=document.createElementNS(svgNS,t);for(const k in a)e.setAttribute(k,a[k]);if(x!=null)e.textContent=x;if(p)p.appendChild(e);return e;}
+const load=(k,d)=>{try{const v=localStorage.getItem('pe-'+k);return v?JSON.parse(v):d;}catch(e){return d;}};
+const save=(k,v)=>{try{localStorage.setItem('pe-'+k,JSON.stringify(v));}catch(e){}};
+const clone=o=>JSON.parse(JSON.stringify(o));
+function stats(t,items){$(t).innerHTML=items.map(s=>`<div class="stat ${s.c||''}"><div class="v">${s.v}</div><div class="l">${s.l}</div></div>`).join('');}
+
+/* pestañas */
+const tabs=[...document.querySelectorAll('nav.tabs button')];
+function show(id,push){tabs.forEach(b=>{const on=b.getAttribute('aria-controls')===id;b.setAttribute('aria-selected',on);$(b.getAttribute('aria-controls')).hidden=!on;});save('tab',id);if(push){try{history.replaceState(null,'','#'+id);}catch(e){}}window.scrollTo({top:0});redraw();}
+tabs.forEach(b=>b.addEventListener('click',()=>show(b.getAttribute('aria-controls'),true)));
+tabs.forEach((b,i)=>b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const j=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[j].focus();tabs[j].click();}}));
+
+/* clasificador genérico */
+function sorter(target,labels,items){const box=$(target);let ok=0,done=0;
+  box.innerHTML=items.map((x,i)=>`<div class="it" id="${target}-${i}"><span>${x.t}</span><div class="b">${labels.map((l,j)=>`<button class="btn" type="button" data-i="${i}" data-j="${j}">${l}</button>`).join('')}</div><p class="fb" hidden></p></div>`).join('');
+  box.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.i,j=+b.dataset.j,it=$(`${target}-${i}`);if(it.dataset.d)return;it.dataset.d=1;done++;const r=j===items[i].a;if(r)ok++;
+    it.classList.add(r?'ok':'no');const fb=it.querySelector('.fb');fb.hidden=false;fb.textContent=(r?'Correcto: ':`Es ${labels[items[i].a].toLowerCase()}: `)+items[i].e;$(target+'n').textContent=`${ok} de ${done} aciertos.`;}));}
+
+/* ================= S1 ================= */
+sorter('sort1',['Estrategia','Táctica'],[
+ {t:'Entrar al mercado de exportación de pulpas de fruta en Centroamérica.',a:0,e:'define dónde competir durante años y compromete recursos.'},
+ {t:'Presentar la declaración de renta una semana antes del vencimiento.',a:1,e:'es una acción operativa de corto plazo.'},
+ {t:'Ubicar la nueva planta como usuario industrial de zona franca.',a:0,e:'decisión de localización difícil de revertir, con efecto fiscal de largo plazo.'},
+ {t:'Lanzar una promoción 2×1 en diciembre.',a:1,e:'ajuste comercial de corto plazo.'},
+ {t:'Vender una filial para concentrarse en el negocio principal.',a:0,e:'cambia el portafolio de negocios de la empresa.'},
+ {t:'Negociar con un proveedor un descuento por pronto pago este mes.',a:1,e:'mejora puntual que se puede ajustar en cualquier momento.'},
+ {t:'Reformular el portafolio para reducir productos gravados con impuestos saludables.',a:0,e:'redefine cómo competir y la exposición a impuestos al consumo.'},
+ {t:'Ajustar el calendario de pagos de retenciones en el sistema contable.',a:1,e:'mejora operativa del cumplimiento.'}]);
+
+const schools=[
+ ['Diseño','Prescriptiva','La estrategia como proceso de concepción: ajustar fortalezas internas con oportunidades externas.','Selznick, Andrews','Origen de la DOFA.'],
+ ['Planificación','Prescriptiva','La estrategia como proceso formal, por etapas, con objetivos, presupuestos y programas.','Ansoff; también la tradición de Newman y Glueck','Calendarios tributarios, presupuesto de impuestos, planeación anual.'],
+ ['Posicionamiento','Prescriptiva','La estrategia como posición analítica en la industria: estrategias genéricas, cadena de valor.','Porter','Los impuestos como costo que afecta la ventaja competitiva.'],
+ ['Empresarial','Descriptiva','La estrategia como visión del líder.','Schumpeter, Cole','Decisiones de inversión que dependen de la intuición del dueño.'],
+ ['Cognoscitiva','Descriptiva','La estrategia como proceso mental, con sesgos de percepción.','Simon, March','Sesgos al evaluar beneficios tributarios ("el ahorro inmediato").'],
+ ['Aprendizaje','Descriptiva','La estrategia como proceso emergente que se aprende haciendo.','Lindblom, Quinn, Prahalad y Hamel','Estrategias que surgen ante un incentivo nuevo o una reforma.'],
+ ['Poder','Descriptiva','La estrategia como negociación entre actores internos y externos.','Allison, Pfeffer','Participación legítima de gremios en el debate de reformas.'],
+ ['Cultural','Descriptiva','La estrategia como proceso colectivo arraigado en la cultura.','Rhenman, Normann','Cultura de cumplimiento y de ética fiscal.'],
+ ['Ambiental','Descriptiva','La estrategia como respuesta reactiva a las exigencias del entorno.','Hannan y Freeman','Adaptación a cambios normativos que la empresa no controla.'],
+ ['Configuración','Integradora','La estrategia como proceso de transformación entre etapas y configuraciones.','Chandler, Mintzberg, Miles y Snow','Reorganizaciones societarias y cambios de régimen en el tiempo.']];
+function schTable(f){$('sch').innerHTML='<thead><tr><th>Escuela</th><th>Enfoque</th><th>Idea central</th><th>Autores de referencia</th><th>Lectura tributaria</th></tr></thead><tbody>'+schools.filter(s=>f==='all'||s[1]===f).map(s=>`<tr><td><b>${s[0]}</b></td><td>${s[1]}</td><td>${s[2]}</td><td>${s[3]}</td><td>${s[4]}</td></tr>`).join('')+'</tbody>';}
+document.querySelectorAll('#sch-f button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#sch-f button').forEach(x=>x.setAttribute('aria-pressed',x===b));schTable(b.dataset.f);}));schTable('all');
+
+const mComp=['Clientes','Productos o servicios','Mercados','Tecnología','Supervivencia, crecimiento y rentabilidad','Filosofía y valores','Autoconcepto (ventaja distintiva)','Imagen pública y responsabilidad','Preocupación por los empleados'];
+const vCrit=['Tiene horizonte de tiempo','Tiene rasgos verificables','Es coherente con la misión','Es clara e inspiradora'];
+const mvDefault=[{name:'Ejemplo ficticio: Alimentos La Sabana',src:'Caso del curso',m:'Ofrecemos alimentos prácticos y cada vez más saludables a hogares y canales institucionales de Colombia y la región andina, con operaciones eficientes, sostenibles y con cumplimiento ejemplar de nuestras obligaciones legales y tributarias.',v:'Ser en 2031 la empresa colombiana de alimentos de referencia en productos saludables, con el 30 % de las ventas en exportaciones.',mc:[1,1,1,0,0,1,0,1,0],vc:[1,1,1,1]},{name:'',src:'',m:'',v:'',mc:Array(9).fill(0),vc:Array(4).fill(0)},{name:'',src:'',m:'',v:'',mc:Array(9).fill(0),vc:Array(4).fill(0)}];
+let mv=load('mv',clone(mvDefault)),mvi=0;
+function mvRender(){$('mv-tabs').innerHTML=mv.map((x,i)=>`<button type="button" aria-pressed="${i===mvi}" data-i="${i}">Empresa ${i+1}${x.name?': '+esc(x.name.slice(0,22)):''}</button>`).join('');
+  $('mv-tabs').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{mvi=+b.dataset.i;mvRender();}));
+  const c=mv[mvi];$('mv-name').value=c.name;$('mv-src').value=c.src;$('mv-m').value=c.m;$('mv-v').value=c.v;
+  $('mv-mc').innerHTML=mComp.map((t,i)=>`<label for="mc${i}" style="flex-direction:row;align-items:center;gap:8px;font-weight:400;color:var(--ink)"><input type="checkbox" id="mc${i}" style="width:auto" ${c.mc[i]?'checked':''}>${t}</label>`).join('');
+  $('mv-vc').innerHTML=vCrit.map((t,i)=>`<label for="vc${i}" style="flex-direction:row;align-items:center;gap:8px;font-weight:400;color:var(--ink)"><input type="checkbox" id="vc${i}" style="width:auto" ${c.vc[i]?'checked':''}>${t}</label>`).join('');
+  mComp.forEach((_,i)=>$('mc'+i).addEventListener('change',e=>{c.mc[i]=e.target.checked?1:0;mvUpd();}));vCrit.forEach((_,i)=>$('vc'+i).addEventListener('change',e=>{c.vc[i]=e.target.checked?1:0;mvUpd();}));mvUpd();}
+['name','src','m','v'].forEach(k=>$('mv-'+k).addEventListener('input',e=>{mv[mvi][k]=e.target.value;if(k==='name'){const b=$('mv-tabs').children[mvi];b.textContent=`Empresa ${mvi+1}${e.target.value?': '+e.target.value.slice(0,22):''}`;}save('mv',mv);mvChart();}));
+$('mv-al').value=load('mval','');$('mv-al').addEventListener('input',e=>save('mval',e.target.value));
+function mvUpd(){const c=mv[mvi];const ms=c.mc.reduce((a,b)=>a+b,0),vs=c.vc.reduce((a,b)=>a+b,0);
+  stats('mv-out',[{v:`${ms} de 9`,l:'componentes de la misión'},{v:`${vs} de 4`,l:'criterios de la visión'},{v:pct((ms/9+vs/4)/2,0),l:'puntaje combinado',c:'key'}]);save('mv',mv);mvChart();}
+function mvChart(){const svg=$('mv-chart');svg.innerHTML='';mv.forEach((c,i)=>{const s=(c.mc.reduce((a,b)=>a+b,0)/9+c.vc.reduce((a,b)=>a+b,0)/4)/2;const y=12+i*44,l=260,W=900;
+  el('text',{x:l-10,y:y+20,'text-anchor':'end',style:'fill:'+css('--ink')+';font-weight:600'},svg,(c.name||`Empresa ${i+1}`).slice(0,36));el('rect',{x:l,y:y,width:W-l-60,height:28,fill:css('--panel'),rx:4},svg);
+  el('rect',{x:l,y:y,width:(W-l-60)*s,height:28,fill:i===mvi?css('--gold'):css('--petrol'),rx:4},svg);el('text',{x:W-52,y:y+19},svg,pct(s,0));});}
+
+/* ================= S2 ================= */
+const VF=[
+ ['Renta y dividendos','Impuesto de renta personas jurídicas','Tarifa general del 35 % (art. 240 ET).','Todas las sociedades del régimen ordinario','Rentabilidad después de impuestos de cada inversión.'],
+ ['Renta y dividendos','Tasa mínima de tributación','La tasa de tributación depurada no puede ser inferior al 15 %; si lo es, se adiciona impuesto.','Grupos con muchos beneficios o rentas exentas','Limita el valor de acumular beneficios tributarios.'],
+ ['Renta y dividendos','Sobretasas sectoriales','Entidades financieras +5 puntos hasta 2027; hidroeléctricas +3 puntos hasta 2026; carbón según precio.','Sectores específicos','Atractivo relativo de invertir en esos sectores.'],
+ ['Renta y dividendos','Dividendos','Entre sociedades nacionales: retención trasladable. A sociedades extranjeras: 20 % (salvo convenio).','Grupos empresariales e inversionistas','Estructura societaria y política de dividendos.'],
+ ['Renta y dividendos','Ganancia ocasional','15 %, incluida la utilidad en venta de activos fijos poseídos dos años o más.','Quien vende negocios o activos','Desinversión: vender acciones o activos.'],
+ ['Indirectos','IVA','Tarifa general 19 %; exportaciones exentas con derecho a devolución; servicios digitales del exterior gravados.','Productores, comercializadores, plataformas','Precios, flujo de caja por saldos a favor.'],
+ ['Indirectos','Impuestos saludables','Comestibles ultraprocesados: tarifa plena del 20 %. Bebidas azucaradas: valor por gramos de azúcar.','Industria de alimentos y bebidas','Portafolio, reformulación de productos, precios.'],
+ ['Indirectos','Gravamen a los movimientos financieros','4 por mil sobre transacciones financieras.','Todas las empresas','Estructura de tesorería y pagos.'],
+ ['Territoriales','Industria y comercio (ICA)','Tarifa por mil sobre ingresos, distinta en cada municipio y actividad.','Todas las empresas con actividad municipal','Localización de plantas y sedes.'],
+ ['Territoriales','Predial','Tarifa municipal sobre el avalúo de los inmuebles.','Propietarios de inmuebles','Comprar o arrendar; localización.'],
+ ['Regímenes especiales','Zonas francas','20 % sobre la renta proporcional a exportaciones y tarifa general sobre el resto, con plan de internacionalización anual (art. 240-1 ET).','Usuarios industriales exportadores','Localización de plantas exportadoras.'],
+ ['Regímenes especiales','ZOMAC','Sociedades nuevas: tarifa reducida hasta 2027 según tamaño; plena desde 2028.','Inversiones en municipios afectados por el conflicto','Localización con beneficio temporal.'],
+ ['Regímenes especiales','Régimen SIMPLE','Ingresos inferiores a 100.000 UVT; excluye sociedades con socios personas jurídicas.','Pequeñas empresas y personas naturales','Formalización; no sirve para filiales de grupos.'],
+ ['Internacional','Pagos al exterior','Retención en la fuente sobre servicios técnicos, asistencia técnica y consultoría; tarifas reducidas si hay convenio de doble imposición.','Empresas que contratan con el exterior','Costo de servicios y de licencias.'],
+ ['Internacional','Presencia económica significativa','Proveedores extranjeros de servicios digitales: 3 % de ingresos brutos si declaran; si no, retención.','Empresas digitales sin sede en Colombia','Forma de entrada al mercado colombiano.'],
+ ['Internacional','Precios de transferencia','Operaciones con vinculados del exterior a valores de mercado, con documentación.','Grupos multinacionales','Precios internos y ubicación de funciones.'],
+ ['Ambientales','Impuesto al carbono','Valor por tonelada de CO₂ equivalente en combustibles fósiles.','Usuarios intensivos en combustibles','Transición energética y costos.'],
+ ['Ambientales','Plásticos de un solo uso','Impuesto sobre la venta, retiro o importación de productos plásticos para envasar.','Industria de alimentos y consumo','Diseño de empaques.'],
+ ['Control y cumplimiento','Facturación y nómina electrónica','Soportes obligatorios para costos y deducciones; base de la fiscalización.','Todas las empresas','Procesos internos y calidad de datos.'],
+ ['Control y cumplimiento','Cláusula general antiabuso','La DIAN puede recaracterizar operaciones sin propósito comercial relevante (arts. 869 a 869-2 ET).','Todas las empresas','Límite de toda planeación: sustancia económica.']];
+[...new Set(VF.map(r=>r[0]))].forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;$('vf-c').appendChild(o);});
+function vfRender(){const q=$('vf-q').value.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''),c=$('vf-c').value;
+  const rows=VF.filter(r=>(!c||r[0]===c)&&(!q||r.join(' ').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(q)));
+  $('vf').innerHTML='<thead><tr><th>Variable</th><th>Regla vigente</th><th>A quién impacta</th><th>Decisión estratégica que afecta</th></tr></thead><tbody>'+(rows.length?rows.map(r=>`<tr><td><b>${r[1]}</b><br><span class="note">${r[0]}</span></td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join(''):'<tr><td colspan="4">Ninguna variable coincide con la búsqueda.</td></tr>')+'</tbody>';}
+$('vf-q').addEventListener('input',vfRender);$('vf-c').addEventListener('change',vfRender);vfRender();
+
+const DIMS=['Político-fiscal','Económico','Social','Tecnológico','Ecológico','Legal'];
+const peDefault=[
+ ['IVA del 19 % sobre servicios digitales prestados desde el exterior','Político-fiscal','A',4,5],
+ ['Presencia económica significativa: 3 % de ingresos brutos o retención si no declara','Político-fiscal','A',4,4],
+ ['Convenio para evitar la doble imposición entre Colombia y España','Político-fiscal','O',4,5],
+ ['Reformas tributarias frecuentes y proyectos en curso en 2026','Político-fiscal','A',4,4],
+ ['Dividendos a sociedades extranjeras gravados al 20 % (salvo convenio)','Político-fiscal','A',3,4],
+ ['Digitalización acelerada de las pymes colombianas','Económico','O',5,4],
+ ['Tasa de cambio volátil frente al euro','Económico','A',3,4],
+ ['Talento de software disponible y con costos competitivos','Social','O',4,4],
+ ['Facturación electrónica obligatoria: demanda de software contable','Tecnológico','O',5,5],
+ ['Ley de protección de datos personales (Ley 1581 de 2012)','Legal','A',3,5]];
+let pe=load('pe',clone(peDefault));
+function peRender(){$('pe-t').innerHTML='<thead><tr><th>Factor</th><th>Dimensión</th><th>O / A</th><th class="n">Impacto</th><th class="n">Prob.</th><th class="n">Puntaje</th><th></th></tr></thead><tbody>'+pe.map((r,i)=>`<tr>
+  <td style="min-width:240px"><input id="pf${i}" value="${esc(r[0])}" aria-label="Factor ${i+1}"></td>
+  <td><select id="pd${i}" aria-label="Dimensión ${i+1}">${DIMS.map(d=>`<option${d===r[1]?' selected':''}>${d}</option>`).join('')}</select></td>
+  <td><select id="po${i}" aria-label="Tipo ${i+1}"><option value="O"${r[2]==='O'?' selected':''}>O</option><option value="A"${r[2]==='A'?' selected':''}>A</option></select></td>
+  <td><input id="pi${i}" type="number" min="1" max="5" value="${r[3]}" style="width:64px" aria-label="Impacto ${i+1}"></td>
+  <td><input id="pp${i}" type="number" min="1" max="5" value="${r[4]}" style="width:64px" aria-label="Probabilidad ${i+1}"></td>
+  <td class="n" id="ps${i}">${r[3]*r[4]}</td><td><button class="btn" type="button" id="px${i}" aria-label="Quitar factor ${i+1}">Quitar</button></td></tr>`).join('')+'</tbody>';
+  pe.forEach((r,i)=>{$('pf'+i).addEventListener('input',e=>{r[0]=e.target.value;peUpd();});$('pd'+i).addEventListener('change',e=>{r[1]=e.target.value;peUpd();});$('po'+i).addEventListener('change',e=>{r[2]=e.target.value;peUpd();});
+    $('pi'+i).addEventListener('input',e=>{r[3]=Math.max(1,Math.min(5,+e.target.value||1));$('ps'+i).textContent=r[3]*r[4];peUpd();});$('pp'+i).addEventListener('input',e=>{r[4]=Math.max(1,Math.min(5,+e.target.value||1));$('ps'+i).textContent=r[3]*r[4];peUpd();});
+    $('px'+i).addEventListener('click',()=>{pe.splice(i,1);peRender();});});peUpd();}
+$('pe-add').addEventListener('click',()=>{pe.push(['Nuevo factor','Político-fiscal','A',3,3]);peRender();});
+$('pe-reset').addEventListener('click',()=>{pe=clone(peDefault);peRender();});
+function peUpd(){save('pe',pe);const svg=$('pe-m');svg.innerHTML='';const l=40,t=10,s=56;
+  for(let p=1;p<=5;p++)for(let i=1;i<=5;i++){const v=p*i;const f=v>=16?css('--red'):v>=10?css('--amber'):v>=5?css('--panel2'):css('--panel');el('rect',{x:l+(p-1)*s,y:t+(5-i)*s,width:s-3,height:s-3,fill:f,opacity:v>=10?0.35:1,rx:4},svg);}
+  for(let k=1;k<=5;k++){el('text',{x:l+(k-1)*s+s/2,y:t+5*s+16,'text-anchor':'middle'},svg,k);el('text',{x:l-10,y:t+(5-k)*s+s/2+4,'text-anchor':'end'},svg,k);}
+  el('text',{x:l+2.5*s,y:t+5*s+32,'text-anchor':'middle'},svg,'Probabilidad');el('text',{x:12,y:t+2.5*s,'text-anchor':'middle',transform:`rotate(-90 12 ${t+2.5*s})`},svg,'Impacto');
+  const cnt={};pe.forEach((r,i)=>{const key=r[3]+'-'+r[4];const n=cnt[key]=(cnt[key]||0)+1;const cx=l+(r[4]-1)*s+12+((n-1)%3)*15,cy=t+(5-r[3])*s+14+Math.floor((n-1)/3)*16;
+    el('circle',{cx,cy,r:7,fill:r[2]==='O'?css('--green'):css('--red')},svg);el('text',{x:cx,y:cy+3.5,'text-anchor':'middle',style:'fill:#fff;font-size:9px;font-weight:700'},svg,i+1);});
+  const sorted=pe.map((r,i)=>({r,i,s:r[3]*r[4]})).sort((a,b)=>b.s-a.s);
+  $('pe-rank').innerHTML='<p class="persp">Prioridad</p>'+sorted.map(x=>`<p style="margin:0 0 6px"><span class="pill ${x.s>=16?'sem-Rojo':x.s>=10?'sem-Amarillo':'sem-Verde'}">${x.s>=16?'Crítico':x.s>=10?'Alto':x.s>=5?'Medio':'Bajo'} · ${x.s}</span> <b>${x.i+1}.</b> ${esc(x.r[0])} <span class="note">(${x.r[2]==='O'?'oportunidad':'amenaza'})</span></p>`).join('')+'<p class="note">En la matriz: verde = oportunidad, rojo = amenaza; el número identifica el factor.</p>';}
+
+/* ================= S3 ================= */
+const CH=[
+ {k:'inf',n:'Infraestructura de la empresa',sup:1,tx:'Impuesto de renta, tasa mínima de tributación, estructura societaria, dividendos, GMF.',ef:'Evaluar la estructura de filiales; planear la tasa efectiva; aprovechar beneficios legales con sustancia.',ri:'Operaciones sin propósito de negocio (abuso, art. 869 ET).'},
+ {k:'rh',n:'Gestión de talento humano',sup:1,tx:'Aportes a seguridad social y parafiscales; nómina electrónica; retención en la fuente de empleados.',ef:'Revisar beneficios por generación de empleo y la correcta clasificación de pagos.',ri:'Pagos laborales disfrazados como no salariales.'},
+ {k:'tec',n:'Desarrollo tecnológico',sup:1,tx:'Beneficios por inversión en ciencia, tecnología e innovación (art. 256 ET, con calificación previa).',ef:'Postular proyectos de innovación reales a los beneficios.',ri:'Presentar como innovación gastos que no lo son.'},
+ {k:'aba',n:'Abastecimiento',sup:1,tx:'Soporte de costos con factura electrónica, retenciones a proveedores, IVA descontable.',ef:'Debida diligencia de proveedores; recuperar el IVA descontable.',ri:'Facturas de proveedores inexistentes (evasión).'},
+ {k:'le',n:'Logística de entrada',tx:'Aranceles e IVA en la importación de insumos; régimen aduanero.',ef:'Aprovechar acuerdos comerciales y reglas de origen.',ri:'Clasificación arancelaria incorrecta.'},
+ {k:'op',n:'Operaciones',tx:'Depreciación, ICA industrial, impuesto a plásticos de empaque, incentivos a energías renovables.',ef:'Vida útil técnica de activos; empaques alternativos; proyectos de energía con incentivo.',ri:'Depreciar activos que no se usan en el negocio.'},
+ {k:'ls',n:'Logística de salida',tx:'Exportaciones (IVA exento con devolución), régimen de zona franca, ICA según municipio.',ef:'Planta exportadora en zona franca con plan de internacionalización; devoluciones oportunas.',ri:'Incumplir el plan de internacionalización y perder la tarifa del 20 %.'},
+ {k:'mv',n:'Mercadeo y ventas',tx:'IVA, impuesto a ultraprocesados, ICA comercial, descuentos y precios.',ef:'Reformular productos; política de precios que considere los impuestos al consumo.',ri:'Clasificar mal productos para evitar impuestos al consumo.'},
+ {k:'sv',n:'Servicio',tx:'Garantías y devoluciones con notas crédito electrónicas.',ef:'Procesos de devolución bien soportados.',ri:'Notas crédito sin soporte.'}];
+let chSel='ls';
+const cvDefault={inf:5700,rh:1450,tec:0,aba:300,le:0,op:470,ls:0,mv:1110,sv:0};
+const cvLines=[['Impuesto de renta','inf',5180],['Gravamen a los movimientos financieros','inf',520],['Aportes parafiscales','rh',1450],['IVA no descontable','aba',300],['Predial','op',380],['Impuesto a plásticos de un solo uso','op',90],['ICA','mv',1110]];
+let cv=load('cv',cvLines.map(x=>x.slice()));
+function chRender(){const heat={};cv.forEach(r=>heat[r[1]]=(heat[r[1]]||0)+(+r[2]||0));const mx=Math.max(1,...Object.values(heat));
+  $('chain').innerHTML=CH.map(c=>{const v=heat[c.k]||0,a=0.12+0.6*v/mx;return `<button type="button" class="${c.sup?'sup':''}" aria-pressed="${c.k===chSel}" data-k="${c.k}" style="background:color-mix(in srgb, var(--gold) ${Math.round(a*100)}%, var(--panel))">${c.n}<br><span class="note" style="color:var(--ink)">${v?M(v)+' asumidos':''}</span></button>`;}).join('');
+  $('chain').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{chSel=b.dataset.k;chRender();}));
+  const c=CH.find(x=>x.k===chSel);$('chain-d').innerHTML=`<p class="eyebrow">${c.sup?'Actividad de apoyo':'Actividad primaria'}</p><h4 style="margin:0 0 8px;font-family:var(--display)">${c.n}</h4><div class="grid3"><div><p class="persp">Puntos de contacto tributario</p><p>${c.tx}</p></div><div><p class="persp">Eficiencias legítimas</p><p>${c.ef}</p></div><div><p class="persp">Riesgo a evitar</p><p>${c.ri}</p></div></div>`;}
+function cvRender(){$('cv-t').innerHTML='<thead><tr><th>Impuesto asumido</th><th class="n">Valor</th><th>Eslabón</th><th></th></tr></thead><tbody>'+cv.map((r,i)=>`<tr><td><input id="cn${i}" value="${esc(r[0])}" aria-label="Impuesto ${i+1}"></td><td><input id="cvv${i}" type="number" value="${r[2]}" style="width:110px;text-align:right" aria-label="Valor ${i+1}"></td><td><select id="ce${i}" aria-label="Eslabón ${i+1}">${CH.map(c=>`<option value="${c.k}"${c.k===r[1]?' selected':''}>${c.n}</option>`).join('')}</select></td><td><button class="btn" type="button" id="cx${i}">Quitar</button></td></tr>`).join('')+`</tbody>`;
+  $('cv-t').insertAdjacentHTML('afterend','');
+  cv.forEach((r,i)=>{$('cn'+i).addEventListener('input',e=>{r[0]=e.target.value;cvUpd();});$('cvv'+i).addEventListener('input',e=>{r[2]=+e.target.value||0;cvUpd();});$('ce'+i).addEventListener('change',e=>{r[1]=e.target.value;cvUpd();});$('cx'+i).addEventListener('click',()=>{cv.splice(i,1);cvRender();});});cvUpd();}
+function cvUpd(){save('cv',cv);chRender();const by={};cv.forEach(r=>by[r[1]]=(by[r[1]]||0)+(+r[2]||0));const tot=Object.values(by).reduce((a,b)=>a+b,0);
+  const arr=CH.map(c=>({n:c.n,v:by[c.k]||0})).sort((a,b)=>b.v-a.v);const top=arr[0];
+  stats('cv-out',[{v:M(tot),l:'carga asumida total',c:'key'},{v:pct(tot/14800,0),l:'de la utilidad antes de impuestos ($14.800 M)'},{v:pct(tot?top.v/tot:0,0),l:'se concentra en '+top.n.toLowerCase()}]);
+  $('cv-msg').textContent=`La mayor carga asumida se decide en ${top.n.toLowerCase()}. Además, la empresa recauda unos $20.350 M de impuesto a ultraprocesados en mercadeo y ventas: no es su gasto, pero afecta precios y demanda.`;
+  const svg=$('cv-c');svg.innerHTML='';const l=190,W=520,h=28,mx=Math.max(1,...arr.map(a=>a.v));
+  arr.forEach((a,i)=>{const y=6+i*32;el('text',{x:l-8,y:y+18,'text-anchor':'end',style:'fill:'+css('--ink')},svg,a.n.length>28?a.n.slice(0,27)+'…':a.n);const w=(W-l-70)*a.v/mx;el('rect',{x:l,y,width:Math.max(0,w),height:h-6,fill:i===0?css('--gold'):css('--petrol'),rx:3},svg);el('text',{x:l+w+6,y:y+16},svg,a.v?nf0.format(a.v):'—');});}
+cvRender();
+
+sorter('sort3',['Legítima','Riesgo de abuso'],[
+ {t:'Ubicar la planta exportadora en zona franca porque el negocio realmente exporta.',a:0,e:'el régimen premia una decisión con sustancia económica.'},
+ {t:'Dividir la empresa en varias sociedades con la misma sede y empleados para entrar al régimen SIMPLE.',a:1,e:'no hay propósito de negocio distinto del ahorro; además el SIMPLE excluye escisiones recientes.'},
+ {t:'Recuperar oportunamente los saldos a favor de IVA por exportaciones.',a:0,e:'es un derecho legal que mejora la liquidez.'},
+ {t:'Vender un inmueble a una sociedad vinculada muy por debajo del precio comercial para que esta lo revenda.',a:1,e:'traslada utilidad sin propósito comercial; la ley exige precio comercial.'},
+ {t:'Invertir en un proyecto de innovación calificado y tomar el beneficio tributario correspondiente.',a:0,e:'la ley lo incentiva y la inversión es real.'},
+ {t:'Registrar como servicios técnicos del exterior pagos a una sociedad vinculada que no presta ningún servicio.',a:1,e:'simula un costo; además es un problema de precios de transferencia.'}]);
+
+/* ================= S4 ================= */
+const dfDefault={emp:'Alimentos La Sabana S.A.S. (ficticia)',
+ F:'Equipo tributario con experiencia\nLínea de pulpas en crecimiento\nBuena relación de cumplimiento con la DIAN\nFacturación y nómina electrónica estables',
+ D:'Impuestos no participa en el comité de inversiones\n55 % de las ventas en productos gravados con impuestos saludables\nSin experticia en comercio exterior\nConciliación contable-fiscal manual',
+ O:'Tarifa del 20 % para exportaciones desde zona franca\nDemanda creciente de productos saludables\nAcuerdos comerciales con mercados de exportación\nNuevo gobierno anuncia reforma pro-inversión',
+ A:'Reformas tributarias frecuentes\nImpuesto a ultraprocesados del 20 %\nFiscalización con analítica de datos de la DIAN\nTasa de cambio volátil',
+ FO:'Montar la planta exportadora de pulpas como usuario industrial de zona franca con plan de internacionalización.',
+ DO:'Integrar al área de impuestos al comité de inversiones y sumar experticia en comercio exterior.',
+ FA:'Crear un monitoreo legislativo con escenarios tributarios y respuesta en 30 días.',
+ DA:'Reformular snacks para reducir productos ultraprocesados y evaluar la venta de líneas no estratégicas.',
+ ap:['Llevar las exportaciones del 8 % al 30 % de las ventas en 2031.','Que la nueva capacidad exportadora opere con el régimen más favorable disponible legalmente, sin sanciones.','Calificar la nueva planta como usuario industrial de zona franca y suscribir el plan de internacionalización. Plazo: 9 meses. Responsable: dirección tributaria con comercio exterior. Entregable: calificación y plan suscrito.'],
+ w:[30,20,20,20,10],sc:{FO:[5,3,4,5,3],DO:[3,5,5,4,4],FA:[2,5,5,3,4],DA:[4,4,3,5,3]},sub:{FO:'Sí',DO:'Sí',FA:'Sí',DA:'Sí'}};
+const CRIT=['Valor después de impuestos','Riesgo normativo (5 = bajo)','Factibilidad','Alineación con la visión','Grupos de interés'];
+let df=load('df',clone(dfDefault));
+function dfBind(){['emp','F','D','O','A','FO','DO','FA','DA'].forEach(k=>{const e=$('df-'+k);e.value=df[k];e.oninput=()=>{df[k]=e.value;save('df',df);};});
+  [1,2,3].forEach(i=>{const e=$('ap-'+i);e.value=df.ap[i-1];e.oninput=()=>{df.ap[i-1]=e.value;save('df',df);};});selRender();}
+function selRender(){let h='<thead><tr><th>Estrategia</th>'+CRIT.map((c,j)=>`<th class="n">${c}<br><input id="w${j}" type="number" value="${df.w[j]}" style="width:60px;text-align:right" aria-label="Peso ${c}"> %</th>`).join('')+'<th>¿Sustancia económica?</th><th class="n">Puntaje</th></tr></thead><tbody>';
+  ['FO','DO','FA','DA'].forEach(s=>{h+=`<tr><td><b>${s}</b></td>`+df.sc[s].map((v,j)=>`<td class="n"><input id="s${s}${j}" type="number" min="1" max="5" value="${v}" style="width:56px;text-align:right" aria-label="${s} ${CRIT[j]}"></td>`).join('')+`<td><select id="sub${s}" aria-label="Sustancia ${s}"><option${df.sub[s]==='Sí'?' selected':''}>Sí</option><option${df.sub[s]==='No'?' selected':''}>No</option></select></td><td class="n" id="pt${s}"></td></tr>`;});
+  $('sel-t').innerHTML=h+'</tbody>';
+  CRIT.forEach((_,j)=>$('w'+j).addEventListener('input',e=>{df.w[j]=+e.target.value||0;selUpd();}));
+  ['FO','DO','FA','DA'].forEach(s=>{df.sc[s].forEach((_,j)=>$(`s${s}${j}`).addEventListener('input',e=>{df.sc[s][j]=Math.max(1,Math.min(5,+e.target.value||1));selUpd();}));$('sub'+s).addEventListener('change',e=>{df.sub[s]=e.target.value;selUpd();});});selUpd();}
+function selUpd(){save('df',df);const ws=df.w.reduce((a,b)=>a+b,0);const res={};['FO','DO','FA','DA'].forEach(s=>{res[s]=df.sub[s]==='No'?null:df.sc[s].reduce((a,v,j)=>a+v*df.w[j],0)/(ws||1);$('pt'+s).textContent=res[s]==null?'Descartada':nf1.format(res[s]).replace(/,0$/,',0');});
+  const best=Object.entries(res).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1])[0];
+  $('sel-msg').textContent=(ws!==100?`Los pesos suman ${ws} %; ajústelos a 100 %. `:'')+(best?`Estrategia seleccionada: ${best[0]} (${nf1.format(best[1])} de 5). ${df[best[0]]}`:'Todas las estrategias fueron descartadas.');}
+$('df-reset').addEventListener('click',()=>{df=clone(dfDefault);dfBind();});
+$('df-copy').addEventListener('click',()=>{const t=`DOFA tributaria · ${df.emp}\n\nFORTALEZAS\n${df.F}\n\nDEBILIDADES\n${df.D}\n\nOPORTUNIDADES\n${df.O}\n\nAMENAZAS\n${df.A}\n\nFO: ${df.FO}\nDO: ${df.DO}\nFA: ${df.FA}\nDA: ${df.DA}\n\n${$('sel-msg').textContent}`;
+  const done=m=>$('df-copied').textContent=m;try{navigator.clipboard.writeText(t).then(()=>done('Copiado.'),()=>done('No se pudo copiar; seleccione el texto manualmente.'));}catch(e){done('No se pudo copiar; seleccione el texto manualmente.');}});
+dfBind();
+
+/* ================= S5 ================= */
+const PERS=['Financiera','Grupos de interés','Procesos internos','Aprendizaje'];
+const bscDefault=[
+ ['Sanciones e intereses moratorios','Sanciones + intereses del periodo (millones $)','Menor',0,5,12,'Mensual','Director tributario'],
+ ['Días de recuperación de saldos a favor','Días entre la solicitud y la devolución','Menor',50,10,46,'Trimestral','Tesorería'],
+ ['Declaraciones presentadas a tiempo','Declaraciones a tiempo / total (%)','Mayor',100,0,100,'Mensual','Contador'],
+ ['Requerimientos atendidos en plazo','Atendidos en plazo / recibidos (%)','Mayor',100,5,92,'Trimestral','Director tributario'],
+ ['Rechazo de facturas electrónicas','Facturas rechazadas / emitidas (%)','Menor',0.5,0.5,0.7,'Mensual','Contabilidad'],
+ ['Inversiones evaluadas fiscalmente','Inversiones > $5.000 M con análisis / total (%)','Mayor',100,10,50,'Semestral','Planeación financiera'],
+ ['Días para informe de impacto de una reforma','Días entre la ley y el informe','Menor',30,10,21,'Por evento','Director tributario'],
+ ['Capacitación tributaria','Horas por persona al año','Mayor',40,10,28,'Anual','Gestión humana']];
+const LIB=[['Financiera','Tasa de tributación depurada','Impuesto depurado / utilidad depurada (%)','Mayor',15,0],['Financiera','Valor de beneficios tributarios aprovechados','Millones $ de beneficios legales usados','Mayor',500,100],['Grupos de interés','Calificación de riesgo ante la DIAN','Sin hallazgos en fiscalizaciones (sí = 1)','Mayor',1,0],['Grupos de interés','Quejas de municipios por ICA','Número de requerimientos municipales','Menor',0,2],['Procesos internos','Conciliación contable-fiscal a tiempo','Meses conciliados antes del día 15 / 12 (%)','Mayor',100,10],['Procesos internos','Retenciones correctamente practicadas','Retenciones sin ajuste en auditoría (%)','Mayor',98,2],['Aprendizaje','Procesos tributarios automatizados','Procesos automatizados / total (%)','Mayor',60,10],['Aprendizaje','Rotación del equipo tributario','Retiros / planta (%)','Menor',10,5]];
+let bsc=load('bsc',clone(bscDefault));
+function sem(r){const real=+r[5],m=+r[3],tol=+r[4];if(r[5]===''||isNaN(real))return'';return r[2]==='Mayor'?(real>=m?'Verde':real>=m-tol?'Amarillo':'Rojo'):(real<=m?'Verde':real<=m+tol?'Amarillo':'Rojo');}
+function bscRender(){let h='';PERS.forEach((p,pi)=>{h+=`<p class="persp">${p}</p><div class="ind">`;[0,1].forEach(j=>{const i=pi*2+j,r=bsc[i];h+=`<div class="icard"><label for="bn${i}">Indicador <input id="bn${i}" value="${esc(r[0])}"></label><label for="bf${i}">Fórmula <input id="bf${i}" value="${esc(r[1])}"></label>
+  <div class="row"><label for="bs${i}">Sentido <select id="bs${i}"><option${r[2]==='Mayor'?' selected':''}>Mayor</option><option${r[2]==='Menor'?' selected':''}>Menor</option></select></label><label for="bm${i}">Meta <input id="bm${i}" type="number" value="${r[3]}" step="any"></label><label for="bt${i}">Tolerancia <input id="bt${i}" type="number" value="${r[4]}" step="any"></label><label for="br${i}">Real <input id="br${i}" type="number" value="${r[5]}" step="any"></label></div>
+  <div class="row"><label for="bq${i}" style="grid-column:span 2">Frecuencia <input id="bq${i}" value="${esc(r[6])}"></label><label for="bp${i}" style="grid-column:span 2">Responsable <input id="bp${i}" value="${esc(r[7])}"></label></div><div>Estado: <span class="pill" id="bx${i}"></span></div></div>`;});h+='</div>';});
+  $('bsc').innerHTML=h;bsc.forEach((r,i)=>{[['bn',0],['bf',1],['bs',2],['bm',3],['bt',4],['br',5],['bq',6],['bp',7]].forEach(([p,k])=>$(p+i).addEventListener('input',e=>{r[k]=e.target.value;bscUpd();}));});bscUpd();}
+function bscUpd(){save('bsc',bsc);const c={Verde:0,Amarillo:0,Rojo:0};bsc.forEach((r,i)=>{const s=sem(r);const e=$('bx'+i);e.className='pill'+(s?' sem-'+s:'');e.textContent=s||'Sin dato';e.style.color=s?'':'var(--muted)';if(s)c[s]++;});
+  stats('bsc-out',[{v:c.Verde,l:'indicadores en verde'},{v:c.Amarillo,l:'en amarillo'},{v:c.Rojo,l:'en rojo: requieren plan de acción',c:'key'}]);}
+$('lib').innerHTML='<thead><tr><th>Perspectiva</th><th>Indicador</th><th>Fórmula</th><th>Sentido</th><th></th></tr></thead><tbody>'+LIB.map((l,i)=>`<tr><td>${l[0]}</td><td>${l[1]}</td><td>${l[2]}</td><td>${l[3]}</td><td><button class="btn" type="button" data-i="${i}">Usar en la casilla 2</button></td></tr>`).join('')+'</tbody>';
+$('lib').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const l=LIB[+b.dataset.i];const pi=PERS.indexOf(l[0]);bsc[pi*2+1]=[l[1],l[2],l[3],l[4],l[5],'','Trimestral','Por definir'];bscRender();b.textContent='Agregado';}));
+$('bsc-reset').addEventListener('click',()=>{bsc=clone(bscDefault);bscRender();});bscRender();
+
+/* ================= S6 ================= */
+const REG={ord:'Ordinario (35 %)',zf:'Zona franca con plan de internacionalización',zf0:'Zona franca sin cumplir el plan (35 %)',zg:'ZOMAC, mediana o grande',zp:'ZOMAC, micro o pequeña'};
+const cxDefault=[{n:'A. Ampliar planta en Mosquera',reg:'ord',u:7500,x:0,e:0,s:[0,3,4,5,3]},{n:'B. Planta en zona franca',reg:'zf',u:7500,x:350,e:65,s:[0,5,3,4,3]}];
+const QCRIT=[['Logística y acceso a mercados',30],['Riesgo normativo y de cumplimiento (5 = bajo)',25],['Talento y operación',25],['Relación con la comunidad',20]];
+let cx=load('cx',clone(cxDefault));
+function rate(reg,y,e){if(reg==='ord'||reg==='zf0')return .35;if(reg==='zf')return e/100*.2+(1-e/100)*.35;if(reg==='zg')return y<=2027?.35*.75:.35;if(reg==='zp')return y<=2027?.35*.5:.35;return .35;}
+function cxRender(){$('cx-alts').innerHTML=cx.map((a,i)=>`<div class="card"><label for="xn${i}">Alternativa <input id="xn${i}" value="${esc(a.n)}"></label>
+ <div class="fields" style="margin-top:8px"><label for="xr${i}">Régimen <select id="xr${i}">${Object.entries(REG).map(([k,v])=>`<option value="${k}"${k===a.reg?' selected':''}>${v}</option>`).join('')}</select></label>
+ <label for="xu${i}">Utilidad 2027 antes de costos adicionales <input id="xu${i}" type="number" value="${a.u}"></label><label for="xx${i}">Costos adicionales anuales <input id="xx${i}" type="number" value="${a.x}"></label>
+ <label for="xe${i}">% de ingresos por exportación <input id="xe${i}" type="number" value="${a.e}" min="0" max="100"></label></div></div>`).join('');
+ cx.forEach((a,i)=>{[['xn','n'],['xr','reg'],['xu','u'],['xx','x'],['xe','e']].forEach(([p,k])=>$(p+i).addEventListener('input',e=>{a[k]=(k==='n'||k==='reg')?e.target.value:(+e.target.value||0);cxUpd();}));});cxUpd();}
+function cxUpd(){save('cx',cx);const r=(+$('cx-r').value||0)/100,H=Math.max(1,Math.min(15,Math.round(+$('cx-h').value||5))),g=(+$('cx-g').value||0)/100;
+ const yrs=Array.from({length:H},(_,k)=>2027+k);const res=cx.map(a=>{let vpI=0,vpF=0;const rows=yrs.map((y,k)=>{const rl=a.u*Math.pow(1+g,k)-a.x,t=rate(a.reg,y,a.e),imp=rl*t,f=rl-imp;vpI+=imp/Math.pow(1+r,k+1);vpF+=f/Math.pow(1+r,k+1);return{y,t,imp,f};});return{rows,vpI,vpF};});
+ $('cx-t').innerHTML='<thead><tr><th>Año</th>'+cx.map(a=>`<th class="n">${esc(a.n)}: tarifa</th><th class="n">impuesto</th><th class="n">flujo</th>`).join('')+'</tr></thead><tbody>'+yrs.map((y,k)=>`<tr><td>${y}</td>`+res.map(x=>`<td class="n">${pct(x.rows[k].t,2)}</td><td class="n">${M(x.rows[k].imp)}</td><td class="n">${M(x.rows[k].f)}</td>`).join('')+'</tr>').join('')+'</tbody>';
+ stats('cx-out',res.flatMap((x,i)=>[{v:M(x.vpI),l:`VP de impuestos · ${cx[i].n}`},{v:M(x.vpF),l:`VP del flujo después de impuestos · ${cx[i].n}`,c:x.vpF>=Math.max(...res.map(z=>z.vpF))?'key':''}]));
+ $('cx-q').innerHTML='<thead><tr><th>Criterio</th><th class="n">Peso</th>'+cx.map(a=>`<th class="n">${esc(a.n)}</th>`).join('')+'</tr></thead><tbody>'+QCRIT.map((q,j)=>`<tr><td>${q[0]}</td><td class="n">${q[1]} %</td>`+cx.map((a,i)=>`<td class="n"><input id="xq${i}${j}" type="number" min="1" max="5" value="${a.s[j+1]??3}" style="width:56px;text-align:right" aria-label="${q[0]} ${a.n}"></td>`).join('')+'</tr>').join('')+'</tbody>';
+ cx.forEach((a,i)=>QCRIT.forEach((q,j)=>$(`xq${i}${j}`).addEventListener('input',e=>{a.s[j+1]=Math.max(1,Math.min(5,+e.target.value||1));cxMsg(res);save('cx',cx);})));cxMsg(res);}
+function cxMsg(res){const q=cx.map(a=>QCRIT.reduce((s,c,j)=>s+c[1]*(a.s[j+1]??3),0)/100);const iv=res[0].vpF>=res[1].vpF?0:1,iq=q[0]>=q[1]?0:1;const mi=res.map(x=>x.rows[0].imp).indexOf(Math.min(...res.map(x=>x.rows[0].imp)));
+ $('cx-msg').textContent=`Mayor valor después de impuestos: ${cx[iv].n} (${M(res[iv].vpF)} frente a ${M(res[1-iv].vpF)}). Mejor calificación no tributaria: ${cx[iq].n} (${nf1.format(q[iq])} frente a ${nf1.format(q[1-iq])}). `+(iv===iq?'Ambos criterios apuntan a la misma alternativa.':'Los criterios no coinciden: la recomendación debe explicar qué pesa más y por qué.')+(mi!==iv?` Observe que el menor impuesto del primer año (${cx[mi].n}) no es el mayor valor.`:'');}
+['cx-r','cx-h','cx-g'].forEach(i=>$(i).addEventListener('input',cxUpd));cxRender();
+
+function ds(){const p=+$('ds-p').value||0,ca=+$('ds-ca').value||0,cv2=+$('ds-cv').value||0,d=+$('ds-d').value||0;const ua=p-ca,uv=p-cv2,rec=Math.max(0,Math.min(d,uv));const ia=Math.max(0,ua)*.15,iv=rec*.35+Math.max(0,uv-rec)*.15;
+ stats('ds-out',[{v:M(ia),l:'impuesto si vende acciones (ganancia ocasional 15 %)',c:ia<=iv?'key':''},{v:M(iv),l:`impuesto si vende activos (${M(rec)} de recuperación al 35 % y el resto al 15 %)`,c:iv<ia?'key':''},{v:M(Math.abs(iv-ia)),l:'diferencia: el comprador suele preferir activos, así que se negocia el precio'}]);}
+['ds-p','ds-ca','ds-cv','ds-d'].forEach(i=>$(i).addEventListener('input',ds));ds();
+
+$('roles').addEventListener('click',()=>{const r=['Junta directiva','Director tributario','Gerente comercial','DIAN','Alcaldía y comunidad','Accionista minoritario'];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}$('roles-o').textContent=r.map((x,i)=>`Grupo ${i+1}: ${x}`).join(' · ');});
+let tmS=180,tmL=180,tmI=null;const tmF=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+document.querySelectorAll('#s6 .chips button[data-s]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#s6 .chips button[data-s]').forEach(x=>x.setAttribute('aria-pressed',x===b));tmS=tmL=+b.dataset.s;clearInterval(tmI);tmI=null;$('tm-go').textContent='Iniciar';$('tm').textContent=tmF(tmL);$('tm').style.color='';}));
+$('tm-go').addEventListener('click',()=>{if(tmI){clearInterval(tmI);tmI=null;$('tm-go').textContent='Continuar';return;}$('tm-go').textContent='Pausar';tmI=setInterval(()=>{tmL=Math.max(0,tmL-1);$('tm').textContent=tmF(tmL);$('tm').style.color=tmL<=15?'var(--red)':'';if(!tmL){clearInterval(tmI);tmI=null;$('tm-go').textContent='Iniciar';}},1000);});
+$('tm-re').addEventListener('click',()=>{clearInterval(tmI);tmI=null;tmL=tmS;$('tm').textContent=tmF(tmL);$('tm').style.color='';$('tm-go').textContent='Iniciar';});
+
+function redraw(){mvRender();peUpd();cvUpd();}
+let start='s1';const h=(location.hash||'').replace('#','');if(/^s[1-6]$/.test(h))start=h;else{const s=load('tab',null);if(s&&$(s))start=s;}
+show(start,false);
+try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redraw);new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});}catch(e){}
+})();
+</script>
+
+</body>
+</html>

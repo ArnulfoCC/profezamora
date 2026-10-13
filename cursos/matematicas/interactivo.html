@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Matemáticas para Decidir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: cabecera fija con pestañas por sesión; cada sesión = ruta de 90 min + bloques Apertura/Conceptos/Práctica/Cierre */
+:root{
+  --bg:#ffffff; --panel:#f6f4f2; --panel2:#efebe7; --line:#e2dcd6; --ink:#241a14; --muted:#6b5b4e;
+  --copper:#b5651d; --green:#2f6f5e; --red:#8c2f39; --amber:#c98a12; --onaccent:#ffffff;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif; --body:"Source Sans 3","Segoe UI",Arial,sans-serif; --mono:"JetBrains Mono",Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15100d;--panel:#211a15;--panel2:#2a211b;--line:#3a2f27;--ink:#f1e9e2;--muted:#b9a99b;--copper:#e08a3c;--green:#62b39d;--red:#e07a84;--amber:#e6b04a;--onaccent:#15100d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15100d;--panel:#211a15;--panel2:#2a211b;--line:#3a2f27;--ink:#f1e9e2;--muted:#b9a99b;--copper:#e08a3c;--green:#62b39d;--red:#e07a84;--amber:#e6b04a;--onaccent:#15100d;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;padding-block:14px 8px}
+.brand h1{font-family:var(--display);font-weight:800;font-size:clamp(20px,3vw,26px);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.brand p{margin:0;color:var(--muted);font-size:14px}
+nav.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px}
+nav.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 14px;font:600 14px var(--body);cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav.tabs button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+main{padding-block:24px 64px}
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:start;margin-bottom:22px}
+.eyebrow{font:700 12px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--copper);margin:0 0 6px}
+.hero h2{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.2vw,40px);line-height:1.08;margin:0 0 10px;text-wrap:balance}
+.hero .lead{color:var(--muted);margin:0;max-width:62ch}
+.guide{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:18px 20px}
+.guide .eyebrow{color:var(--amber)}
+.guide p.q{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.25;margin:0}
+.route{display:flex;border-radius:8px;overflow:hidden;margin:4px 0 6px;min-height:46px}
+.route div{padding:6px 10px;font-size:13px;line-height:1.25;color:var(--onaccent);min-width:0;overflow:hidden;text-overflow:ellipsis}
+.route b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.rlegend{font-size:13px;color:var(--muted);margin:0 0 26px}
+section.block{border-top:1px solid var(--line);padding-block:22px 6px}
+.bhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.bhead h3{font-family:var(--display);font-weight:700;font-size:22px;margin:0}
+.bhead .time{font:600 13px var(--mono);color:var(--copper)}
+.bhead .tag{font-size:13px;color:var(--muted)}
+.ai{display:inline-flex;align-items:center;gap:6px;font:700 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--green);border:1px solid var(--green);border-radius:999px;padding:2px 9px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--panel);border-radius:var(--r);padding:16px 18px;min-width:0}
+.card h4{margin:0 0 6px;font-family:var(--display);font-size:17px}
+.card p{margin:0 0 8px}
+.tool{border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;min-width:0;background:var(--bg)}
+.tool h4{margin:0 0 10px;font-family:var(--display);font-size:18px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 14px;margin-bottom:12px}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+input,select,textarea{font:16px var(--body);color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:7px 9px;width:100%;min-width:0}
+input[type=range]{padding:0;background:transparent;border:0;accent-color:var(--copper)}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--panel);border-radius:8px;padding:10px 12px}
+.stat .v{font:600 17px var(--mono);font-variant-numeric:tabular-nums;color:var(--ink);overflow-wrap:anywhere}
+.stat .l{font-size:13px;color:var(--muted)}
+.stat.key{background:var(--copper)}
+.stat.key .v,.stat.key .l{color:var(--onaccent)}
+.stat.good{box-shadow:inset 0 0 0 2px var(--green)}
+.stat.bad{box-shadow:inset 0 0 0 2px var(--red)}
+.formula{font:14px var(--mono);background:var(--panel2);border-radius:7px;padding:8px 12px;margin:8px 0;overflow-wrap:anywhere}
+.note{font-size:14px;color:var(--muted)}
+.verdict{border-radius:8px;padding:10px 14px;margin-top:12px;background:var(--panel2);font-weight:600}
+.tablewrap{overflow-x:auto;max-height:380px;border:1px solid var(--line);border-radius:8px;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{position:sticky;top:0;background:var(--panel2);font-weight:700;text-align:right}
+th:first-child,td:first-child{text-align:left}
+td{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+details.ex{background:var(--panel);border-radius:var(--r);padding:14px 18px}
+details.ex+details.ex{margin-top:10px}
+details.ex summary{cursor:pointer;font-weight:700;list-style:none}
+details.ex summary::-webkit-details-marker{display:none}
+details.ex summary .n{font:600 13px var(--mono);color:var(--copper);margin-right:8px}
+details.ex .prob{font-weight:400;margin:6px 0 0}
+details.ex .sol{border-top:1px dashed var(--line);margin-top:10px;padding-top:10px}
+.show{font:600 13px var(--body);color:var(--copper)}
+details[open] .show{display:none}
+.quiz .q{background:var(--panel);border-radius:var(--r);padding:14px 18px;margin-bottom:10px}
+.quiz .q p{margin:0 0 8px;font-weight:700}
+.quiz .opts{display:grid;gap:6px}
+.quiz button.opt{text-align:left;font:15px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 12px;cursor:pointer}
+.quiz button.opt.ok{border-color:var(--green);box-shadow:inset 4px 0 0 var(--green)}
+.quiz button.opt.no{border-color:var(--red);box-shadow:inset 4px 0 0 var(--red)}
+.quiz .fb{margin:8px 0 0;font-size:14px}
+.score{font-weight:700;color:var(--copper)}
+ul.check{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+ul.check li label{flex-direction:row;align-items:flex-start;gap:10px;font-weight:400;color:var(--ink);font-size:15px}
+ul.check input{width:auto;margin-top:4px;accent-color:var(--green)}
+svg text{font-family:var(--body);fill:var(--muted);font-size:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.seg button{border:0;background:var(--panel);color:var(--ink);font:600 14px var(--body);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--copper);color:var(--onaccent)}
+.pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700}
+footer{border-top:1px solid var(--line);padding-block:18px;color:var(--muted);font-size:13px}
+@media (max-width:760px){.stat .v{font-size:15px}.hero,.grid2,.grid3{grid-template-columns:minmax(0,1fr)}.route div{font-size:11px;padding:6px}.route div span{display:none}}
+@media (prefers-reduced-motion:no-preference){.panel-session{animation:fade .25s ease}@keyframes fade{from{opacity:.4}to{opacity:1}}}
+/* --- Taller de amortización y funciones de Excel --- */
+:root{--c-int:#b5651d;--c-cap:#1a7f5a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-int:#d07a2a;--c-cap:#35a77d}}
+:root[data-theme="dark"]{--c-int:#d07a2a;--c-cap:#35a77d}
+.picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:0 0 6px}
+.picker button{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:baseline;text-align:left;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:9px 12px;cursor:pointer;font:15px/1.3 var(--body)}
+.picker button .n{grid-row:span 2;font:600 13px var(--mono);color:var(--copper)}
+.picker button .s{font-size:12px;color:var(--muted)}
+.picker button[aria-checked="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.picker button[aria-checked="true"] .n,.picker button[aria-checked="true"] .s{color:var(--bg)}
+.card ol,.ans ol{margin:6px 0 0;padding-left:22px;display:grid;gap:6px}
+.steps{display:grid;gap:6px;margin-top:4px}
+.steps div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;font:13px var(--mono);background:var(--panel2);border-radius:7px;padding:7px 10px}
+.steps div b{font-weight:600;color:var(--ink)}
+.steps div.fin{background:var(--copper);color:var(--onaccent)}.steps div.fin b{color:var(--onaccent)}
+.btn{font:600 14px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--copper)}
+.chartbox{position:relative;min-width:0}
+.chartbox h4{margin:0 0 4px;font-family:var(--display);font-size:16px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin-bottom:4px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font:12px/1.4 var(--body);padding:6px 9px;border-radius:6px;white-space:nowrap;z-index:3;transform:translate(-50%,-100%)}
+.tip b{font-family:var(--mono);font-weight:600}
+tr.neg td{background:color-mix(in srgb,var(--red) 12%,transparent)}
+tr.gr td{color:var(--muted)}
+tr.oc td{font-weight:600;border-top:2px solid var(--line)}
+.ans{background:var(--panel);border-radius:var(--r);padding:14px 18px;margin-top:14px}
+.ans summary{cursor:pointer;font-weight:700}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.rules .card h4{display:flex;gap:8px;align-items:baseline}
+.rules .card h4 span{font:600 13px var(--mono);color:var(--copper)}
+.fxbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:12px}
+.fxbar input{max-width:320px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:5px 11px;font:600 13px var(--body);cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--copper);color:var(--onaccent);border-color:var(--copper)}
+.fam{margin-top:18px}
+.fam>h4{font-family:var(--display);font-size:19px;margin:0 0 4px}
+.fam>p{margin:0 0 8px;color:var(--muted);font-size:14px;max-width:80ch}
+.fn{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.5fr) minmax(0,1.2fr) minmax(0,1.6fr);gap:6px 16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.fn .nm b{display:block;font:600 14px var(--mono);color:var(--ink);overflow-wrap:anywhere}
+.fn .nm span{font:12px var(--mono);color:var(--muted)}
+.fn .sx{font:13px var(--mono);overflow-wrap:anywhere}
+.fn .ej{color:var(--ink)}
+.fnh{font:700 12px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-bottom:4px}
+.notes{background:var(--panel2);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:14px}
+.notes p{margin:4px 0}
+.copyrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.copyrow .formula{flex:1 1 260px;margin:0}
+table.wrapt td,table.wrapt th{white-space:normal;text-align:left;font-family:var(--body);font-size:14px;vertical-align:top}
+@media (max-width:760px){.fn{grid-template-columns:minmax(0,1fr)}.fnh{display:none}.fn .ej::before{content:"Ejemplo: ";font-weight:600;color:var(--muted)}}
+.rules .card p{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+
+
+<header class="top"><div class="wrap">
+  <div class="brand"><h1>Matemáticas para la Toma de Decisiones</h1><p>Especialización en Gerencia Financiera · Docente: Alexander Zamora · 4 sesiones de 90 min</p></div>
+  <nav class="tabs" role="tablist" aria-label="Sesiones">
+    <button role="tab" id="t-s1" aria-controls="s1" aria-selected="true">Sesión 1 · Interés y tasas</button>
+    <button role="tab" id="t-s2" aria-controls="s2" aria-selected="false">Sesión 2 · Anualidades y amortización</button>
+    <button role="tab" id="t-s3" aria-controls="s3" aria-selected="false">Sesión 3 · VPN, TIR y B/C</button>
+    <button role="tab" id="t-s4" aria-controls="s4" aria-selected="false">Sesión 4 · WACC y EVA</button>
+    <button role="tab" id="t-s5" aria-controls="s5" aria-selected="false">Taller · 9 créditos</button>
+    <button role="tab" id="t-s6" aria-controls="s6" aria-selected="false">Funciones de Excel</button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+
+<!-- ======================= SESIÓN 1 ======================= -->
+<div class="panel-session" id="s1" role="tabpanel" aria-labelledby="t-s1">
+  <div class="hero">
+    <div><p class="eyebrow">Unidad 1 · Sesión 1</p><h2>Interés, tasas y relaciones de equivalencia</h2>
+      <p class="lead">El valor del dinero en el tiempo, interés simple y compuesto, tasas nominales y efectivas, y cómo comparar sumas que ocurren en fechas distintas.</p></div>
+    <div class="guide"><p class="eyebrow">Pregunta guía</p><p class="q">¿Es mejor recibir $10 millones hoy o en 3 años?</p></div>
+  </div>
+  <div class="route" aria-label="Ruta de 90 minutos">
+    <div style="flex:15;background:var(--ink)"><b>Apertura</b><span>0–15</span></div>
+    <div style="flex:30;background:var(--copper)"><b>Conceptos</b><span>15–45</span></div>
+    <div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div>
+    <div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div>
+  </div>
+  <p class="rlegend">Presentación magistral → teoría con ejercicios resueltos → taller de afianzamiento en equipos → conversatorio y errores comunes.</p>
+
+  <section class="block">
+    <div class="bhead"><h3>Apertura</h3><span class="time">0–15 min</span><span class="tag">Valor del dinero en el tiempo</span></div>
+    <div class="grid2">
+      <div class="tool">
+        <h4>¿$10 millones hoy o en 3 años?</h4>
+        <div class="fields">
+          <label for="a1-op">Tasa de oportunidad (E.A.) <input id="a1-op" type="range" min="0" max="25" step="0.5" value="12"><span id="a1-opv" class="note"></span></label>
+          <label for="a1-inf">Inflación anual esperada <input id="a1-inf" type="range" min="0" max="15" step="0.5" value="5"><span id="a1-infv" class="note"></span></label>
+        </div>
+        <div class="out">
+          <div class="stat key"><div class="v" id="a1-vp"></div><div class="l">valor hoy de $10 M dentro de 3 años</div></div>
+          <div class="stat"><div class="v" id="a1-real"></div><div class="l">poder de compra de esos $10 M en pesos de hoy</div></div>
+        </div>
+        <p class="verdict" id="a1-msg"></p>
+      </div>
+      <div>
+        <p class="ai" style="margin:0 0 10px">Apoyo IA · analogías cotidianas</p>
+        <div class="grid2" style="gap:10px">
+          <div class="card"><h4>El mercado del sábado</h4><p>Con $100.000 hoy se llena una bolsa de mercado. Si los precios suben 5 % al año, en tres años esa misma bolsa cuesta unos $115.800. El billete es el mismo; lo que compra, no.</p></div>
+          <div class="card"><h4>El vecino que pide prestado</h4><p>Si le presto hoy $10 millones a un vecino, dejo de ponerlos en un CDT. Lo que ese CDT habría pagado es mi costo de oportunidad: lo mínimo que debería cobrarle.</p></div>
+          <div class="card"><h4>La bola de nieve</h4><p>En el interés compuesto, los intereses de cada periodo se suman al capital y también ganan intereses. La bola crece más rápido cuanto más rueda.</p></div>
+          <div class="card"><h4>La devaluación</h4><p>Si el peso se devalúa frente al dólar, una deuda o una compra en dólares cuesta más pesos. Comparar sin fijar una moneda y una fecha lleva a malas decisiones.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Conceptos</h3><span class="time">15–45 min</span><span class="tag">Equivalencia, interés simple y compuesto, tasas</span></div>
+    <div class="grid2">
+      <div class="tool">
+        <h4>Simple vs. compuesto <span class="ai">Apoyo IA · ejercicio resuelto</span></h4>
+        <div class="fields">
+          <label for="c1-p">Capital ($) <input id="c1-p" type="number" value="10000000" step="100000"></label>
+          <label for="c1-i">Tasa por periodo (%) <input id="c1-i" type="number" value="1.5" step="0.1"></label>
+          <label for="c1-n">Periodos <input id="c1-n" type="number" value="24" min="1" max="120"></label>
+        </div>
+        <div class="formula">Simple: F = P(1 + i·n) &nbsp;&nbsp;·&nbsp;&nbsp; Compuesto: F = P(1 + i)ⁿ</div>
+        <svg id="c1-chart" viewBox="0 0 520 220" width="100%" role="img" aria-label="Crecimiento con interés simple y compuesto"></svg>
+        <div class="out" id="c1-out"></div>
+      </div>
+      <div class="tool">
+        <h4>Convertidor de tasas</h4>
+        <div class="fields">
+          <label for="c2-r">Tasa (%) <input id="c2-r" type="number" value="18" step="0.1"></label>
+          <label for="c2-t">Tipo <select id="c2-t"><option value="nom">Nominal anual</option><option value="ea">Efectiva anual</option></select></label>
+          <label for="c2-m">Capitalización <select id="c2-m"><option value="12">Mensual</option><option value="4">Trimestral</option><option value="2">Semestral</option><option value="1">Anual</option></select></label>
+          <label for="c2-v">Modalidad <select id="c2-v"><option value="v">Vencida</option><option value="a">Anticipada</option></select></label>
+        </div>
+        <div class="out" id="c2-out"></div>
+        <div class="formula">i = j/m · E.A. = (1 + i)ᵐ − 1 · anticipada → vencida: i = iₐ/(1 − iₐ)</div>
+        <p class="note">Solo las tasas efectivas se comparan entre sí. Una tasa nominal sin su capitalización no dice cuánto se paga.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Taller de afianzamiento en equipos</span></div>
+    <div id="t1"></div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Cuestionario de evaluación rápida y retroalimentación</span></div>
+    <div class="quiz" id="q1"></div>
+  </section>
+</div>
+
+<!-- ======================= SESIÓN 2 ======================= -->
+<div class="panel-session" id="s2" role="tabpanel" aria-labelledby="t-s2" hidden>
+  <div class="hero">
+    <div><p class="eyebrow">Unidad 1 · Sesión 2</p><h2>Anualidades, gradientes y sistemas de amortización</h2>
+      <p class="lead">Series de pagos iguales y variables, el "momento cero" y cómo se construye y se proyecta el saldo de una deuda.</p></div>
+    <div class="guide"><p class="eyebrow">Pregunta guía</p><p class="q">¿Cuánto debo realmente de mi crédito hipotecario después de cinco años pagando cuotas?</p></div>
+  </div>
+  <div class="route"><div style="flex:15;background:var(--ink)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--copper)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Repaso de interés compuesto → anualidades, gradientes y amortización con demostración en Excel → trabajo en equipos con cuotas y saldos → conversatorio y lista de chequeo.</p>
+
+  <section class="block">
+    <div class="bhead"><h3>Apertura</h3><span class="time">0–15 min</span><span class="tag">Repaso y flujos periódicos</span></div>
+    <div class="grid3">
+      <div class="card"><h4>Repaso relámpago</h4><p>¿A cuánto equivale 18 % N.M.V. en efectiva anual?</p><details><summary class="show">Ver respuesta</summary><p class="formula">(1 + 0,18/12)¹² − 1 = 19,56 %</p></details></div>
+      <div class="card"><h4>Flujos periódicos</h4><p>Cuotas de un crédito hipotecario, cánones de leasing, arriendos, pensiones: todos son series de pagos en el tiempo.</p></div>
+      <div class="card"><h4>La idea clave</h4><p>El valor presente de una serie es la suma de los valores presentes de cada pago. Las fórmulas solo abrevian esa suma.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Conceptos</h3><span class="time">15–45 min</span><span class="tag">Anualidades, gradientes, amortización y capitalización</span></div>
+    <div class="grid2">
+      <div class="tool">
+        <h4>Anualidad: vencida o anticipada</h4>
+        <div class="seg" role="group" aria-label="Tipo de anualidad"><button id="an-v" aria-pressed="true">Vencida</button><button id="an-a" aria-pressed="false">Anticipada</button></div>
+        <div class="fields">
+          <label for="an-p">Valor presente ($) <input id="an-p" type="number" value="50000000" step="100000"></label>
+          <label for="an-i">Tasa por periodo (%) <input id="an-i" type="number" value="1.5" step="0.1"></label>
+          <label for="an-n">Número de pagos <input id="an-n" type="number" value="12" min="1" max="600"></label>
+        </div>
+        <svg id="an-tl" viewBox="0 0 520 120" width="100%" role="img" aria-label="Línea de tiempo de la anualidad"></svg>
+        <div class="out" id="an-out"></div>
+        <div class="formula" id="an-f"></div>
+      </div>
+      <div class="tool">
+        <h4>Gradientes</h4>
+        <div class="seg" role="group" aria-label="Tipo de gradiente"><button id="gr-a" aria-pressed="true">Aritmético</button><button id="gr-g" aria-pressed="false">Geométrico</button></div>
+        <div class="fields">
+          <label for="gr-A">Primer pago ($) <input id="gr-A" type="number" value="1200000" step="10000"></label>
+          <label for="gr-G" id="gr-Gl">Aumento por periodo ($) <input id="gr-G" type="number" value="150000" step="10000"></label>
+          <label for="gr-i">Tasa por periodo (%) <input id="gr-i" type="number" value="1.5" step="0.1"></label>
+          <label for="gr-n">Periodos <input id="gr-n" type="number" value="24" min="1" max="360"></label>
+        </div>
+        <svg id="gr-chart" viewBox="0 0 520 170" width="100%" role="img" aria-label="Pagos del gradiente y su valor presente"></svg>
+        <div class="out" id="gr-out"></div>
+      </div>
+    </div>
+    <div class="tool" style="margin-top:16px">
+      <h4>Tabla de amortización <span class="ai">Apoyo IA · demostración como en Excel</span></h4>
+      <div class="fields">
+        <label for="am-p">Monto ($) <input id="am-p" type="number" value="180000000" step="1000000"></label>
+        <label for="am-ea">Tasa efectiva anual (%) <input id="am-ea" type="number" value="13" step="0.1"></label>
+        <label for="am-n">Plazo (meses) <input id="am-n" type="number" value="180" min="1" max="360"></label>
+        <label for="am-s">Sistema <select id="am-s"><option value="fija">Cuota fija (francés)</option><option value="abono">Abono constante a capital</option><option value="crec">Cuota creciente</option><option value="gracia">Gracia pagando intereses</option></select></label>
+        <label for="am-x" id="am-xl">Crecimiento mensual de la cuota (%) <input id="am-x" type="number" value="0.5" step="0.1"></label>
+        <label for="am-k">Ver saldo al final del mes <input id="am-k" type="number" value="60" min="1"></label>
+      </div>
+      <div class="out" id="am-out"></div>
+      <svg id="am-chart" viewBox="0 0 1000 200" width="100%" role="img" aria-label="Composición de las cuotas"></svg>
+      <div class="tablewrap"><table id="am-tab"></table></div>
+      <p class="note">En Excel: =PAGO(i;n;-P) para la cuota, =PAGOINT y =PAGOPRIN para separar intereses y capital. La tasa mensual equivalente es (1 + E.A.)^(1/12) − 1.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Trabajo en equipos: cuotas uniformes y proyección de saldos</span></div>
+    <div id="t2"></div>
+    <p class="note" style="margin-top:12px">Más casos para practicar: <a href="#s5" data-go="s5">Taller de amortización con nueve créditos</a> y <a href="#s6" data-go="s6">funciones financieras de Excel</a>.</p>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Conversatorio y lista de chequeo</span></div>
+    <div class="grid2">
+      <div class="tool"><h4>Errores comunes con el "momento cero" <span class="ai">Apoyo IA</span></h4>
+        <ul class="check" id="chk2"></ul><p class="note" id="chk2n"></p></div>
+      <div class="quiz" id="q2"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ======================= SESIÓN 3 ======================= -->
+<div class="panel-session" id="s3" role="tabpanel" aria-labelledby="t-s3" hidden>
+  <div class="hero">
+    <div><p class="eyebrow">Unidad 2 · Sesión 3</p><h2>Evaluación de alternativas de inversión</h2>
+      <p class="lead">Valor presente neto, tasa interna de retorno y relación beneficio/costo, y qué hacer cuando no coinciden.</p></div>
+    <div class="guide"><p class="eyebrow">Pregunta guía</p><p class="q">¿Cómo sabemos matemáticamente si un proyecto generará valor para la empresa?</p></div>
+  </div>
+  <div class="route"><div style="flex:15;background:var(--ink)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--copper)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Proyectos de inversión → VPN, TIR y B/C → simulación con dos máquinas excluyentes → discusión crítica VPN vs. TIR.</p>
+
+  <section class="block">
+    <div class="bhead"><h3>Apertura y conceptos</h3><span class="time">0–45 min</span><span class="tag">Definiciones, fórmulas y reglas de decisión</span></div>
+    <div class="grid3">
+      <div class="card"><h4>Valor presente neto (VPN)</h4><p class="formula">VPN = Σ FCₜ/(1+k)ᵗ − I₀</p><p>Riqueza que el proyecto crea hoy, en pesos, después de remunerar el capital a la tasa k.</p><p><b>Acepte si VPN &gt; 0.</b> Entre excluyentes, el de mayor VPN.</p></div>
+      <div class="card"><h4>Tasa interna de retorno (TIR)</h4><p class="formula">Σ FCₜ/(1+TIR)ᵗ − I₀ = 0</p><p>La tasa que hace el VPN igual a cero: la rentabilidad propia del proyecto.</p><p><b>Acepte si TIR &gt; k.</b> No sirve sola para elegir entre excluyentes de distinta escala.</p></div>
+      <div class="card"><h4>Relación beneficio/costo</h4><p class="formula">B/C = VP de los beneficios / VP de los costos</p><p>Cuántos pesos de valor presente devuelve cada peso invertido.</p><p><b>Acepte si B/C &gt; 1.</b> Equivale a VPN &gt; 0.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Práctica</h3><span class="time">45–75 min</span><span class="tag">Simulación: dos máquinas mutuamente excluyentes</span></div>
+    <div class="tool">
+      <h4>Máquina A vs. Máquina B (millones de pesos)</h4>
+      <p class="note">La empresa debe elegir una sola máquina. Los flujos del año 5 incluyen el valor de salvamento. Edite cualquier cifra.</p>
+      <div class="fields" style="max-width:320px"><label for="pv-k">Tasa de descuento k (%) <input id="pv-k" type="number" value="14" step="0.5"></label></div>
+      <div class="tablewrap" style="max-height:none"><table id="pv-in"></table></div>
+      <div class="grid2" style="margin-top:14px">
+        <div class="out" id="pv-out"></div>
+        <svg id="pv-chart" viewBox="0 0 520 260" width="100%" role="img" aria-label="Perfil del VPN de las dos máquinas"></svg>
+      </div>
+      <p class="verdict" id="pv-msg"></p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Discusión crítica</span></div>
+    <div class="grid2">
+      <div class="card"><h4>¿Qué hacer cuando el VPN contradice a la TIR?</h4>
+        <p>En proyectos excluyentes de distinta escala o con flujos en momentos distintos, la TIR puede favorecer al proyecto pequeño y el VPN al grande.</p>
+        <p><b>Regla:</b> manda el VPN, porque mide en pesos la riqueza creada. La TIR del flujo incremental (B − A), llamada tasa de Fisher, muestra hasta qué costo de capital conviene el proyecto grande.</p>
+        <p>La TIR también supone reinvertir los flujos a la misma TIR; la TIR modificada (Excel: TIRM) corrige ese supuesto.</p></div>
+      <div class="quiz" id="q3"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ======================= SESIÓN 4 ======================= -->
+<div class="panel-session" id="s4" role="tabpanel" aria-labelledby="t-s4" hidden>
+  <div class="hero">
+    <div><p class="eyebrow">Unidad 2 · Sesión 4</p><h2>Costo de capital y valor económico agregado</h2>
+      <p class="lead">Cuánto cuesta el dinero que financia la empresa y si la empresa gana más que eso.</p></div>
+    <div class="guide"><p class="eyebrow">Dinámica de apertura</p><p class="q">El costo del dinero: ¿qué le exige el banco y qué le exigen los accionistas?</p></div>
+  </div>
+  <div class="route"><div style="flex:15;background:var(--ink)"><b>Apertura</b><span>0–15</span></div><div style="flex:30;background:var(--copper)"><b>Conceptos</b><span>15–45</span></div><div style="flex:30;background:var(--green)"><b>Práctica</b><span>45–75</span></div><div style="flex:15;background:var(--muted)"><b>Cierre</b><span>75–90</span></div></div>
+  <p class="rlegend">Fuentes de financiación y riesgo → CPPC (WACC) y EVA → ejercicio integral desde un balance simplificado → repaso del módulo y preparación del examen final.</p>
+
+  <section class="block">
+    <div class="bhead"><h3>Apertura</h3><span class="time">0–15 min</span><span class="tag">El costo del dinero</span></div>
+    <div class="grid2">
+      <div class="card"><h4>El banco</h4><p>Presta con contrato, cuota y garantías. Cobra primero y asume menos riesgo, así que exige menos. Además, los intereses son deducibles del impuesto de renta: el costo neto es Kd × (1 − t).</p></div>
+      <div class="card"><h4>Los accionistas</h4><p>Reciben lo que sobra, si sobra. Asumen más riesgo y exigen más rentabilidad (Ke). Su costo no es deducible. Por eso el patrimonio es la fuente más cara aunque no tenga cuota.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Conceptos y práctica</h3><span class="time">15–75 min</span><span class="tag">Ejercicio integral desde un balance general simplificado</span></div>
+    <div class="formula">CPPC (WACC) = Σ (Dᵢ/V)·Kdᵢ·(1 − t) + (E/V)·Ke &nbsp;·&nbsp; Ke = Rf + β·(Rm − Rf) + prima &nbsp;·&nbsp; EVA = UODI − WACC × Capital invertido</div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="tool">
+        <h4>Balance y resultados del último año (millones $)</h4>
+        <div class="fields">
+          <label for="w-prov">Proveedores (sin costo explícito) <input id="w-prov" type="number" value="150"></label>
+          <label for="w-cp">Obligación financiera CP <input id="w-cp" type="number" value="120"></label>
+          <label for="w-kcp">Tasa CP (% E.A.) <input id="w-kcp" type="number" value="16" step="0.1"></label>
+          <label for="w-lp">Obligación financiera LP <input id="w-lp" type="number" value="330"></label>
+          <label for="w-klp">Tasa LP (% E.A.) <input id="w-klp" type="number" value="14" step="0.1"></label>
+          <label for="w-pat">Patrimonio <input id="w-pat" type="number" value="600"></label>
+          <label for="w-vt">Ventas <input id="w-vt" type="number" value="2100"></label>
+          <label for="w-cv">Costo de ventas <input id="w-cv" type="number" value="1344"></label>
+          <label for="w-go">Gastos operacionales <input id="w-go" type="number" value="476"></label>
+          <label for="w-t">Tarifa de renta (%) <input id="w-t" type="number" value="35"></label>
+          <label for="w-rf">Tasa libre de riesgo Rf (%) <input id="w-rf" type="number" value="10" step="0.1"></label>
+          <label for="w-b">Beta (β) <input id="w-b" type="number" value="1.2" step="0.05"></label>
+          <label for="w-prm">Prima de mercado (%) <input id="w-prm" type="number" value="6" step="0.1"></label>
+          <label for="w-pa">Prima adicional (%) <input id="w-pa" type="number" value="3" step="0.1"></label>
+        </div>
+        <p class="note">Rf, β y primas son supuestos didácticos; actualícelos con datos de mercado antes de clase. El capital invertido se toma del balance de cierre (simplificación).</p>
+      </div>
+      <div class="tool">
+        <h4>Resultados</h4>
+        <div class="tablewrap" style="max-height:none"><table id="w-tab"></table></div>
+        <div class="out" id="w-out" style="margin-top:12px"></div>
+        <svg id="w-chart" viewBox="0 0 520 150" width="100%" role="img" aria-label="ROIC frente a WACC"></svg>
+        <p class="verdict" id="w-msg"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Cierre</h3><span class="time">75–90 min</span><span class="tag">Repaso de las 4 sesiones y preparación del examen final</span></div>
+    <div class="grid2">
+      <div class="card"><h4>Una sola idea, cuatro herramientas</h4>
+        <p><b>Sesión 1.</b> Nunca se comparan pesos de fechas distintas: se llevan a una misma fecha con una tasa efectiva.</p>
+        <p><b>Sesión 2.</b> Una deuda es una serie de pagos; su saldo es el valor presente de lo que falta pagar.</p>
+        <p><b>Sesión 3.</b> Un proyecto crea valor si su VPN es positivo a la tasa que exige el capital.</p>
+        <p><b>Sesión 4.</b> Esa tasa es el WACC, y el EVA muestra año a año si la empresa la supera.</p></div>
+      <div class="quiz" id="q4"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ======================= TALLER: NUEVE CRÉDITOS ======================= -->
+<div class="panel-session" id="s5" role="tabpanel" aria-labelledby="t-s5" hidden>
+  <div class="hero">
+    <div><p class="eyebrow">Complemento de la sesión 2</p><h2>Taller de amortización: nueve créditos</h2>
+      <p class="lead">Casos empresariales con tasas anticipadas, periodos poco usuales, gracia y gradientes. Elija un crédito: la tabla se calcula en esta página, y puede cambiar los datos para ver qué pasa.</p></div>
+    <div class="guide"><p class="eyebrow">Sugerencia de uso</p><p class="q" style="font-size:17px">Créditos 1, 2 y 5 en el trabajo en equipos · 3, 4 y 6 como afianzamiento · 7, 8 y 9 (gradientes) como reto o tarea.</p></div>
+  </div>
+  <div class="picker" role="radiogroup" aria-label="Crédito" id="cr-pick"></div>
+
+  <section class="block">
+    <div class="bhead"><h3 id="cr-title"></h3><span class="tag" id="cr-sys"></span></div>
+    <div class="grid2">
+      <div class="card"><p class="note" id="cr-ctx"></p><p id="cr-d"></p><h4 style="margin-top:12px">Preguntas</h4><ol id="cr-q"></ol></div>
+      <div class="tool"><h4>Datos y conversión de la tasa</h4>
+        <div class="fields" id="cr-fields"></div>
+        <div class="steps" id="cr-steps"></div>
+        <p style="margin:10px 0 0"><button class="btn" type="button" id="cr-reset">Volver a los datos del enunciado</button></p>
+      </div>
+    </div>
+    <div class="out" id="cr-out" style="margin-top:16px"></div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="chartbox" id="cr-box1"><h4>Saldo de la deuda</h4><p class="legend"><span><i style="background:var(--ink)"></i>Saldo después de cada pago</span></p><svg id="cr-ch1" viewBox="0 0 520 230" width="100%" role="img" aria-label="Saldo de la deuda por periodo"></svg></div>
+      <div class="chartbox" id="cr-box2"><h4>Composición de cada cuota</h4><p class="legend"><span><i style="background:var(--c-int)"></i>Intereses</span><span><i style="background:var(--c-cap)"></i>Abono a capital</span></p><svg id="cr-ch2" viewBox="0 0 520 230" width="100%" role="img" aria-label="Intereses y abono a capital de cada cuota"></svg></div>
+    </div>
+    <p class="note" id="cr-negnote"></p>
+    <div class="tablewrap"><table id="cr-tab"></table></div>
+    <p class="formula" id="cr-xl"></p>
+    <details class="ans"><summary>Respuestas clave para el docente</summary><p class="note" id="cr-mod" hidden>Cambió los datos del enunciado: las respuestas de abajo corresponden a los datos originales.</p><ol id="cr-a"></ol></details>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Reglas para todos los créditos</h3></div>
+    <div class="grid3">
+      <div class="card"><h4>Año comercial</h4><p>360 días: 45 días son 1/8 de año, un mes son 30 días y un cuatrimestre 120 días.</p></div>
+      <div class="card"><h4>Primero, de anticipada a vencida</h4><p class="formula">i vencida = i anticipada / (1 − i anticipada)</p><p>Después se cambia de periodo con (1 + i)^(días nuevos / días actuales) − 1.</p></div>
+      <div class="card"><h4>Siempre cierra en cero</h4><p>El saldo final de la tabla debe ser cero. Si no lo es, hay un error en la tasa, en el número de pagos o en la cuota.</p></div>
+    </div>
+    <div class="tablewrap" style="max-height:none;margin-top:14px"><table class="wrapt"><thead><tr><th>Notación</th><th>Significado</th></tr></thead><tbody>
+      <tr><td>N.A.A.A.</td><td>Nominal anual, capitalización anual anticipada</td></tr>
+      <tr><td>N.T.A.</td><td>Nominal anual, capitalización trimestral anticipada</td></tr>
+      <tr><td>N.A.D.A.</td><td>Nominal anual, capitalización diaria anticipada</td></tr>
+      <tr><td>N.A.B.A.</td><td>Nominal anual, capitalización bimestral anticipada</td></tr>
+      <tr><td>N.A.A.V.</td><td>Nominal anual, capitalización anual vencida (igual a la efectiva anual)</td></tr>
+      <tr><td>N.A.Q.A.</td><td>Nominal anual, capitalización quincenal anticipada</td></tr>
+    </tbody></table></div>
+  </section>
+</div>
+
+<!-- ======================= FUNCIONES DE EXCEL ======================= -->
+<div class="panel-session" id="s6" role="tabpanel" aria-labelledby="t-s6" hidden>
+  <div class="hero">
+    <div><p class="eyebrow">Referencia para todas las sesiones</p><h2>Funciones financieras de Excel en español</h2>
+      <p class="lead">Las 55 funciones de la categoría Financieras, con la sintaxis de un Excel configurado para Colombia (punto y coma entre argumentos, coma decimal), su nombre en inglés y un ejemplo calculado con casos del curso.</p></div>
+    <div class="guide"><p class="eyebrow">Pregunta guía</p><p class="q">¿Qué función resuelve cada problema y cómo se escribe en un Excel en español?</p></div>
+  </div>
+
+  <section class="block">
+    <div class="bhead"><h3>Antes de empezar: cinco reglas</h3></div>
+    <div class="rules" id="fx-rules"></div>
+    <p class="note" id="fx-rnote"></p>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Probador de funciones</h3><span class="tag">Escriba los argumentos y copie la fórmula en español</span></div>
+    <div class="tool">
+      <div class="fields"><label for="fx-f">Función <select id="fx-f"></select></label></div>
+      <div class="fields" id="fx-args"></div>
+      <div class="out" id="fx-out"></div>
+      <div class="copyrow" style="margin-top:10px"><p class="formula" id="fx-es"></p><button class="btn" type="button" id="fx-copy">Copiar fórmula</button></div>
+      <p class="note" id="fx-en"></p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Las funciones por familia</h3><span class="tag" id="fx-count"></span></div>
+    <div class="fxbar"><label for="fx-q" style="flex:1 1 240px">Buscar en español o en inglés <input id="fx-q" type="search" placeholder="Ej.: PAGO, PMT, cupón, depreciación"></label></div>
+    <div class="chips" id="fx-chips" role="group" aria-label="Familias"></div>
+    <div id="fx-list"></div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Errores y mensajes frecuentes</h3></div>
+    <div class="tablewrap" style="max-height:none"><table class="wrapt" id="fx-err"></table></div>
+  </section>
+
+  <section class="block">
+    <div class="bhead"><h3>Ejercicios de práctica</h3><span class="tag">Resultados verificados en Excel</span></div>
+    <div id="fx-ej"></div>
+    <p class="note" style="margin-top:14px">Fuente: <a href="https://support.microsoft.com/es-es/excel/financial-functions-reference" target="_blank" rel="noopener">Funciones financieras (referencia), Soporte de Microsoft</a>. P.DURACION y RRI existen desde Excel 2013.</p>
+  </section>
+</div>
+</main>
+<footer><div class="wrap">Material de apoyo construido sobre el Plan de Clases del docente y el syllabus EFA_V5_08. El taller de nueve créditos parte del desarrollo en Excel de Arnulfo Camacho Celis, revisado y ajustado para el curso. Las cifras de los ejercicios son didácticas. Los cálculos se hacen en esta página; verifíquelos también en Excel.</div></footer>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const nf0=new Intl.NumberFormat('es-CO',{maximumFractionDigits:0});
+const nf1=new Intl.NumberFormat('es-CO',{minimumFractionDigits:1,maximumFractionDigits:1});
+const nf2=new Intl.NumberFormat('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2});
+const cop=x=>(x<0?'−$':'$')+nf0.format(Math.abs(x));
+const M=x=>(x<0?'−$':'$')+nf1.format(Math.abs(x))+' M';
+const M2=x=>(x<0?'−$':'$')+nf2.format(Math.abs(x))+' M';
+const pct=(x,d=2)=>new Intl.NumberFormat('es-CO',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x*100)+' %';
+const num=id=>parseFloat($(id).value)||0;
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const svgNS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent,text){const e=document.createElementNS(svgNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+function stats(target,items){$(target).innerHTML=items.map(s=>`<div class="stat ${s.c||''}"><div class="v">${s.v}</div><div class="l">${s.l}</div></div>`).join('');}
+function npv(r,f){return f.reduce((a,x,t)=>a+x/Math.pow(1+r,t),0);}
+function irr(f){let lo=-0.99,hi=10;const s=npv(lo,f);if(s*npv(hi,f)>0)return NaN;for(let k=0;k<200;k++){const m=(lo+hi)/2;if(npv(m,f)*s>0)lo=m;else hi=m;}return (lo+hi)/2;}
+
+/* ---------- pestañas ---------- */
+const tabs=[...document.querySelectorAll('nav.tabs button')];
+function show(id,push){tabs.forEach(b=>{const on=b.getAttribute('aria-controls')===id;b.setAttribute('aria-selected',on);$(b.getAttribute('aria-controls')).hidden=!on;});
+  try{localStorage.setItem('mat-tab',id);}catch(e){} if(push){try{history.replaceState(null,'','#'+id);}catch(e){}} window.scrollTo({top:0});redrawAll();}
+tabs.forEach(b=>b.addEventListener('click',()=>show(b.getAttribute('aria-controls'),true)));
+tabs.forEach((b,i)=>b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const j=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[j].focus();tabs[j].click();}}));
+
+/* ---------- quiz genérico ---------- */
+function quiz(target,title,qs){
+  const box=$(target);box.innerHTML=`<p class="score" id="${target}-sc">${title}</p>`;let right=0,done=0;
+  qs.forEach((q,qi)=>{const d=document.createElement('div');d.className='q';d.innerHTML=`<p>${qi+1}. ${q.q}</p><div class="opts"></div><p class="fb" hidden></p>`;
+    const opts=d.querySelector('.opts'),fb=d.querySelector('.fb');
+    q.o.forEach((o,oi)=>{const b=document.createElement('button');b.className='opt';b.type='button';b.textContent=o;b.addEventListener('click',()=>{
+      if(d.dataset.done)return;d.dataset.done=1;done++;const ok=oi===q.a;if(ok)right++;
+      b.classList.add(ok?'ok':'no');if(!ok)opts.children[q.a].classList.add('ok');fb.hidden=false;fb.textContent=(ok?'Correcto. ':'No exactamente. ')+q.e;
+      $(target+'-sc').textContent=`${title} · ${right} de ${done} correctas`;});opts.appendChild(b);});
+    box.appendChild(d);});
+}
+/* ---------- ejercicios con solución ---------- */
+function exercises(target,list){$(target).innerHTML=list.map((x,i)=>`<details class="ex"><summary><span class="n">${String(i+1).padStart(2,'0')}</span>${x.t} <span class="show">· ver solución</span><p class="prob">${x.p}</p></summary><div class="sol">${x.s}</div></details>`).join('');}
+
+/* ================= SESIÓN 1 ================= */
+function s1a(){const op=num('a1-op')/100,inf=num('a1-inf')/100;$('a1-opv').textContent=pct(op,1);$('a1-infv').textContent=pct(inf,1);
+  const vp=10e6/Math.pow(1+op,3),real=10e6/Math.pow(1+inf,3);$('a1-vp').textContent=cop(vp);$('a1-real').textContent=cop(real);
+  $('a1-msg').textContent=op>0?`Con una tasa de oportunidad de ${pct(op,1)}, recibir $10 millones en 3 años equivale a recibir ${cop(vp)} hoy. Es mejor recibirlos hoy: se pueden invertir y llegar a ${cop(10e6*Math.pow(1+op,3))} en 3 años.`:'Con tasa de oportunidad cero, solo la inflación hace preferible recibir el dinero hoy.';}
+['a1-op','a1-inf'].forEach(i=>$(i).addEventListener('input',s1a));
+
+function s1c(){const P=num('c1-p'),i=num('c1-i')/100,n=Math.max(1,Math.min(120,Math.round(num('c1-n'))));
+  const s=[],c=[];for(let k=0;k<=n;k++){s.push(P*(1+i*k));c.push(P*Math.pow(1+i,k));}
+  const svg=$('c1-chart');svg.innerHTML='';const W=520,H=220,l=58,r=14,t=12,b=28;const mx=Math.max(...c,...s),mn=P*0.98;
+  const X=k=>l+(W-l-r)*k/n,Y=v=>t+(H-t-b)*(1-(v-mn)/(mx-mn||1));
+  for(let g=0;g<=4;g++){const v=mn+(mx-mn)*g/4;el('line',{x1:l,x2:W-r,y1:Y(v),y2:Y(v),stroke:css('--line')},svg);el('text',{x:l-6,y:Y(v)+4,'text-anchor':'end'},svg,nf1.format(v/1e6)+' M');}
+  el('text',{x:l,y:H-8},svg,'0');el('text',{x:W-r,y:H-8,'text-anchor':'end'},svg,n+' periodos');
+  const path=a=>a.map((v,k)=>(k?'L':'M')+X(k).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
+  el('path',{d:path(s),fill:'none',stroke:css('--muted'),'stroke-width':2,'stroke-dasharray':'5 4'},svg);
+  el('path',{d:path(c),fill:'none',stroke:css('--copper'),'stroke-width':2.5},svg);
+  el('text',{x:X(Math.round(n*.55)),y:Y(c[Math.round(n*.55)])-10,'text-anchor':'end',style:'fill:'+css('--copper')+';font-weight:700'},svg,'Compuesto');
+  el('text',{x:X(Math.round(n*.55))+6,y:Y(s[Math.round(n*.55)])+18,'text-anchor':'start'},svg,'Simple');
+  stats('c1-out',[{v:cop(s[n]),l:'valor final con interés simple'},{v:cop(c[n]),l:'valor final con interés compuesto',c:'key'},{v:cop(c[n]-s[n]),l:'intereses sobre intereses'}]);}
+['c1-p','c1-i','c1-n'].forEach(i=>$(i).addEventListener('input',s1c));
+
+function s1r(){const r=num('c2-r')/100,typ=$('c2-t').value,m=+$('c2-m').value,mod=$('c2-v').value;let ea,ip;
+  $('c2-m').disabled=typ==='ea';$('c2-v').disabled=typ==='ea';
+  if(typ==='ea'){ea=r;}else{ip=r/m;if(mod==='a'){if(ip>=1){stats('c2-out',[{v:'—',l:'tasa anticipada inválida'}]);return;}ip=ip/(1-ip);}ea=Math.pow(1+ip,m)-1;}
+  const per=k=>Math.pow(1+ea,1/k)-1;
+  stats('c2-out',[{v:pct(ea),l:'efectiva anual',c:'key'},{v:pct(per(12),4),l:'mensual vencida equivalente'},{v:pct(per(12)*12),l:'nominal mes vencido (N.M.V.)'},{v:pct(per(4)*4),l:'nominal trimestre vencido (N.T.V.)'},{v:pct(per(2)*2),l:'nominal semestre vencido (N.S.V.)'},{v:pct((per(4)/(1+per(4)))*4),l:'nominal trimestre anticipado (N.T.A.)'}]);}
+['c2-r','c2-t','c2-m','c2-v'].forEach(i=>$(i).addEventListener('input',s1r));
+
+/* Taller de la sesión 1 (datos del plan de clases) */
+(function(){const A=150*(1+.12*3),B=150*Math.pow(1.105,3),eqA=Math.pow(1.36,1/3)-1;
+  const vp110=110/Math.pow(1.14,2);const es=Math.pow(1.09,2)-1,em=Math.pow(1.015,12)-1;
+  const vf50=50*Math.pow(1.15,1.5),vp62=62/Math.pow(1.15,1.5),imp=Math.pow(62/50,1/1.5)-1;
+  exercises('t1',[
+  {t:'Gestión de excedentes',p:'Una empresa invertirá $150 M durante 3 años. Banco A ofrece 12 % de interés simple anual; Banco B, 10,5 % de interés compuesto anual. ¿Cuál conviene?',
+   s:`<p class="formula">A: F = 150 × (1 + 0,12 × 3) = ${M2(A)}</p><p class="formula">B: F = 150 × (1,105)³ = ${M2(B)}</p><p><b>Conviene el Banco A</b> por ${M2(A-B)}. Aunque es "simple", su tasa efectiva anual equivalente a 3 años es (1,36)^(1/3) − 1 = <b>${pct(eqA)}</b>, mayor que el 10,5 % del Banco B.</p><p class="note">Lección: no se comparan tasas de distinta naturaleza; se comparan valores finales o tasas efectivas en el mismo plazo. Si el plazo fuera más largo, el compuesto terminaría ganando.</p>`},
+  {t:'Financiación',p:'¿Qué es mejor: pagar $85 M hoy o $110 M dentro de 2 años, si el costo de oportunidad es 14 % E.A.?',
+   s:`<p class="formula">VP de $110 M = 110 / (1,14)² = ${M2(vp110)}</p><p>Para quien paga, diferir el pago cuesta hoy ${M2(vp110)}, un poco menos que $85 M: <b>conviene pagar $110 M en 2 años</b> (ahorro de ${M2(85-vp110)} en valor presente).</p><p>Para quien recibe, la conclusión es la inversa: prefiere $85 M hoy. La tasa implícita del acuerdo es (110/85)^(1/2) − 1 = ${pct(Math.pow(110/85,.5)-1)}, menor que 14 %.</p>`},
+  {t:'Capitalización',p:'Un préstamo de $200 M al 18 % nominal anual. ¿Qué resulta más económico para el deudor: capitalización semestral o mensual?',
+   s:`<p class="formula">Semestral: (1 + 0,18/2)² − 1 = ${pct(es)} E.A. → intereses de un año: ${M2(200*es)}</p><p class="formula">Mensual: (1 + 0,18/12)¹² − 1 = ${pct(em)} E.A. → intereses de un año: ${M2(200*em)}</p><p><b>Conviene la capitalización semestral</b>: con la misma tasa nominal, capitalizar con más frecuencia aumenta la tasa efectiva. Diferencia en un año: ${M2(200*(em-es))}.</p>`},
+  {t:'Renegociación',p:'Una deuda de $50 M que vence hoy. El deudor ofrece pagar $62 M dentro de 18 meses. La tasa esperada por el acreedor es 15 % E.A.',
+   s:`<p class="formula">VF de $50 M a 18 meses = 50 × (1,15)^1,5 = ${M2(vf50)}</p><p class="formula">Tasa implícita de la oferta = (62/50)^(1/1,5) − 1 = ${pct(imp)} E.A.</p><p><b>Al acreedor le conviene aceptar</b>: recibe ${M2(62-vf50)} más de lo que exigiría a 15 % (equivale a ${M2(vp62)} de hoy). Para el deudor, la refinanciación cuesta ${pct(imp)} E.A.; le conviene si su propio costo de oportunidad es mayor que esa tasa.</p>`}]);})();
+
+quiz('q1','Cuestionario de evaluación rápida',[
+ {q:'¿Cuál es la diferencia fundamental entre el interés simple y el compuesto?',o:['El simple usa tasas nominales y el compuesto tasas efectivas','En el compuesto los intereses se suman al capital y generan nuevos intereses','El compuesto solo aplica a plazos mayores de un año'],a:1,e:'En el simple los intereses se calculan siempre sobre el capital inicial; en el compuesto, sobre el capital más los intereses acumulados.'},
+ {q:'¿Por qué $50 M hoy pueden equivaler económicamente a $57 M dentro de un año?',o:['Porque la inflación siempre es del 14 %','Porque con una tasa de oportunidad del 14 % E.A., $50 M invertidos hoy se convierten en $57 M','Porque el dinero futuro vale más que el presente'],a:1,e:'50 × 1,14 = 57. Dos sumas en fechas distintas son equivalentes cuando, a la tasa de oportunidad, una se convierte en la otra.'},
+ {q:'Con la misma tasa nominal, ¿qué frecuencia de capitalización le conviene a un deudor?',o:['La más frecuente (mensual o diaria)','La menos frecuente (anual o semestral)','Da lo mismo: la tasa nominal es igual'],a:1,e:'A menor frecuencia de capitalización, menor tasa efectiva. El 18 % nominal es 18,81 % E.A. semestral y 19,56 % E.A. mensual.'}]);
+
+/* ================= SESIÓN 2 ================= */
+let anMode='v';
+function s2a(){const P=num('an-p'),i=num('an-i')/100,n=Math.max(1,Math.round(num('an-n')));
+  let A=i===0?P/n:P*i/(1-Math.pow(1+i,-n));if(anMode==='a')A=A/(1+i);
+  const F=anMode==='v'?A*(Math.pow(1+i,n)-1)/i:A*(Math.pow(1+i,n)-1)/i*(1+i);
+  stats('an-out',[{v:cop(A),l:'cuota por periodo',c:'key'},{v:cop(A*n),l:'suma simple de las cuotas'},{v:cop(A*n-P),l:'intereses implícitos'},{v:cop(F),l:'valor futuro equivalente'}]);
+  $('an-f').textContent=anMode==='v'?'A = P·i / [1 − (1+i)⁻ⁿ]   ·   Excel: =PAGO(i;n;-P)':'A = P·i / [1 − (1+i)⁻ⁿ] / (1+i)   ·   Excel: =PAGO(i;n;-P;0;1)';
+  const svg=$('an-tl');svg.innerHTML='';const show=Math.min(n,8),l=30,r=20,W=520,step=(W-l-r)/(show+ (n>show?1:0));const y=50;
+  el('line',{x1:l,x2:W-r,y1:y,y2:y,stroke:css('--ink'),'stroke-width':2},svg);
+  for(let k=0;k<=show+(n>show?1:0);k++){const x=l+k*step;el('line',{x1:x,x2:x,y1:y-5,y2:y+5,stroke:css('--ink')},svg);el('text',{x:x,y:y+20,'text-anchor':'middle'},svg,k===show+1?String(n):(k===show&&n>show?'…':String(k)));}
+  el('text',{x:l,y:16,'text-anchor':'middle',style:'fill:'+css('--green')+';font-weight:700'},svg,'P');
+  el('line',{x1:l,x2:l,y1:y-6,y2:22,stroke:css('--green'),'stroke-width':2},svg);
+  const pays=[];for(let k=0;k<n;k++)pays.push(anMode==='v'?k+1:k);
+  pays.forEach(p=>{let pos;if(p<show)pos=p;else if(p===n-(anMode==='v'?0:1)&&n>show)pos=show+1;else if(p===show&&n<=show)pos=show;else return;
+    const x=l+pos*step+(anMode==='a'&&pos===0?6:0);el('line',{x1:x,x2:x,y1:y+28,y2:y+60,stroke:css('--copper'),'stroke-width':2},svg);el('text',{x:x,y:y+72,'text-anchor':'middle',style:'fill:'+css('--copper')+';font-weight:700'},svg,'A');});
+  el('text',{x:W-r,y:16,'text-anchor':'end'},svg,anMode==='v'?'Primer pago al final del periodo 1':'Primer pago en el momento cero');}
+$('an-v').addEventListener('click',()=>{anMode='v';$('an-v').setAttribute('aria-pressed','true');$('an-a').setAttribute('aria-pressed','false');s2a();});
+$('an-a').addEventListener('click',()=>{anMode='a';$('an-a').setAttribute('aria-pressed','true');$('an-v').setAttribute('aria-pressed','false');s2a();});
+['an-p','an-i','an-n'].forEach(i=>$(i).addEventListener('input',s2a));
+
+let grMode='a';
+function s2g(){const A=num('gr-A'),G=num('gr-G'),i=num('gr-i')/100,n=Math.max(1,Math.min(360,Math.round(num('gr-n'))));
+  $('gr-Gl').firstChild.textContent=grMode==='a'?'Aumento por periodo ($) ':'Crecimiento por periodo (%) ';
+  const pay=[];for(let k=1;k<=n;k++)pay.push(grMode==='a'?A+G*(k-1):A*Math.pow(1+G/100,k-1));
+  const vp=pay.reduce((s,x,k)=>s+x/Math.pow(1+i,k+1),0);
+  let closed;if(grMode==='a'){const pa=(1-Math.pow(1+i,-n))/i;closed=A*pa+G/i*(pa-n/Math.pow(1+i,n));}else{const g=G/100;closed=Math.abs(i-g)<1e-12?A*n/(1+i):A*(1-Math.pow((1+g)/(1+i),n))/(i-g);}
+  stats('gr-out',[{v:cop(vp),l:'valor presente (suma pago a pago)',c:'key'},{v:cop(closed),l:'valor presente con la fórmula'},{v:cop(pay[n-1]),l:'último pago'}]);
+  const svg=$('gr-chart');svg.innerHTML='';const W=520,H=170,l=50,r=10,t=10,b=22;const mx=Math.max(...pay,1),bw=(W-l-r)/n;
+  for(let g=0;g<=3;g++){const v=mx*g/3,y=t+(H-t-b)*(1-g/3);el('line',{x1:l,x2:W-r,y1:y,y2:y,stroke:css('--line')},svg);el('text',{x:l-6,y:y+4,'text-anchor':'end'},svg,nf1.format(v/1e6)+' M');}
+  pay.forEach((x,k)=>{const h=(H-t-b)*x/mx,hp=(H-t-b)*(x/Math.pow(1+i,k+1))/mx;el('rect',{x:l+k*bw+bw*.1,y:H-b-h,width:Math.max(1,bw*.8),height:h,fill:css('--panel2')},svg);el('rect',{x:l+k*bw+bw*.1,y:H-b-hp,width:Math.max(1,bw*.8),height:hp,fill:css('--copper')},svg);});
+  el('text',{x:l,y:H-6},svg,'1');el('text',{x:W-r,y:H-6,'text-anchor':'end'},svg,String(n));el('text',{x:W-r,y:t+10,'text-anchor':'end'},svg,'gris: pago · cobre: su valor presente');}
+$('gr-a').addEventListener('click',()=>{grMode='a';$('gr-a').setAttribute('aria-pressed','true');$('gr-g').setAttribute('aria-pressed','false');$('gr-G').value=150000;$('gr-G').step=10000;s2g();});
+$('gr-g').addEventListener('click',()=>{grMode='g';$('gr-g').setAttribute('aria-pressed','true');$('gr-a').setAttribute('aria-pressed','false');$('gr-G').value=1;$('gr-G').step=0.1;s2g();});
+['gr-A','gr-G','gr-i','gr-n'].forEach(i=>$(i).addEventListener('input',s2g));
+
+function amort(P,ea,n,sys,x){const i=Math.pow(1+ea,1/12)-1,rows=[];let s=P;
+  const gr=6;let A;
+  if(sys==='fija')A=P*i/(1-Math.pow(1+i,-n));
+  if(sys==='crec'){const g=x;A=Math.abs(i-g)<1e-12?P*(1+i)/n:P*(i-g)/(1-Math.pow((1+g)/(1+i),n));}
+  const Ag=sys==='gracia'?P*i/(1-Math.pow(1+i,-(n-gr))):0;
+  for(let k=1;k<=n;k++){const it=s*i;let c,ab;
+    if(sys==='fija'){c=A;ab=c-it;}else if(sys==='abono'){ab=P/n;c=ab+it;}else if(sys==='crec'){c=A*Math.pow(1+x,k-1);ab=c-it;}else{if(k<=gr){c=it;ab=0;}else{c=Ag;ab=c-it;}}
+    const si=s;s=s-ab;rows.push({k,si,c,it,ab,sf:Math.abs(s)<0.5?0:s});}
+  return {i,rows};}
+function s2m(){const P=num('am-p'),ea=num('am-ea')/100,n=Math.max(2,Math.min(360,Math.round(num('am-n')))),sys=$('am-s').value,x=num('am-x')/100,kk=Math.max(1,Math.min(n,Math.round(num('am-k'))));
+  $('am-xl').hidden=sys!=='crec';const {i,rows}=amort(P,ea,n,sys,x);const ti=rows.reduce((a,r)=>a+r.it,0);
+  stats('am-out',[{v:pct(i,4),l:'tasa mensual equivalente'},{v:cop(rows[0].c),l:'primera cuota',c:'key'},{v:cop(rows[n-1].c),l:'última cuota'},{v:cop(ti),l:'total de intereses'},{v:cop(rows[kk-1].sf),l:`saldo al final del mes ${kk}`},{v:pct(1-rows[kk-1].sf/P,1),l:'capital pagado a esa fecha'}]);
+  const svg=$('am-chart');svg.innerHTML='';const W=1000,H=200,l=60,r=10,t=10,b=22;const mx=Math.max(...rows.map(r=>r.c));const bw=(W-l-r)/n;
+  for(let g=0;g<=3;g++){const v=mx*g/3,y=t+(H-t-b)*(1-g/3);el('line',{x1:l,x2:W-r,y1:y,y2:y,stroke:css('--line')},svg);el('text',{x:l-6,y:y+4,'text-anchor':'end'},svg,nf1.format(v/1e6)+' M');}
+  rows.forEach((r,k)=>{const hi=(H-t-b)*r.it/mx,ha=(H-t-b)*r.ab/mx;el('rect',{x:l+k*bw,y:H-b-hi,width:Math.max(.6,bw*.85),height:hi,fill:css('--red')},svg);el('rect',{x:l+k*bw,y:H-b-hi-ha,width:Math.max(.6,bw*.85),height:Math.max(0,ha),fill:css('--green')},svg);});
+  el('text',{x:l,y:H-6},svg,'mes 1');el('text',{x:W-r,y:H-6,'text-anchor':'end'},svg,'mes '+n);el('text',{x:W-r,y:t+12,'text-anchor':'end'},svg,'rojo: intereses · verde: abono a capital');
+  $('am-tab').innerHTML='<thead><tr><th>Mes</th><th>Saldo inicial</th><th>Cuota</th><th>Intereses</th><th>Abono a capital</th><th>Saldo final</th></tr></thead><tbody>'+rows.map(r=>`<tr${r.k===kk?' style="background:var(--panel2)"':''}><td>${r.k}</td><td>${cop(r.si)}</td><td>${cop(r.c)}</td><td>${cop(r.it)}</td><td>${cop(r.ab)}</td><td>${cop(r.sf)}</td></tr>`).join('')+'</tbody>';}
+['am-p','am-ea','am-n','am-s','am-x','am-k'].forEach(i=>$(i).addEventListener('input',s2m));
+
+(function(){const P=180e6,{rows:rf,i}=amort(P,.13,180,'fija'),{rows:ra}=amort(P,.13,180,'abono');const tif=rf.reduce((a,r)=>a+r.it,0),tia=ra.reduce((a,r)=>a+r.it,0);
+  const c48=36e6*0.012/(1-Math.pow(1.012,-48));const sal24=c48*(1-Math.pow(1.012,-24))/0.012;
+  exercises('t2',[
+  {t:'Crédito de vivienda: cuota y saldo',p:'Un crédito de vivienda de $180 M a 15 años (180 cuotas mensuales) con tasa de 13 % E.A. Calcule la tasa mensual, la cuota fija y el saldo después de pagar 60 cuotas.',
+   s:`<p class="formula">i = (1,13)^(1/12) − 1 = ${pct(i,4)} mensual</p><p class="formula">Cuota = 180.000.000 × i / [1 − (1+i)⁻¹⁸⁰] = ${cop(rf[0].c)}</p><p class="formula">Saldo después de 60 cuotas = VP de las 120 restantes = ${cop(rf[59].sf)}</p><p>Después de cinco años se ha pagado solo el <b>${pct(1-rf[59].sf/P,1)}</b> del capital: al principio la cuota es casi toda intereses. Use la tabla de amortización de arriba para verlo mes a mes.</p>`},
+  {t:'Mismo crédito con abono constante',p:'Con el mismo crédito, calcule la primera y la última cuota si se paga con abono constante a capital, y compare el total de intereses con el sistema de cuota fija.',
+   s:`<p class="formula">Abono mensual = 180.000.000 / 180 = ${cop(P/180)}</p><p>Primera cuota: ${cop(ra[0].c)}. Última: ${cop(ra[179].c)}.</p><p>Total de intereses: cuota fija ${cop(tif)}; abono constante ${cop(tia)}.</p><p><b>Para discutir:</b> ambos sistemas tienen el mismo valor presente a la tasa del crédito ($180 M). Se pagan menos intereses porque se devuelve el capital antes; el criterio de elección es la capacidad de pago de cada mes.</p>`},
+  {t:'Crédito de vehículo: proyección de saldo',p:'Un vehículo de $36 M se financia a 48 meses con tasa de 1,2 % mensual. ¿Cuál es la cuota y cuánto se debe después de la cuota 24?',
+   s:`<p class="formula">Cuota = 36.000.000 × 0,012 / [1 − (1,012)⁻⁴⁸] = ${cop(c48)}</p><p class="formula">Saldo después de la cuota 24 = VP de 24 cuotas restantes = ${cop(sal24)}</p><p>Mitad del plazo, pero más de la mitad de la deuda: ${pct(sal24/36e6,1)} del capital sigue pendiente.</p>`}]);})();
+
+const chk=['Ubiqué el momento cero en la línea de tiempo antes de usar cualquier fórmula.','Verifiqué si el primer pago ocurre en el momento cero (anticipada) o al final del primer periodo (vencida).','En Excel puse 1 en el último argumento de VA o PAGO solo si la anualidad es anticipada.','La tasa y los periodos están en la misma unidad (pagos mensuales con tasa mensual).','Convertí la tasa efectiva anual a mensual con (1 + E.A.)^(1/12) − 1 y no dividiendo entre 12.','En una anualidad diferida, conté bien los periodos de gracia antes del primer pago.','En un gradiente, el primer pago es A y el aumento empieza en el segundo periodo.','Revisé que el saldo final de la tabla de amortización sea cero.'];
+$('chk2').innerHTML=chk.map((c,i)=>`<li><label for="ck${i}"><input type="checkbox" id="ck${i}">${c}</label></li>`).join('');
+function chkUpd(){const n=[...document.querySelectorAll('#chk2 input')].filter(x=>x.checked).length;$('chk2n').textContent=`${n} de ${chk.length} verificaciones hechas.`;}
+document.querySelectorAll('#chk2 input').forEach(x=>x.addEventListener('change',chkUpd));chkUpd();
+quiz('q2','Preguntas del conversatorio',[
+ {q:'Un arriendo de 12 meses se paga al inicio de cada mes. ¿Qué tipo de anualidad es?',o:['Vencida','Anticipada','Diferida'],a:1,e:'El primer pago ocurre en el momento cero. Su valor presente es el de la vencida multiplicado por (1 + i).'},
+ {q:'En una tabla de cuota fija, ¿qué pasa con los intereses de cada cuota a lo largo del tiempo?',o:['Son constantes','Disminuyen, porque se calculan sobre un saldo cada vez menor','Aumentan'],a:1,e:'La cuota es fija, pero los intereses bajan y el abono a capital sube.'},
+ {q:'¿Cuál sistema de amortización es más barato a la tasa del crédito?',o:['El de abono constante, porque paga menos intereses','El de cuota fija','Todos tienen el mismo valor presente: cambia el perfil de pagos'],a:2,e:'Descontados a la tasa del crédito, todos valen el monto prestado. La diferencia en intereses se explica por la velocidad con que se devuelve el capital.'}]);
+
+/* ================= SESIÓN 3 ================= */
+const proj={A:[-120,40,40,40,40,50],B:[-260,82,82,82,82,112]};
+function pvTable(){let h='<thead><tr><th>Proyecto</th>'+[0,1,2,3,4,5].map(t=>`<th>Año ${t}</th>`).join('')+'</tr></thead><tbody>';
+  ['A','B'].forEach(p=>{h+=`<tr><td>Máquina ${p}</td>`+proj[p].map((v,t)=>`<td><input type="number" id="pv-${p}${t}" value="${v}" step="1" aria-label="Máquina ${p}, año ${t}" style="width:84px;text-align:right;font-family:var(--mono)"></td>`).join('')+'</tr>';});
+  $('pv-in').innerHTML=h+'</tbody>';
+  ['A','B'].forEach(p=>proj[p].forEach((_,t)=>$(`pv-${p}${t}`).addEventListener('input',()=>{proj[p][t]=parseFloat($(`pv-${p}${t}`).value)||0;s3();})));}
+function s3(){const k=num('pv-k')/100;const A=proj.A,B=proj.B;const res={};
+  ['A','B'].forEach(p=>{const f=proj[p];const v=npv(k,f),r=irr(f);const ben=f.slice(1).reduce((a,x,t)=>a+x/Math.pow(1+k,t+1),0);res[p]={v,r,bc:ben/(-f[0])};});
+  const inc=B.map((x,t)=>x-A[t]),fis=irr(inc);
+  stats('pv-out',[{v:M2(res.A.v),l:'VPN máquina A',c:res.A.v>=res.B.v?'key':''},{v:M2(res.B.v),l:'VPN máquina B',c:res.B.v>res.A.v?'key':''},{v:pct(res.A.r),l:'TIR máquina A',c:res.A.r>res.B.r?'good':''},{v:pct(res.B.r),l:'TIR máquina B',c:res.B.r>res.A.r?'good':''},{v:nf2.format(res.A.bc),l:'B/C máquina A'},{v:nf2.format(res.B.bc),l:'B/C máquina B'},{v:isNaN(fis)?'—':pct(fis),l:'tasa de Fisher (TIR de B − A)'}]);
+  const best=res.A.v>=res.B.v?'A':'B';const tirBest=res.A.r>=res.B.r?'A':'B';
+  $('pv-msg').textContent=(res.A.v<0&&res.B.v<0)?'Ninguna máquina crea valor a esta tasa: VPN negativo en ambas.':(best!==tirBest?`Conflicto: la TIR favorece a la máquina ${tirBest}, pero el VPN favorece a la ${best}. Como son excluyentes, se elige la ${best}: crea ${M2(Math.abs(res.A.v-res.B.v))} más de valor a ${pct(k,1)}.`:`VPN y TIR coinciden: se elige la máquina ${best}.`);
+  const svg=$('pv-chart');svg.innerHTML='';const W=520,H=260,l=48,r=12,t=14,b=30;const rates=[];for(let x=0;x<=0.35+1e-9;x+=0.01)rates.push(x);
+  const va=rates.map(x=>npv(x,A)),vb=rates.map(x=>npv(x,B));const mx=Math.max(...va,...vb),mn=Math.min(...va,...vb,0);
+  const X=x=>l+(W-l-r)*x/0.35,Y=v=>t+(H-t-b)*(1-(v-mn)/(mx-mn||1));
+  for(let g=0;g<=4;g++){const v=mn+(mx-mn)*g/4;el('line',{x1:l,x2:W-r,y1:Y(v),y2:Y(v),stroke:css('--line')},svg);el('text',{x:l-6,y:Y(v)+4,'text-anchor':'end'},svg,nf0.format(v));}
+  el('line',{x1:l,x2:W-r,y1:Y(0),y2:Y(0),stroke:css('--ink'),'stroke-width':1},svg);
+  [0,0.05,0.1,0.15,0.2,0.25,0.3,0.35].forEach(x=>el('text',{x:X(x),y:H-10,'text-anchor':'middle'},svg,Math.round(x*100)+'%'));
+  const path=a=>a.map((v,k)=>(k?'L':'M')+X(rates[k]).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
+  el('path',{d:path(va),fill:'none',stroke:css('--muted'),'stroke-width':2.5},svg);el('path',{d:path(vb),fill:'none',stroke:css('--copper'),'stroke-width':2.5},svg);
+  el('line',{x1:X(k),x2:X(k),y1:t,y2:H-b,stroke:css('--green'),'stroke-dasharray':'4 3'},svg);el('text',{x:X(k)+4,y:t+10,style:'fill:'+css('--green')+';font-weight:700'},svg,'k = '+pct(k,1));
+  el('text',{x:l+6,y:Y(va[0])-6,style:'fill:'+css('--muted')+';font-weight:700'},svg,'A');el('text',{x:l+6,y:Y(vb[0])-6,style:'fill:'+css('--copper')+';font-weight:700'},svg,'B');
+  el('text',{x:W-r,y:t+10,'text-anchor':'end'},svg,'VPN (M$) según la tasa');}
+$('pv-k').addEventListener('input',s3);
+quiz('q3','Para cerrar la discusión',[
+ {q:'Un proyecto tiene VPN de $20 M a una tasa del 14 %. ¿Qué significa?',o:['Rinde exactamente 14 %','Rinde más que 14 % y crea $20 M de valor de hoy','Recupera la inversión en un año'],a:1,e:'Un VPN positivo significa que, después de remunerar el capital al 14 %, sobran $20 M en valor presente.'},
+ {q:'Entre dos proyectos excluyentes, A tiene mayor TIR y B mayor VPN. ¿Cuál se elige?',o:['A, porque es más rentable','B, porque crea más valor','Ninguno'],a:1,e:'El VPN mide la riqueza creada en pesos. La TIR es una proporción y no considera la escala de la inversión.'},
+ {q:'Si la relación B/C de un proyecto es 0,95, el VPN es…',o:['Positivo','Negativo','Cero'],a:1,e:'B/C menor que 1 significa que el valor presente de los beneficios no alcanza a cubrir la inversión.'}]);
+
+/* ================= SESIÓN 4 ================= */
+function s4(){const prov=num('w-prov'),cp=num('w-cp'),lp=num('w-lp'),pat=num('w-pat'),kcp=num('w-kcp')/100,klp=num('w-klp')/100,t=num('w-t')/100;
+  const ke=num('w-rf')/100+num('w-b')*num('w-prm')/100+num('w-pa')/100;const CI=cp+lp+pat;const ebit=num('w-vt')-num('w-cv')-num('w-go');const uodi=ebit*(1-t);
+  const comp=[['Deuda CP',cp,kcp*(1-t)],['Deuda LP',lp,klp*(1-t)],['Patrimonio',pat,ke]];const w=CI?comp.reduce((a,c)=>a+c[1]/CI*c[2],0):0;const roic=CI?uodi/CI:0;const eva=uodi-w*CI;
+  $('w-tab').innerHTML='<thead><tr><th>Fuente</th><th>Valor</th><th>Peso</th><th>Costo neto</th><th>Aporte</th></tr></thead><tbody>'+comp.map(c=>`<tr><td>${c[0]}</td><td>${M(c[1])}</td><td>${pct(CI?c[1]/CI:0,1)}</td><td>${pct(c[2])}</td><td>${pct(CI?c[1]/CI*c[2]:0)}</td></tr>`).join('')+`<tr><td><b>Total</b></td><td>${M(CI)}</td><td>100 %</td><td></td><td><b>${pct(w)}</b></td></tr></tbody>`;
+  stats('w-out',[{v:pct(ke),l:'Ke (CAPM ajustado)'},{v:pct(w),l:'WACC',c:'key'},{v:M(ebit),l:'utilidad operativa (EBIT)'},{v:M(uodi),l:'UODI = EBIT × (1 − t)'},{v:pct(roic),l:'ROIC = UODI / capital invertido'},{v:M(eva),l:'EVA del último año',c:eva>=0?'good':'bad'}]);
+  $('w-msg').textContent=eva>=0?`La empresa crea valor: su ROIC (${pct(roic)}) supera el WACC (${pct(w)}) en ${pct(roic-w)}, y ese margen sobre ${M(CI)} de capital genera un EVA de ${M(eva)}. Los proveedores no entran en el capital invertido porque no tienen un costo financiero explícito.`:`La empresa destruye valor: su ROIC (${pct(roic)}) no alcanza a cubrir el WACC (${pct(w)}). Aunque tenga utilidad contable, no remunera lo que exige su capital.`;
+  const svg=$('w-chart');svg.innerHTML='';const W=520,l=150,r=60,mx=Math.max(roic,w,0.01)*1.15;
+  [['ROIC',roic,css('--green')],['WACC',w,css('--copper')]].forEach((d,k)=>{const y=20+k*55,len=(W-l-r)*Math.max(0,d[1])/mx;el('text',{x:l-10,y:y+22,'text-anchor':'end',style:'font-weight:700;fill:'+css('--ink')},svg,d[0]);el('rect',{x:l,y:y,width:len,height:34,fill:d[2],rx:4},svg);el('text',{x:l+len+6,y:y+22},svg,pct(d[1]));});}
+['w-prov','w-cp','w-kcp','w-lp','w-klp','w-pat','w-vt','w-cv','w-go','w-t','w-rf','w-b','w-prm','w-pa'].forEach(i=>$(i).addEventListener('input',s4));
+quiz('q4','Preparación del examen final',[
+ {q:'¿Cuál tasa es mayor: 24 % N.M.V. o 26 % E.A.?',o:['24 % N.M.V.','26 % E.A.','Son iguales'],a:1,e:'24 % N.M.V. equivale a 26,82 % E.A., que es mayor que 26 % E.A.'},
+ {q:'El saldo de un crédito después de pagar k cuotas es…',o:['El monto inicial menos la suma de las cuotas pagadas','El valor presente de las cuotas que faltan, a la tasa del crédito','La suma de las cuotas que faltan'],a:1,e:'Restar cuotas mezcla capital e intereses; el saldo es el valor presente de lo pendiente.'},
+ {q:'¿Por qué el costo de la deuda se multiplica por (1 − t) en el WACC?',o:['Porque los bancos cobran menos a las empresas grandes','Porque los intereses son deducibles del impuesto de renta','Porque la deuda es de corto plazo'],a:1,e:'El escudo fiscal reduce el costo efectivo de la deuda.'},
+ {q:'Una empresa con utilidad contable positiva puede tener EVA negativo si…',o:['Su ROIC es menor que su WACC','Paga muchos impuestos','Tiene más deuda que patrimonio'],a:0,e:'El EVA descuenta el costo de todo el capital, incluido el de los accionistas, que la contabilidad no registra como gasto.'},
+ {q:'Un proyecto se evalúa con un VPN positivo al WACC. Entonces…',o:['Su TIR es mayor que el WACC','Su TIR es menor que el WACC','Su TIR es igual al WACC'],a:0,e:'En proyectos convencionales, VPN > 0 al WACC equivale a TIR > WACC.'}]);
+
+
+const CR=[{"t":"Capital de trabajo con cuota fija cada 45 días","ctx":"Una distribuidora de insumos agrícolas necesita financiar inventario para la temporada de siembra.","d":"Un banco le presta <b>$65.894.756</b> a una tasa del <b>9,85 % N.A.A.A.</b> (nominal anual con capitalización anual anticipada), a <b>24 meses</b>, con <b>cuotas fijas cada 45 días vencidos</b>. Use año comercial de 360 días.","q":["Convierta la tasa a efectiva anual y luego a efectiva por periodo de 45 días.","¿Cuántos pagos hará la empresa?","Calcule la cuota fija y construya la tabla de amortización.","¿Cuánto debe la empresa justo después del pago 8 (mitad del plazo)? ¿Por qué no es la mitad del préstamo?","¿Cuánto paga en total de intereses?"],"a":["E.A. = 0,0985/(1 − 0,0985) = 10,9262 %; tasa de 45 días = (1 + E.A.)^(45/360) − 1 = 1,3046 %.","16 pagos (24 × 30 / 45).","Cuota = $4.589.916,60 (=PAGO(i;16;-65894756)).","Saldo después del pago 8: $34.654.092,03, el 52,6 % del monto. Al principio la cuota paga más intereses, así que el capital baja más despacio.","Intereses totales: $7.543.909,67."]},{"t":"Crédito de inversión con abonos iguales a capital","ctx":"Una empresa de logística compra una flota de montacargas.","d":"Financia <b>$951.963.241</b> a una tasa del <b>11,23 % N.T.A.</b> (nominal anual trimestre anticipado), a <b>48 meses</b>, con <b>abonos iguales a capital</b> y <b>pagos bimestrales vencidos</b>.","q":["Convierta la tasa a trimestral vencida y luego a bimestral vencida. ¿Cuál es la tasa efectiva anual?","¿Cuántos pagos hay y cuál es el abono a capital de cada uno?","Calcule la primera y la última cuota y construya la tabla.","Compare el total de intereses con el que se pagaría con cuota fija. ¿Cuál sistema es \"más barato\"?"],"a":["Trimestral anticipada = 2,8075 %; trimestral vencida = 2,8886 %; bimestral vencida = (1 + TV)^(2/3) − 1 = 1,9166 %; E.A. = 12,06 %.","24 bimestres; abono = $39.665.135,04.","Primera cuota: $57.910.248,63; última: $40.425.348,11.","Abono constante: $228.063.919,89 de intereses; cuota fija ($49.856.956,63 por bimestre): $244.603.718,04. Ninguno es más barato: ambos tienen valor presente igual al monto a la tasa del crédito. El abono constante paga menos intereses porque devuelve el capital antes."]},{"t":"Leasing financiero con opción de compra","ctx":"Una clínica adquiere un equipo de resonancia magnética mediante leasing.","d":"El equipo vale <b>$654.321.789</b>. La tasa es <b>14,69 % N.A.D.A.</b> (nominal anual día anticipado, año de 360 días), el plazo <b>8 años</b>, los cánones <b>cuatrimestrales vencidos</b> y la <b>opción de compra del 11 %</b> se paga al final.","q":["Convierta la tasa a diaria vencida y luego a cuatrimestral vencida.","¿Cuál es el valor de la opción de compra y cuál el canon?","Construya la tabla. ¿Cuál es el saldo justo antes de ejercer la opción?","¿Por qué la opción de compra reduce el canon?"],"a":["Diaria vencida = (0,1469/360)/(1 − 0,1469/360); cuatrimestral = (1 + dv)^120 − 1 = 5,0196 % (E.A. 15,83 %).","Opción: $71.975.396,79; canon = $45.896.467,89 (=PAGO(i;24;-654321789;71975396,79)).","Saldo antes de la opción: $71.975.396,79, exactamente el valor de la opción.","Porque una parte del valor del equipo no se amortiza con cánones: se paga al final con la opción."]},{"t":"Crédito de fomento con gracia muerta","ctx":"Una agroindustria financia una planta de procesamiento con una línea de fomento.","d":"El crédito es de <b>$1.456.214.789</b>, a una tasa del <b>15,11 % N.A.B.A.</b> (nominal anual bimestre anticipado), con plazo total de <b>60 trimestres</b>. Se paga en <b>semestres vencidos</b> con <b>abonos iguales a capital</b>, después de <b>3 años de gracia muerta</b>: en la gracia no se paga nada y los intereses se suman al saldo.","q":["Convierta la tasa a bimestral vencida y luego a semestral vencida.","¿Cuántos semestres de gracia y cuántos de amortización hay?","¿Cuál es el saldo al final de la gracia?","Calcule el abono constante, la primera y la última cuota.","Compare el total pagado con el monto prestado y explique la diferencia."],"a":["Bimestral vencida = 2,5834 %; semestral vencida = (1 + BV)³ − 1 = 7,9521 % (E.A. 16,54 %).","6 semestres de gracia y 24 de amortización (30 en total).","Saldo al final de la gracia: 1.456.214.789 × (1 + i)⁶ = $2.304.689.444,57.","Abono: $96.028.726,86; primera cuota (semestre 7): $279.300.322,62; última: $103.665.043,35.","Total pagado: $4.595.584.391,61; intereses totales: $3.139.369.602,61. La gracia muerta alivia la caja al inicio, pero los intereses capitalizados aumentan la deuda un 58,3 %."]},{"t":"Crédito de fomento con gracia simple","ctx":"Una empresa de energía solar financia un parque con una línea de fomento.","d":"El crédito es de <b>$980.000.000</b> a una tasa del <b>14,65 % E.A.</b> (N.A.A.V.), a <b>96 meses</b>, con <b>pagos trimestrales vencidos</b> y <b>abonos iguales a capital</b>. Los primeros <b>5 trimestres</b> son de <b>gracia simple</b>: solo se pagan intereses.","q":["Calcule la tasa trimestral vencida.","¿Cuánto paga en cada trimestre de gracia?","¿Cuál es el abono constante y en cuántos trimestres se amortiza?","Calcule la cuota del trimestre 6 y la última cuota.","Compare con el crédito anterior: ¿qué diferencia hay entre gracia simple y gracia muerta para el flujo de caja de la empresa?"],"a":["(1,1465)^(1/4) − 1 = 3,4769 %.","$34.073.865,84 por trimestre (solo intereses).","$36.296.296,30 durante 27 trimestres.","Trimestre 6: $70.370.162,14; última: $37.558.291,33. Intereses totales: $647.403.450,95.","En la gracia simple la empresa paga intereses desde el inicio y el saldo no crece; en la gracia muerta no paga nada, pero la deuda aumenta."]},{"t":"Cuota fija trimestral con tasa bimestral","ctx":"Una constructora financia maquinaria pesada.","d":"El crédito es de <b>$895.421.365</b> a una tasa del <b>2,72 % bimestral vencida</b>, a <b>9 años</b>, con <b>cuota fija trimestral vencida</b>.","q":["Convierta la tasa bimestral a trimestral. ¿Cuál es la tasa efectiva anual?","Calcule la cuota y construya la tabla.","¿Cuánto paga de intereses en total?"],"a":["Trimestral = (1,0272)^(3/2) − 1 = 4,1076 %; E.A. = 17,47 %.","Cuota: $48.064.190,00 durante 36 trimestres.","Intereses: $834.889.474,95."]},{"t":"Cuota creciente: gradiente aritmético mensual","ctx":"Una cadena de restaurantes financia su expansión y espera que sus ingresos crezcan cada mes.","d":"El crédito es de <b>$1.254.698.741</b> a una tasa del <b>12,67 % N.A.D.A.</b> (año de 360 días), a <b>12 años</b>, con <b>cuotas mensuales vencidas</b> que <b>aumentan $110.000 cada mes</b>.","q":["Convierta la tasa a mensual vencida (mes de 30 días).","Calcule la primera y la última cuota.","Construya la tabla. ¿Cuánto se debe después de la cuota 60?","¿En qué meses la cuota no alcanza a cubrir los intereses? ¿Qué implica para el saldo?"],"a":["Mensual = (1 + dv)^30 − 1 = 1,0616 % (E.A. 13,51 %).","Primera cuota: $11.114.518,63; última: $26.844.518,63.","Saldo después de la cuota 60: $1.196.935.704,70; en cinco años se ha amortizado apenas el 4,6 % del capital.","En los meses 1 a 23 la cuota es menor que los intereses (en el mes 1, intereses de $13.320.066,73 frente a una cuota de $11.114.518,63). Hay amortización negativa: el saldo sube hasta unos $1.281.802.273 en el mes 23 y solo después empieza a bajar. Es el costo de empezar con cuotas bajas."]},{"t":"Cuota creciente: gradiente geométrico anual","ctx":"Una empresa de tecnología con ventas que crecen 11 % al año toma un crédito con cuotas crecientes.","d":"El crédito es de <b>$549.875.412</b> a una tasa del <b>2,6433 % trimestral vencida</b> (equivalente a 11 % E.A.), a <b>12 años</b>, con <b>cuotas anuales vencidas</b> que <b>crecen 11 % cada año</b>.","q":["Compruebe que la tasa equivale a 11 % E.A.","La tasa y el crecimiento son iguales. ¿Qué fórmula aplica para la primera cuota? Calcúlela.","Construya la tabla. ¿Qué pasa con el saldo el primer año? Explique por qué.","¿Cuál es la última cuota?"],"a":["(1,026433)⁴ − 1 = 11,00 %.","Si g = i, la fórmula general se indetermina; se usa P = A·n/(1+i), de donde A = P(1+i)/n = $50.863.475,61.","El saldo sube a $559.498.231,71: la primera cuota es menor que los intereses del año ($60.486.295,32). Es amortización negativa; el saldo baja desde el año 2 y llega a cero en el año 12.","Última cuota: $160.309.330,28."]},{"t":"Cuota decreciente: gradiente aritmético trimestral","ctx":"Una generadora de energía financia una subestación y prefiere pagar más al inicio, cuando tiene contratos firmes.","d":"El crédito es de <b>$13.548.796.214</b> a una tasa del <b>21,21 % N.A.Q.A.</b> (nominal anual quincena anticipada), a <b>5 años</b>, con <b>cuotas trimestrales vencidas</b> que <b>disminuyen $850.000 cada trimestre</b>.","q":["Convierta la tasa a quincenal vencida y luego a trimestral vencida.","Calcule la primera y la última cuota.","Construya la tabla y verifique que el saldo final sea cero.","¿Es relevante el gradiente frente al tamaño de la cuota? ¿Qué cambiaría si disminuyera $50 millones por trimestre?"],"a":["Quincenal vencida = 0,0088375/(1 − 0,0088375); trimestral = (1 + qv)⁶ − 1 = 5,4705 % (E.A. 23,74 %).","Primera cuota: $1.137.574.341,98; última: $1.121.424.341,98.","Intereses totales: $9.041.190.625,59.","El gradiente es muy pequeño frente a la cuota (menos del 0,1 %), así que se comporta casi como una cuota fija. Con $50 millones por trimestre la cuota inicial sería mucho mayor y la diferencia entre sistemas se vería con claridad: buen ejercicio para modificar en el Excel."]}];
+const FXD={"fam":[{"name":"Valor del dinero en el tiempo y tasas","intro":["Las cinco primeras funciones resuelven la misma ecuación: dados cuatro de los cinco valores (tasa, número de periodos, pago, valor presente y valor futuro), calculan el quinto."],"rows":[{"es":["PAGO"],"en":"PMT","sx":"PAGO(tasa; nper; va; [vf]; [tipo])","dv":"Cuota fija de un crédito o una anualidad","ej":"Crédito de $180 M, 180 meses, 13 % E.A.: =PAGO(i;180;-180000000) → <b>$2.193.324</b>"},{"es":["VA"],"en":"PV","sx":"VA(tasa; nper; pago; [vf]; [tipo])","dv":"Valor presente de una serie de pagos o de un monto futuro","ej":"12 arriendos anticipados de $4,5 M al 1,2 %: =VA(1,2%;12;-4500000;0;1) → <b>$50.613.816</b>"},{"es":["VF"],"en":"FV","sx":"VF(tasa; nper; pago; [va]; [tipo])","dv":"Valor futuro de una serie o de un monto presente","ej":"Ahorro de $3 M al mes durante 24 meses al 0,9 %: =VF(0,9%;24;-3000000) → <b>$79.967.932</b>"},{"es":["NPER"],"en":"NPER","sx":"NPER(tasa; pago; va; [vf]; [tipo])","dv":"Número de periodos","ej":"$50 M con cuotas de $2 M al 1,5 %: =NPER(1,5%;-2000000;50000000) → <b>31,57</b> cuotas"},{"es":["TASA"],"en":"RATE","sx":"TASA(nper; pago; va; [vf]; [tipo]; [estimar])","dv":"Tasa por periodo implícita","ej":"$50 M pagados con 36 cuotas de $2 M: =TASA(36;-2000000;50000000) → <b>2,1211 %</b> mensual"},{"es":["INT.EFECTIVO"],"en":"EFFECT","sx":"INT.EFECTIVO(int_nominal; núm_por_año)","dv":"Tasa efectiva anual de una nominal vencida","ej":"=INT.EFECTIVO(24%;12) → <b>26,82 %</b>"},{"es":["TASA.NOMINAL"],"en":"NOMINAL","sx":"TASA.NOMINAL(tasa_efectiva; núm_por_año)","dv":"Tasa nominal vencida de una efectiva","ej":"=TASA.NOMINAL(26,82%;12) → <b>24,00 %</b>"},{"es":["VF.PLAN"],"en":"FVSCHEDULE","sx":"VF.PLAN(capital; programación)","dv":"Valor futuro con una tasa distinta en cada periodo","ej":"$10 M a 9 %, 10,5 % y 11 %: =VF.PLAN(10000000;A1:A3), con las tasas en A1:A3 → <b>$13.369.395</b>"},{"es":["P.DURACION"],"en":"PDURATION","sx":"P.DURACION(tasa; va; vf)","dv":"Periodos para llegar a un valor objetivo (Excel 2013+)","ej":"$10 M a $15 M al 1 % mensual → <b>40,75</b> meses"},{"es":["RRI"],"en":"RRI","sx":"RRI(nper; va; vf)","dv":"Tasa de crecimiento compuesta equivalente (Excel 2013+)","ej":"De 100 a 150 en 5 años → <b>8,45 %</b> anual"}],"notes":[{"t":"Notas para clase","l":["NPER puede dar un número no entero (31,57 cuotas): la última cuota es menor. Úselo para discutir cómo se redondea un plazo real.","TASA puede devolver #¡NUM! si no converge; dé un valor en el argumento estimar (por ejemplo 1 %).","VF.PLAN es útil con créditos indexados: una tasa por año (IBR + puntos, por ejemplo)."]}]},{"name":"Funciones para tablas de amortización","intro":["Ejemplo común: crédito de vivienda de $180 M a 180 meses con 13 % E.A. (tasa mensual de 1,0237 %; cuota de $2.193.324)."],"rows":[{"es":["PAGOINT"],"en":"IPMT","sx":"PAGOINT(tasa; período; nper; va; [vf]; [tipo])","dv":"Intereses de una cuota específica (cuota fija)","ej":"Cuota 1: <b>$1.842.632</b>"},{"es":["PAGOPRIN"],"en":"PPMT","sx":"PAGOPRIN(tasa; período; nper; va; [vf]; [tipo])","dv":"Abono a capital de una cuota específica","ej":"Cuota 1: <b>$350.692</b>. PAGOINT + PAGOPRIN = PAGO."},{"es":["PAGO.INT.ENTRE"],"en":"CUMIPMT","sx":"PAGO.INT.ENTRE(tasa; nper; va; per_inicial; per_final; tipo)","dv":"Intereses acumulados entre dos cuotas","ej":"Primer año (cuotas 1 a 12): <b>$21.866.371</b>. Devuelve un valor negativo; el argumento tipo es obligatorio."},{"es":["PAGO.PRINC.ENTRE"],"en":"CUMPRINC","sx":"PAGO.PRINC.ENTRE(tasa; nper; va; per_inicial; per_final; tipo)","dv":"Capital acumulado pagado entre dos cuotas","ej":"Cuotas 1 a 60: <b>$28.860.017</b>; saldo después de 5 años: <b>$151.139.983</b>."},{"es":["INT.PAGO.DIR"],"en":"ISPMT","sx":"INT.PAGO.DIR(tasa; período; nper; va)","dv":"Intereses de un periodo con abonos iguales a capital","ej":"Primer periodo: =-INT.PAGO.DIR(i;0;180;180000000) → <b>$1.842.632</b>. Cuenta los periodos desde 0."}],"notes":[{"t":"Lo que Excel no resuelve con una sola función","l":["<b>Abono constante a capital:</b> no hay función de cuota. Se construye la tabla: abono = monto / n; intereses = saldo × i; cuota = abono + intereses.","<b>Gracia muerta:</b> primero se capitaliza el saldo con VF (o monto × (1 + i)^periodos de gracia) y luego se aplica PAGO o el abono constante sobre ese saldo.","<b>Gradientes:</b> no hay función. Se construye la columna de pagos y se descuenta con VNA, o se usan las fórmulas cerradas. Así se resuelven los créditos 7, 8 y 9 del Taller de amortización.","<b>Saldo de un crédito:</b> es el valor presente de las cuotas que faltan: =VA(i;cuotas restantes;-cuota). Coincide con monto − PAGO.PRINC.ENTRE."]}]},{"name":"Evaluación de inversiones","intro":["Ejemplo común: máquinas A (−120; 40; 40; 40; 40; 50) y B (−260; 82; 82; 82; 82; 112), en millones de pesos, con tasa de descuento de 14 %."],"rows":[{"es":["VNA"],"en":"NPV","sx":"VNA(tasa; valor1; [valor2]; …)","dv":"Valor presente de flujos desde el periodo 1","ej":"VPN de A: =VNA(14%;B7:B11)+B6 → <b>22,52</b>; de B: <b>37,09</b>"},{"es":["TIR"],"en":"IRR","sx":"TIR(valores; [estimar])","dv":"Tasa interna de retorno de flujos periódicos","ej":"A: <b>21,33 %</b>; B: <b>19,54 %</b>"},{"es":["TIRM"],"en":"MIRR","sx":"TIRM(valores; tasa_financiamiento; tasa_reinversión)","dv":"TIR con reinversión a una tasa explícita","ej":"B, financiación 14 % y reinversión 12 %: <b>16,21 %</b>"},{"es":["VNA.NO.PER"],"en":"XNPV","sx":"VNA.NO.PER(tasa; valores; fechas)","dv":"VPN con fechas irregulares (base 365)","ej":"Flujos con fechas reales: <b>26,50</b>"},{"es":["TIR.NO.PER"],"en":"XIRR","sx":"TIR.NO.PER(valores; fechas; [estimar])","dv":"TIR efectiva anual con fechas irregulares","ej":"<b>24,64 %</b> efectiva anual"}],"notes":[{"t":"Errores frecuentes","l":["<b>Meter el año 0 dentro de VNA.</b> VNA descuenta el primer valor un periodo; la inversión inicial se suma por fuera. VNA.NO.PER, en cambio, sí incluye el flujo inicial.","<b>Elegir entre excluyentes por la TIR.</b> En el ejemplo, A tiene mayor TIR y B mayor VPN: se elige B.","<b>Flujos con más de un cambio de signo.</b> TIR puede tener varias soluciones o ninguna; use VPN o TIRM."]}]},{"name":"Depreciación","intro":["Ejemplo: equipo de $120 M, valor residual de $20 M, vida útil de 5 años. La depreciación entra al flujo de caja de los proyectos porque reduce el impuesto de renta.","En Colombia, para efectos fiscales, el método más usado es la línea recta según la vida útil del activo (art. 137 del Estatuto Tributario). Los métodos acelerados sirven para discutir el efecto de la depreciación en el valor presente de los impuestos."],"rows":[{"es":["SLN"],"en":"SLN","sx":"SLN(costo; valor_residual; vida)","dv":"Línea recta","ej":"<b>$20.000.000</b> por año"},{"es":["SYD"],"en":"SYD","sx":"SYD(costo; valor_residual; vida; período)","dv":"Suma de los dígitos de los años","ej":"Año 1: <b>$33.333.333</b>"},{"es":["DB"],"en":"DB","sx":"DB(costo; valor_residual; vida; período; [mes])","dv":"Saldo fijo decreciente","ej":"Año 1: <b>$36.120.000</b>"},{"es":["DDB"],"en":"DDB","sx":"DDB(costo; valor_residual; vida; período; [factor])","dv":"Doble saldo decreciente","ej":"Año 1: <b>$48.000.000</b>"},{"es":["DVS"],"en":"VDB","sx":"DVS(costo; valor_residual; vida; per_inicial; per_final; [factor]; [sin_cambios])","dv":"Saldo decreciente entre dos periodos","ej":"Años 0 a 2: <b>$76.800.000</b>"},{"es":["AMORTIZ.LIN"],"en":"AMORLINC","sx":"AMORTIZ.LIN(costo; fecha_compra; primer_período; costo_residual; período; tasa; [base])","dv":"Depreciación lineal por periodo contable (sistema francés)","ej":"Primer periodo prorrateado: <b>$20.054.795</b>"},{"es":["AMORTIZ.PROGRE"],"en":"AMORDEGRC","sx":"AMORTIZ.PROGRE(mismos argumentos)","dv":"Depreciación con coeficiente (sistema francés)","ej":"Periodo 1: <b>$31.956.164</b>"}],"notes":[]},{"name":"Títulos de renta fija","intro":["Ejemplo: bono ficticio con cupón de 9 % anual, valor de 100, comprado el 15/10/2026 y con vencimiento el 15/10/2031 (base 1). Además, un título descontado de 180 días comprado a 95,5."],"rows":[{"es":["PRECIO"],"en":"PRICE","sx":"PRECIO(liq; vencto; tasa; rendto; amortización; frec; [base])","dv":"Precio por cada 100 de valor nominal","ej":"Si el mercado exige 10,5 %: <b>94,3857</b>"},{"es":["RENDTO"],"en":"YIELD","sx":"RENDTO(liq; vencto; tasa; pr; amortización; frec; [base])","dv":"Rendimiento al vencimiento","ej":"Comprado a 95: <b>10,33 %</b>"},{"es":["DURACION"],"en":"DURATION","sx":"DURACION(liq; vencto; cupón; rendto; frec; [base])","dv":"Duración de Macaulay en años","ej":"<b>4,22</b> años"},{"es":["DURACION.MODIF"],"en":"MDURATION","sx":"DURACION.MODIF(liq; vencto; cupón; rendto; frec; [base])","dv":"Sensibilidad del precio a la tasa","ej":"<b>3,82</b>: si la tasa sube 1 punto, el precio cae cerca de 3,8 %"},{"es":["INT.ACUM"],"en":"ACCRINT","sx":"INT.ACUM(emisión; primer_interés; liq; tasa; v_nominal; frec; [base]; [método])","dv":"Intereses corridos de un título con cupones","ej":"Bono emitido el 15/04/2026, a la liquidación: <b>4,51</b> por 100"},{"es":["INT.ACUM.V"],"en":"ACCRINTM","sx":"INT.ACUM.V(emisión; liq; tasa; v_nominal; [base])","dv":"Intereses corridos de un título que paga al vencimiento","ej":"Mismo uso, sin cupones intermedios"},{"es":["TASA.DESC"],"en":"DISC","sx":"TASA.DESC(liq; vencto; pr; amortización; [base])","dv":"Tasa de descuento sobre el valor nominal","ej":"Título de 180 días a 95,5: <b>9,00 %</b>"},{"es":["RENDTO.DESC"],"en":"YIELDDISC","sx":"RENDTO.DESC(liq; vencto; pr; amortización; [base])","dv":"Rendimiento sobre lo invertido","ej":"<b>9,42 %</b>: mayor que la tasa de descuento"},{"es":["PRECIO.DESCUENTO"],"en":"PRICEDISC","sx":"PRECIO.DESCUENTO(liq; vencto; descuento; amortización; [base])","dv":"Precio de un título descontado","ej":"Con 9 % de descuento: <b>95,50</b>"},{"es":["TASA.INT"],"en":"INTRATE","sx":"TASA.INT(liq; vencto; inversión; amortización; [base])","dv":"Tasa de interés de una inversión total","ej":"<b>9,42 %</b>"},{"es":["CANTIDAD.RECIBIDA"],"en":"RECEIVED","sx":"CANTIDAD.RECIBIDA(liq; vencto; inversión; descuento; [base])","dv":"Valor recibido al vencimiento","ej":"Invirtiendo 95,5 al 9 % de descuento: <b>100,00</b>"},{"es":["PRECIO.VENCIMIENTO","RENDTO.VENCTO"],"en":"PRICEMAT, YIELDMAT","sx":"PRECIO.VENCIMIENTO(liq; vencto; emisión; tasa; rendto; [base])","dv":"Precio y rendimiento de títulos que pagan intereses al vencimiento","ej":"Útiles para CDT con pago de intereses al final"},{"es":["CUPON.NUM","CUPON.FECHA.L1","CUPON.FECHA.L2","CUPON.DIAS","CUPON.DIAS.L1","CUPON.DIAS.L2"],"en":"","sx":"(liq; vencto; frec; [base])","dv":"Número, fechas y días de los cupones","ej":"Cupones pendientes: <b>5</b>; próximo cupón: <b>15/10/2027</b>"}],"notes":[]},{"name":"Funciones especializadas","intro":[],"rows":[{"es":["PRECIO.PER.IRREGULAR.1","RENDTO.PER.IRREGULAR.1"],"en":"ODDFPRICE, ODDFYIELD","sx":"","dv":"Precio y rendimiento de un bono con el primer periodo de cupón irregular","ej":""},{"es":["PRECIO.PER.IRREGULAR.2","RENDTO.PER.IRREGULAR.2"],"en":"ODDLPRICE, ODDLYIELD","sx":"","dv":"Igual, con el último periodo irregular","ej":""},{"es":["LETRA.DE.TES.PRECIO","LETRA.DE.TES.RENDTO","LETRA.DE.TES.EQV.A.BONO"],"en":"TBILLPRICE, TBILLYIELD, TBILLEQ","sx":"","dv":"Letras del Tesoro de EE. UU. (base 360). Ejemplo: letra a 180 días con 9 % de descuento: precio 95,525; rendimiento equivalente a bono 9,55 %","ej":""},{"es":["MONEDA.DEC","MONEDA.FRAC"],"en":"DOLLARDE, DOLLARFR","sx":"","dv":"Convierten cotizaciones en fracciones (101 1/32 = 101,03125) a decimales y viceversa","ej":""}],"notes":[]}],"rules":[{"t":"Signos","p":"Excel piensa en flujos de caja: lo que entra es positivo y lo que sale es negativo. Si presta $180 millones, el monto entra (+) y las cuotas salen (−). Por eso se escribe =PAGO(i;n;-180000000) para obtener una cuota positiva."},{"t":"Misma unidad","p":"La tasa y el número de periodos deben estar en la misma unidad. Cuotas mensuales exigen tasa mensual: (1 + E.A.)^(1/12) − 1, nunca E.A./12."},{"t":"Vencida o anticipada","p":"El argumento opcional tipo vale 0 (pagos al final del periodo, valor por defecto) o 1 (pagos al inicio)."},{"t":"Separadores","p":"En Excel configurado para Colombia los argumentos se separan con punto y coma (;) y los decimales con coma: =PAGO(1,5%;36;-50000000). Si el Excel está en inglés, las funciones aparecen con su nombre en inglés (PMT) y se separan con coma."},{"t":"Tasas anticipadas","p":"INT.EFECTIVO y TASA.NOMINAL solo trabajan con tasas vencidas. Una tasa anticipada se convierte primero a mano: i vencida = i anticipada / (1 − i anticipada)."}],"rulesNote":"Los argumentos entre corchetes son opcionales. \"liq\" es la fecha de liquidación (compra) y \"vencto\" la de vencimiento. La base de días es: 0 = 30/360 de EE. UU., 1 = días reales/días reales, 2 = reales/360, 3 = reales/365, 4 = 30/360 europea.","errs":[["La cuota sale negativa","Convención de signos","Escriba el monto con signo negativo: =PAGO(i;n;-P)"],["#¡NUM! en TASA o TIR","La función no converge","Dé un valor inicial en estimar o revise los signos de los flujos"],["#¡NUM! en NPER","La cuota no alcanza a cubrir los intereses","Aumente la cuota o revise la tasa"],["El VPN no coincide con el cálculo manual","El año 0 quedó dentro de VNA","Sume el flujo inicial por fuera de VNA"],["La cuota es demasiado alta o baja","Tasa anual con pagos mensuales","Convierta la tasa a la periodicidad de los pagos"],["#¿NOMBRE?","Nombre en inglés en un Excel en español, o al revés; o versión antigua (P.DURACION, RRI)","Use el nombre del idioma del programa"],["#¡VALOR! en funciones de títulos","Fechas escritas como texto","Use FECHA(año;mes;día) o celdas con formato de fecha"]],"ejs":[{"p":"Un crédito de $36 M a 48 meses al 1,2 % mensual. Calcule la cuota con PAGO y el saldo después de 24 cuotas con VA.","s":"=PAGO(1,2%;48;-36000000) → $990.992; saldo =VA(1,2%;24;-cuota) → $20.559.116.","t":"Cuota y saldo con PAGO y VA"},{"p":"¿Cuánto paga de intereses en el segundo año el crédito de vivienda de $180 M (cuotas 13 a 24)?","s":"Use =-PAGO.INT.ENTRE(i;180;180000000;13;24;0). Compárelo con el primer año: baja muy poco, porque el capital se amortiza despacio.","t":"Intereses del segundo año"},{"p":"Verifique que 18 % N.M.V. equivale a 19,56 % E.A. con INT.EFECTIVO y regrese con TASA.NOMINAL.","s":"=INT.EFECTIVO(18%;12) → 19,56 %; =TASA.NOMINAL(19,56%;12) → 18 %.","t":"De nominal a efectiva y de regreso"},{"p":"Calcule el VPN y la TIR de un proyecto con flujos −450, 135, 147, 159, 173 y 455 (millones) a un WACC de 20,46 %.","s":"VPN ≈ 115,9 millones (=VNA(20,46%;flujos 1 a 5) + flujo 0); TIR ≈ 29,6 %. Es el caso de la sesión de evaluación de inversiones.","t":"VPN y TIR de un proyecto"},{"p":"¿Cuántos meses tardan $20 M en duplicarse al 1,1 % mensual? Use P.DURACION y compruebe con NPER.","s":"=P.DURACION(1,1%;20000000;40000000) → 63,36 meses; =NPER(1,1%;0;-20000000;40000000) da lo mismo.","t":"Tiempo para duplicar un capital"}]};
+/* ---------- motor de los nueve créditos ---------- */
+function pmtF(i,n,P,F){return (P-F/Math.pow(1+i,n))*i/(1-Math.pow(1+i,-n));}
+const antV=a=>a/(1-a);
+const CONV={
+ 1:r=>{const ea=antV(r),i=Math.pow(1+ea,1/8)-1;return{i,ea,st:[['E.A. = '+fp(r)+' / (1 − '+fp(r)+')',ea],['i (45 días) = (1 + E.A.)^(45/360) − 1',i]]};},
+ 2:r=>{const ta=r/4,tv=antV(ta),i=Math.pow(1+tv,2/3)-1;return{i,ea:Math.pow(1+tv,4)-1,st:[['Trimestral anticipada = '+fp(r)+' / 4',ta],['Trimestral vencida = TA / (1 − TA)',tv],['i bimestral = (1 + TV)^(2/3) − 1',i]]};},
+ 3:r=>{const da=r/360,dv=antV(da),i=Math.pow(1+dv,120)-1;return{i,ea:Math.pow(1+dv,360)-1,st:[['Diaria anticipada = '+fp(r)+' / 360',da,6],['Diaria vencida = DA / (1 − DA)',dv,6],['i cuatrimestral = (1 + DV)^120 − 1',i]]};},
+ 4:r=>{const ba=r/6,bv=antV(ba),i=Math.pow(1+bv,3)-1;return{i,ea:Math.pow(1+bv,6)-1,st:[['Bimestral anticipada = '+fp(r)+' / 6',ba],['Bimestral vencida = BA / (1 − BA)',bv],['i semestral = (1 + BV)³ − 1',i]]};},
+ 5:r=>{const i=Math.pow(1+r,.25)-1;return{i,ea:r,st:[['N.A.A.V. = efectiva anual',r],['i trimestral = (1 + E.A.)^(1/4) − 1',i]]};},
+ 6:r=>{const i=Math.pow(1+r,1.5)-1;return{i,ea:Math.pow(1+r,6)-1,st:[['i trimestral = (1 + i bimestral)^(3/2) − 1',i]]};},
+ 7:r=>{const da=r/360,dv=antV(da),i=Math.pow(1+dv,30)-1;return{i,ea:Math.pow(1+dv,360)-1,st:[['Diaria anticipada = '+fp(r)+' / 360',da,6],['Diaria vencida = DA / (1 − DA)',dv,6],['i mensual = (1 + DV)^30 − 1',i]]};},
+ 8:r=>{const i=Math.pow(1+r,4)-1;return{i,ea:i,st:[['i anual = (1 + i trimestral)⁴ − 1',i]]};},
+ 9:r=>{const qa=r/24,qv=antV(qa),i=Math.pow(1+qv,6)-1;return{i,ea:Math.pow(1+qv,24)-1,st:[['Quincenal anticipada = '+fp(r)+' / 24',qa],['Quincenal vencida = QA / (1 − QA)',qv],['i trimestral = (1 + QV)⁶ − 1',i]]};}
+};
+function fp(r){return (r*100).toLocaleString('es-CO',{maximumFractionDigits:4})+' %';}
+/* sys: fija | abono | gm (gracia muerta + abono) | gs (gracia simple + abono) | grA | grG */
+function schedule(c,P,r,x){
+ const cv=CONV[c.id](r),i=cv.i,n=c.n,rows=[];let s=P,A=0,ab=0,S=null,g=0,OC=0;
+ if(c.sys==='fija'){OC=c.oc?P*x:0;A=pmtF(i,n,P,OC);}
+ if(c.sys==='abono')ab=P/n;
+ if(c.sys==='gm'){g=Math.round(x);S=P*Math.pow(1+i,g);ab=S/(n-g);}
+ if(c.sys==='gs'){g=Math.round(x);ab=P/(n-g);}
+ if(c.sys==='grA'){const a=(1-Math.pow(1+i,-n))/i;A=(P-x/i*(a-n/Math.pow(1+i,n)))/a;}
+ if(c.sys==='grG'){A=Math.abs(i-x)<1e-6?P*(1+i)/n:P*(i-x)/(1-Math.pow((1+x)/(1+i),n));}
+ for(let k=1;k<=n;k++){const it=s*i;let q,am;
+  if(c.sys==='fija'){q=A;am=A-it;}
+  else if(c.sys==='abono'){q=ab+it;am=ab;}
+  else if(c.sys==='gm'){if(k<=g){q=0;am=-it;}else{q=ab+it;am=ab;}}
+  else if(c.sys==='gs'){if(k<=g){q=it;am=0;}else{q=ab+it;am=ab;}}
+  else if(c.sys==='grA'){q=A+x*(k-1);am=q-it;}
+  else {q=A*Math.pow(1+x,k-1);am=q-it;}
+  s-=am;rows.push({k,q,it,am,s,g:k<=g});}
+ if(OC){rows.push({k:'Opción',q:OC,it:0,am:s,s:0,oc:true});}
+ return {cv,i,rows,S,g,OC,A,ab};
+}
+
+/* ================= TALLER: NUEVE CRÉDITOS ================= */
+const cop2=x=>(x<0?'−$':'$')+nf2.format(Math.abs(x));
+const plural=p=>p==='Mes'?'meses':p.toLowerCase()+'s';
+const CRM=[
+ {id:1,sys:'fija',n:16,per:'Pago',P:65894756,r:9.85,rl:'Tasa N.A.A.A. (%)',tag:'Cuota fija cada 45 días',xl:'En Excel: =PAGO(i;16;-monto) da la cuota. Por periodo: =PAGOINT(i;k;16;-monto) y =PAGOPRIN(i;k;16;-monto). Saldo después del pago 8: =VA(i;8;-cuota).'},
+ {id:2,sys:'abono',n:24,per:'Bimestre',P:951963241,r:11.23,rl:'Tasa N.T.A. (%)',tag:'Abono constante bimestral',xl:'En Excel no hay función para esta cuota: abono = monto / 24; intereses = saldo anterior × i; cuota = abono + intereses. Para comparar con cuota fija: =PAGO(i;24;-monto).'},
+ {id:3,sys:'fija',oc:1,n:24,per:'Cuatrimestre',P:654321789,r:14.69,rl:'Tasa N.A.D.A. (%)',x:11,px:1,xlab:'Opción de compra (% del valor)',tag:'Leasing, canon cuatrimestral',xl:'En Excel: =PAGO(i;24;-monto;opción). El cuarto argumento (vf) es la opción de compra, que queda sin amortizar hasta el final.'},
+ {id:4,sys:'gm',n:30,per:'Semestre',P:1456214789,r:15.11,rl:'Tasa N.A.B.A. (%)',x:6,xlab:'Semestres de gracia muerta',tag:'Gracia muerta y abono constante',xl:'En Excel: saldo al final de la gracia =VF(i;6;0;-monto); abono = ese saldo / 24 semestres.'},
+ {id:5,sys:'gs',n:32,per:'Trimestre',P:980000000,r:14.65,rl:'Tasa E.A. (%)',x:5,xlab:'Trimestres de gracia simple',tag:'Gracia simple y abono constante',xl:'En Excel: cuota de la gracia = monto × i; abono = monto / 27 trimestres.'},
+ {id:6,sys:'fija',n:36,per:'Trimestre',P:895421365,r:2.72,rl:'Tasa bimestral vencida (%)',tag:'Cuota fija trimestral',xl:'En Excel: =PAGO(i;36;-monto) con i trimestral. Intereses totales: =-PAGO.INT.ENTRE(i;36;monto;1;36;0).'},
+ {id:7,sys:'grA',n:144,per:'Mes',P:1254698741,r:12.67,rl:'Tasa N.A.D.A. (%)',x:110000,xlab:'Aumento mensual de la cuota ($)',tag:'Gradiente aritmético mensual',xl:'Excel no tiene función para gradientes: arme la columna de cuotas (cuota anterior + G) y compruebe que =VNA(i;cuotas) da el monto.'},
+ {id:8,sys:'grG',n:12,per:'Año',P:549875412,r:2.6433327,rl:'Tasa trimestral vencida (%)',x:11,px:1,xlab:'Crecimiento anual de la cuota (%)',tag:'Gradiente geométrico anual',xl:'Cuota k = cuota anterior × (1 + g). Con g = i, la primera cuota es monto × (1 + i) / n. Compruebe con =VNA(i;cuotas).'},
+ {id:9,sys:'grA',n:20,per:'Trimestre',P:13548796214,r:21.21,rl:'Tasa N.A.Q.A. (%)',x:-850000,xlab:'Variación trimestral de la cuota ($)',tag:'Gradiente aritmético decreciente',xl:'Cuota k = cuota anterior − 850.000. Compruebe con =VNA(i;cuotas): debe dar el monto.'}];
+let crCur=1;
+function crPick(){$('cr-pick').innerHTML=CRM.map((c,k)=>`<button type="button" role="radio" aria-checked="${c.id===crCur}" data-c="${c.id}"><span class="n">${String(c.id).padStart(2,'0')}</span><span>${CR[k].t}</span><span class="s">${c.tag}</span></button>`).join('');
+  $('cr-pick').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>crLoad(+b.dataset.c)));}
+function crLoad(id){crCur=id;try{localStorage.setItem('mat-cr',id);}catch(e){}const c=CRM[id-1],d=CR[id-1];
+  $('cr-pick').querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',+b.dataset.c===id));
+  $('cr-title').textContent=`Crédito ${id}. ${d.t}`;$('cr-sys').textContent=c.tag;$('cr-ctx').innerHTML=d.ctx;$('cr-d').innerHTML=d.d;
+  $('cr-q').innerHTML=d.q.map(x=>`<li>${x}</li>`).join('');$('cr-a').innerHTML=d.a.map(x=>`<li>${x}</li>`).join('');$('cr-xl').textContent=c.xl;
+  $('cr-fields').innerHTML=`<label for="cr-P">Monto ($) <input id="cr-P" type="number" value="${c.P}" step="1000000"></label><label for="cr-r">${c.rl} <input id="cr-r" type="number" value="${c.r}" step="0.01"></label>`+(c.x!=null?`<label for="cr-x">${c.xlab} <input id="cr-x" type="number" value="${c.x}" step="${c.px?0.5:(c.sys==='gm'||c.sys==='gs'?1:10000)}"></label>`:'');
+  ['cr-P','cr-r','cr-x'].forEach(i=>{if($(i))$(i).addEventListener('input',crCalc);});crCalc();}
+function crCalc(){const c=CRM[crCur-1];if(!c||$('s5').hidden&&crCalc.done)return;crCalc.done=1;
+  const P=num('cr-P'),rp=num('cr-r'),xr=c.x!=null?num('cr-x'):0,x=c.px?xr/100:xr,r=rp/100,per=c.per,pl=plural(per);
+  $('cr-mod').hidden=!(P!==c.P||Math.abs(rp-c.r)>1e-9||(c.x!=null&&xr!==c.x));
+  const bad=P<=0||r<=0||r>=1||((c.sys==='gm'||c.sys==='gs')&&(x<0||x>=c.n));
+  if(bad){stats('cr-out',[{v:'Revise los datos',l:'el monto y la tasa deben ser positivos'+(c.sys==='gm'||c.sys==='gs'?` y la gracia menor que ${c.n}`:''),c:'bad'}]);$('cr-steps').innerHTML='';$('cr-tab').innerHTML='';$('cr-ch1').innerHTML='';$('cr-ch2').innerHTML='';$('cr-negnote').textContent='';return;}
+  const R=schedule(c,P,r,x),rows=R.rows,main=rows.filter(z=>!z.oc);
+  $('cr-steps').innerHTML=R.cv.st.map(s=>`<div><span>${s[0]}</span><b>${pct(s[1],s[2]||4)}</b></div>`).join('')+`<div class="fin"><span>Tasa por ${per.toLowerCase()} · E.A.</span><b>${pct(R.i,4)} · ${pct(R.cv.ea,2)}</b></div>`;
+  const first=main.find(z=>!z.g),last=main[main.length-1],it=rows.reduce((a,z)=>a+z.it,0),paid=rows.reduce((a,z)=>a+z.q,0),fin=rows[rows.length-1].s;
+  const neg=main.filter(z=>z.am<-0.005&&!z.g);
+  const items=[{v:pct(R.i,4),l:'tasa por '+per.toLowerCase(),c:'key'},{v:pct(R.cv.ea,2),l:'tasa efectiva anual'},{v:c.n+' '+pl,l:R.g?`${R.g} de gracia y ${c.n-R.g} de amortización`:'número de pagos'}];
+  if(c.sys==='gs')items.push({v:cop2(main[0].q),l:'cuota en la gracia (solo intereses)'});
+  if(c.sys==='gm')items.push({v:cop2(R.S),l:'saldo al final de la gracia'});
+  items.push({v:cop2(first.q),l:R.g?'primera cuota después de la gracia':'primera cuota'},{v:cop2(last.q),l:'última cuota'});
+  if(R.OC)items.push({v:cop2(R.OC),l:'opción de compra al final'});
+  items.push({v:cop2(it),l:'intereses totales'},{v:cop2(paid),l:'total pagado'});
+  if(neg.length)items.push({v:`${neg.length} ${neg.length===1?per.toLowerCase():pl}`,l:'con amortización negativa',c:'bad'});
+  items.push({v:Math.abs(fin)<0.5?'$0':cop2(fin),l:'saldo final',c:Math.abs(fin)<0.5?'good':'bad'});
+  stats('cr-out',items);
+  if(neg.length){const mx=main.reduce((a,z)=>z.s>a.s?z:a,{s:-1});$('cr-negnote').textContent=`Del ${per.toLowerCase()} ${neg[0].k} al ${neg[neg.length-1].k} la cuota no alcanza a cubrir los intereses, así que el saldo sube (llega a ${cop2(mx.s)} en el ${per.toLowerCase()} ${mx.k}). Esas filas aparecen resaltadas en la tabla.`;}
+  else $('cr-negnote').textContent=c.sys==='gm'?'Durante la gracia muerta no se paga nada: los intereses se suman al saldo, que crece hasta el inicio de la amortización.':'';
+  $('cr-tab').innerHTML=`<thead><tr><th>${per}</th><th>Cuota</th><th>Intereses</th><th>Abono a capital</th><th>Saldo</th></tr></thead><tbody><tr><td>0</td><td></td><td></td><td></td><td>${cop2(P)}</td></tr>`+
+    rows.map(z=>`<tr class="${z.oc?'oc':z.g?'gr':(z.am<-0.005?'neg':'')}"><td>${z.k}</td><td>${cop2(z.q)}</td><td>${cop2(z.it)}</td><td>${cop2(z.am)}</td><td>${cop2(Math.abs(z.s)<0.005?0:z.s)}</td></tr>`).join('')+'</tbody>';
+  crCharts(P,main,per);}
+function niceMax(v){const e=Math.pow(10,Math.floor(Math.log10(v)));const f=v/e;return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*e;}
+const fmtAx=v=>v===0?'$0':(Math.abs(v)>=1e9?'$'+nf1.format(v/1e9).replace(/,0$/,'')+' mil M':'$'+(Math.abs(v)<1e7?nf1.format(v/1e6).replace(/,0$/,''):nf0.format(v/1e6))+' M');
+function axes(svg,W,H,pl,pr,pt,pb,ymax,n,per){const ink=css('--line');[0,.5,1].forEach(f=>{const y=pt+(H-pt-pb)*(1-f);el('line',{x1:pl,x2:W-pr,y1:y,y2:y,stroke:ink,'stroke-width':1},svg);el('text',{x:pl-6,y:y+4,'text-anchor':'end'},svg,fmtAx(ymax*f));});
+  [0,Math.round(n/2),n].forEach(k=>{const x=pl+(W-pl-pr)*k/n;el('text',{x,y:H-8,'text-anchor':k===0?'start':k===n?'end':'middle'},svg,`${per.toLowerCase()} ${k}`);});}
+function hover(svg,box,W,n,pl,pr,draw){let tip=box.querySelector('.tip');if(!tip){tip=document.createElement('div');tip.className='tip';tip.hidden=true;box.appendChild(tip);}
+  svg.style.touchAction='pan-y';
+  svg.onpointermove=svg.onpointerdown=e=>{const rc=svg.getBoundingClientRect(),sc=rc.width/W,xv=(e.clientX-rc.left)/sc;const k=Math.max(0,Math.min(n,Math.round((xv-pl)/(W-pl-pr)*n)));const o=draw(k);if(!o){tip.hidden=true;return;}
+    tip.hidden=false;tip.innerHTML=o.html;const left=svg.offsetLeft+o.x*sc,top=svg.offsetTop+o.y*sc-8;tip.style.left=left+'px';tip.style.top=top+'px';tip.style.transform=o.x<W*.22?'translate(0,-100%)':o.x>W*.78?'translate(-100%,-100%)':'translate(-50%,-100%)';};
+  svg.onpointerleave=()=>{tip.hidden=true;draw(-1);};}
+function crCharts(P,main,per){const W=520,H=230,pl=70,pr=14,pt=12,pb=28,n=main.length,ink=css('--ink');
+  const sal=[P,...main.map(z=>Math.max(0,z.s))];const ym=niceMax(Math.max(...sal)*1.02);
+  const X=k=>pl+(W-pl-pr)*k/n,Y=v=>pt+(H-pt-pb)*(1-v/ym);
+  const s1=$('cr-ch1');s1.innerHTML='';axes(s1,W,H,pl,pr,pt,pb,ym,n,per);
+  const pts=sal.map((v,k)=>`${X(k).toFixed(1)},${Y(v).toFixed(1)}`);
+  el('path',{d:`M${X(0)},${Y(0)} L${pts.join(' L')} L${X(n)},${Y(0)} Z`,fill:ink,'fill-opacity':.08,stroke:'none'},s1);
+  el('polyline',{points:pts.join(' '),fill:'none',stroke:ink,'stroke-width':2,'stroke-linejoin':'round'},s1);
+  el('circle',{cx:X(n),cy:Y(sal[n]),r:4,fill:ink,stroke:css('--bg'),'stroke-width':2},s1);
+  const cr=el('line',{y1:pt,y2:H-pb,stroke:css('--muted'),'stroke-width':1,'stroke-dasharray':'3 3',visibility:'hidden'},s1);const dot=el('circle',{r:4,fill:ink,stroke:css('--bg'),'stroke-width':2,visibility:'hidden'},s1);
+  hover(s1,$('cr-box1'),W,n,pl,pr,k=>{if(k<0){cr.setAttribute('visibility','hidden');dot.setAttribute('visibility','hidden');return null;}
+    cr.setAttribute('x1',X(k));cr.setAttribute('x2',X(k));cr.setAttribute('visibility','visible');dot.setAttribute('cx',X(k));dot.setAttribute('cy',Y(sal[k]));dot.setAttribute('visibility','visible');
+    return{x:X(k),y:Y(sal[k]),html:`${per} ${k} · saldo <b>${cop2(sal[k])}</b>`};});
+  const s2=$('cr-ch2');s2.innerHTML='';const qm=niceMax(Math.max(...main.map(z=>Math.max(z.q,z.it)))*1.02);const Y2=v=>pt+(H-pt-pb)*(1-v/qm);
+  axes(s2,W,H,pl,pr,pt,pb,qm,n,per);const bw=(W-pl-pr)/n,gap=bw>6?2:bw>3?1:0,cI=css('--c-int'),cC=css('--c-cap');const bars=[];
+  main.forEach((z,j)=>{const x0=pl+bw*j+gap/2,w=Math.max(.6,bw-gap);const cap=Math.max(0,z.am),intp=Math.min(z.it,z.q);
+    const g=el('g',{},s2);if(cap>0)el('rect',{x:x0,y:Y2(cap),width:w,height:Y2(0)-Y2(cap),fill:cC},g);
+    if(intp>0)el('rect',{x:x0,y:Y2(cap+intp),width:w,height:Math.max(0,Y2(cap)-Y2(cap+intp)-(cap>0&&gap?1:0)),fill:cI},g);bars.push(g);});
+  hover(s2,$('cr-box2'),W,n,pl,pr,k=>{bars.forEach(b=>b.setAttribute('opacity',1));if(k<1)return null;const z=main[k-1];bars.forEach((b,j)=>{if(j!==k-1)b.setAttribute('opacity',.45);});
+    const note=z.g&&z.q===0?' · gracia: no se paga, el saldo crece':z.am<-0.005?' · la cuota no cubre los intereses':'';
+    return{x:pl+bw*(k-.5),y:Y2(Math.max(z.q,0.0001)),html:`${per} ${k} · cuota <b>${cop2(z.q)}</b><br>intereses <b>${cop2(z.it)}</b> · capital <b>${cop2(z.am)}</b>${note}`};});}
+$('cr-reset').addEventListener('click',()=>crLoad(crCur));
+function s5(){if(!$('s5').hidden)crCalc();}
+
+/* ================= FUNCIONES DE EXCEL ================= */
+const nrm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+$('fx-rules').innerHTML=FXD.rules.map((r,k)=>`<div class="card"><h4><span>${k+1}</span>${r.t}</h4><p>${r.p}</p></div>`).join('');$('fx-rnote').innerHTML=FXD.rulesNote;
+$('fx-err').innerHTML='<thead><tr><th>Síntoma</th><th>Causa probable</th><th>Solución</th></tr></thead><tbody>'+FXD.errs.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')+'</tbody>';
+exercises('fx-ej',FXD.ejs);
+let fxFam=-1;const total=FXD.fam.reduce((a,f)=>a+f.rows.reduce((b,r)=>b+r.es.length,0),0);
+$('fx-chips').innerHTML=`<button type="button" aria-pressed="true" data-f="-1">Todas (${total})</button>`+FXD.fam.map((f,k)=>`<button type="button" aria-pressed="false" data-f="${k}">${f.name} (${f.rows.reduce((b,r)=>b+r.es.length,0)})</button>`).join('');
+$('fx-chips').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{fxFam=+b.dataset.f;$('fx-chips').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));fxList();}));
+function fxList(){const q=nrm($('fx-q').value.trim());let cnt=0;
+  const html=FXD.fam.map((f,k)=>{if(fxFam>=0&&fxFam!==k)return '';const rs=f.rows.filter(r=>!q||nrm(r.es.join(' ')+' '+r.en+' '+r.sx+' '+r.dv.replace(/<[^>]+>/g,'')).includes(q));if(!rs.length)return '';
+    cnt+=rs.reduce((a,r)=>a+r.es.length,0);const four=rs.some(r=>r.sx);
+    return `<div class="fam"><h4>${f.name}</h4>${q?'':f.intro.map(p=>`<p>${p}</p>`).join('')}${four?'<div class="fn fnh"><span>Función</span><span>Sintaxis</span><span>Qué devuelve</span><span>Ejemplo y resultado</span></div>':''}`+
+      rs.map(r=>`<div class="fn"><div class="nm">${r.es.map(e=>`<b>${e}</b>`).join('')}<span>${r.en}</span></div><div class="sx">${r.sx||''}</div><div>${r.dv}</div><div class="ej">${r.ej||''}</div></div>`).join('')+
+      (q?'':f.notes.map(b=>`<div class="notes"><b>${b.t}</b>${b.l.map(p=>`<p>${p}</p>`).join('')}</div>`).join(''))+'</div>';}).join('');
+  $('fx-list').innerHTML=html||'<p class="note" style="margin-top:14px">Ninguna función coincide con la búsqueda. Pruebe con el nombre en inglés o con una palabra como «tasa» o «bono».</p>';
+  $('fx-count').textContent=`Mostrando ${cnt} de ${total} funciones`;}
+$('fx-q').addEventListener('input',fxList);fxList();
+
+/* probador */
+const esN=v=>String(+(+v).toFixed(10)).replace('.',','),enN=v=>String(+(+v).toFixed(10));
+function xPMT(r,n,pv,fv=0,t=0){return r===0?-(pv+fv)/n:-(r*(fv+pv*Math.pow(1+r,n)))/((1+r*t)*(Math.pow(1+r,n)-1));}
+function xPV(r,n,p,fv=0,t=0){return r===0?-(p*n+fv):-(p*(1+r*t)*(Math.pow(1+r,n)-1)/r+fv)/Math.pow(1+r,n);}
+function xFV(r,n,p,pv=0,t=0){return r===0?-(pv+p*n):-(pv*Math.pow(1+r,n)+p*(1+r*t)*(Math.pow(1+r,n)-1)/r);}
+function xNPER(r,p,pv,fv=0,t=0){return r===0?-(pv+fv)/p:Math.log((p*(1+r*t)-fv*r)/(p*(1+r*t)+pv*r))/Math.log(1+r);}
+function xRATE(n,p,pv,fv=0,t=0){const f=r=>Math.abs(r)<1e-12?pv+p*n+fv:pv*Math.pow(1+r,n)+p*(1+r*t)*(Math.pow(1+r,n)-1)/r+fv;
+  let lo=1e-9,hi=1;if(f(lo)*f(hi)>0){lo=-0.99;hi=1e-9;if(f(lo)*f(hi)>0)return NaN;}for(let k=0;k<300;k++){const m=(lo+hi)/2;if(f(lo)*f(m)<=0)hi=m;else lo=m;}return (lo+hi)/2;}
+const T=['tipo','Tipo (0 vencida, 1 anticipada)',0,0,1];
+const FX={
+ 'PAGO':{en:'PMT',a:[['tasa','Tasa por periodo (%)',1.023684,1],['nper','Número de periodos',180],['va','Valor presente ($)',-180000000],['vf','Valor futuro ($)',0,0,1],T],f:a=>xPMT(a[0],a[1],a[2],a[3],a[4]),o:'$',l:'cuota por periodo (positiva porque sale el préstamo como negativo)'},
+ 'VA':{en:'PV',a:[['tasa','Tasa por periodo (%)',1.2,1],['nper','Número de periodos',12],['pago','Pago por periodo ($)',-4500000],['vf','Valor futuro ($)',0,0,1],['tipo','Tipo (0 vencida, 1 anticipada)',1,0,1]],f:a=>xPV(a[0],a[1],a[2],a[3],a[4]),o:'$',l:'valor presente de 12 arriendos anticipados'},
+ 'VF':{en:'FV',a:[['tasa','Tasa por periodo (%)',0.9,1],['nper','Número de periodos',24],['pago','Ahorro por periodo ($)',-3000000],['va','Valor presente ($)',0,0,1],T],f:a=>xFV(a[0],a[1],a[2],a[3],a[4]),o:'$',l:'valor futuro del ahorro'},
+ 'NPER':{en:'NPER',a:[['tasa','Tasa por periodo (%)',1.5,1],['pago','Pago por periodo ($)',-2000000],['va','Valor presente ($)',50000000],['vf','Valor futuro ($)',0,0,1],T],f:a=>xNPER(a[0],a[1],a[2],a[3],a[4]),o:'n',l:'número de cuotas'},
+ 'TASA':{en:'RATE',a:[['nper','Número de periodos',36],['pago','Pago por periodo ($)',-2000000],['va','Valor presente ($)',50000000],['vf','Valor futuro ($)',0,0,1],T],f:a=>xRATE(a[0],a[1],a[2],a[3],a[4]),o:'%',l:'tasa por periodo'},
+ 'INT.EFECTIVO':{en:'EFFECT',a:[['int_nominal','Tasa nominal anual (%)',24,1],['núm_por_año','Periodos por año',12]],f:a=>Math.pow(1+a[0]/a[1],a[1])-1,o:'%',l:'tasa efectiva anual'},
+ 'TASA.NOMINAL':{en:'NOMINAL',a:[['tasa_efectiva','Tasa efectiva anual (%)',26.8242,1],['núm_por_año','Periodos por año',12]],f:a=>a[1]*(Math.pow(1+a[0],1/a[1])-1),o:'%',l:'tasa nominal anual vencida'},
+ 'P.DURACION':{en:'PDURATION',a:[['tasa','Tasa por periodo (%)',1,1],['va','Valor presente ($)',10000000],['vf','Valor objetivo ($)',15000000]],f:a=>Math.log(a[2]/a[1])/Math.log(1+a[0]),o:'n',l:'periodos para llegar al objetivo'},
+ 'RRI':{en:'RRI',a:[['nper','Número de periodos',5],['va','Valor inicial',100],['vf','Valor final',150]],f:a=>Math.pow(a[2]/a[1],1/a[0])-1,o:'%',l:'tasa de crecimiento compuesta por periodo'}};
+$('fx-f').innerHTML=Object.keys(FX).map(k=>`<option value="${k}">${k} (${FX[k].en})</option>`).join('');
+function fxArgs(){const F=FX[$('fx-f').value];$('fx-args').innerHTML=F.a.map((a,k)=>`<label for="fx-a${k}">${a[1]}<input id="fx-a${k}" type="number" value="${a[2]}" step="any"></label>`).join('');
+  F.a.forEach((a,k)=>$('fx-a'+k).addEventListener('input',fxRun));fxRun();}
+function fxRun(){const name=$('fx-f').value,F=FX[name];const raw=F.a.map((a,k)=>parseFloat($('fx-a'+k).value)||0);const v=raw.map((x,k)=>F.a[k][3]===1?x/100:x);
+  let last=raw.length;while(last>0&&F.a[last-1][4]&&raw[last-1]===0)last--;
+  const sEs=raw.slice(0,last).map((x,k)=>v[k]!==x?esN(x)+'%':esN(x)),sEn=raw.slice(0,last).map((x,k)=>v[k]!==x?enN(x)+'%':enN(x));
+  $('fx-es').textContent=`=${name}(${sEs.join(';')})`;$('fx-en').textContent=`En un Excel en inglés: =${F.en}(${sEn.join(',')})`;
+  const res=F.f(v);const ok=isFinite(res);
+  stats('fx-out',[{v:ok?(F.o==='$'?cop2(res):F.o==='%'?pct(res,4):nf2.format(res)):'#¡NUM!',l:ok?F.l:'Excel devolvería un error: revise los signos (lo que entra positivo, lo que sale negativo) y que la cuota alcance a cubrir los intereses.',c:ok?'key':'bad'}]);}
+$('fx-f').addEventListener('change',fxArgs);fxArgs();
+$('fx-copy').addEventListener('click',()=>{const t=$('fx-es').textContent;const done=()=>{$('fx-copy').textContent='Copiada';setTimeout(()=>$('fx-copy').textContent='Copiar fórmula',1500);};
+  try{navigator.clipboard.writeText(t).then(done,()=>{selTxt();});}catch(e){selTxt();}
+  function selTxt(){const r=document.createRange();r.selectNodeContents($('fx-es'));const s=getSelection();s.removeAllRanges();s.addRange(r);$('fx-copy').textContent='Seleccionada: use Ctrl+C';}});
+document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show(a.dataset.go,true);}));
+crPick();{let c0=1;try{c0=+localStorage.getItem('mat-cr')||1;}catch(e){}crLoad(CRM[c0-1]?c0:1);}
+tabs.forEach(b=>b.addEventListener('click',()=>{try{b.scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}}));
+
+/* ---------- arranque ---------- */
+function redrawAll(){s1a();s1c();s1r();s2a();s2g();s2m();s3();s4();s5();}
+pvTable();
+let start='s1';const h=(location.hash||'').replace('#','');if(['s1','s2','s3','s4','s5','s6'].includes(h))start=h;else{try{const s=localStorage.getItem('mat-tab');if(s&&$(s))start=s;}catch(e){}}
+show(start,false);
+try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawAll);new MutationObserver(redrawAll).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});}catch(e){}
+})();
+</script>
+
+</body>
+</html>
